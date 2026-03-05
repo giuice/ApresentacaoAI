@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { usePresentation } from '@/contexts/PresentationContext';
 
 export function useKeyboardNavigation() {
-  const { dispatch } = usePresentation();
+  const { dispatch, isOverviewOpen } = usePresentation();
 
   useEffect(() => {
     function handleKeyDown(event: KeyboardEvent) {
@@ -16,6 +16,14 @@ export function useKeyboardNavigation() {
           activeElement.tagName === 'SELECT' ||
           activeElement.isContentEditable)
       ) {
+        return;
+      }
+
+      if (isOverviewOpen) {
+        if (event.key === 'Escape') {
+          event.preventDefault();
+          dispatch({ type: 'TOGGLE_OVERVIEW' });
+        }
         return;
       }
 
@@ -43,5 +51,5 @@ export function useKeyboardNavigation() {
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [dispatch]);
+  }, [dispatch, isOverviewOpen]);
 }

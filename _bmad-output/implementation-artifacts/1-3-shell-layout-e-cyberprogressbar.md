@@ -1,6 +1,6 @@
 # Story 1.3: shell-layout-e-cyberprogressbar
 
-Status: ready-for-dev
+Status: done
 
 <!-- Note: Validation is optional. Run validate-create-story for quality check before dev-story. -->
 
@@ -20,28 +20,28 @@ so that eu e a audiencia saibamos em qual bloco narrativo estamos durante a apre
 
 ## Tasks / Subtasks
 
-- [ ] Implementar shell base com layout de apresentacao e rodape fixo funcional (AC: 1, 4)
-  - [ ] Criar `src/components/layout/PresentationLayout.tsx` com estrutura `min-h-screen`, area central de conteudo e regiao de progresso no rodape
-  - [ ] Garantir contenção visual para 1024x768 sem overflow horizontal e sem cortes de conteudo principal
-  - [ ] Manter classes de tema Matrix e legibilidade (fundo escuro, texto claro, destaque neon)
-- [ ] Implementar `CyberProgressBar` com 5 segmentos narrativos e estado ativo derivado do topico (AC: 2, 3)
-  - [ ] Criar `src/components/layout/CyberProgressBar.tsx`
-  - [ ] Definir funcao pura de mapeamento `topicIndex -> segmentIndex` (1..16 para 1..5)
-  - [ ] Aplicar estado visual ativo com glow Matrix Green (`#00FF41`) e estado inativo discreto
-- [ ] Integrar shell ao app mantendo o `PresentationContext` como source of truth (AC: 1, 2)
-  - [ ] Refatorar `src/App.tsx` para renderizar `PresentationLayout` envolvendo o conteudo do topico atual
-  - [ ] Continuar usando `useKeyboardNavigation` sem regressao comportamental
-- [ ] Configurar lazy-load real dos topicos no App shell (AC: 5)
-  - [ ] Declarar `React.lazy` para `Topic1..Topic16` e fallback via `Suspense`
-  - [ ] Garantir que shell e progress bar nao fiquem dentro do fallback (shell deve estar sempre presente)
-  - [ ] Adotar placeholders temporarios para topicos nao implementados sem bloquear navegacao
-- [ ] Cobrir comportamento critico com testes automatizados (AC: 2, 3, 4, 5)
-  - [ ] Testar mapeamento de segmento ativo (incluindo validacao explicita de topico 6 -> segmento 3)
-  - [ ] Testar render do layout shell + progress bar sem depender de estilos
-  - [ ] Testar fluxo de lazy/suspense garantindo fallback apenas no conteudo do topico
-- [ ] Validar story localmente antes de mover para in-progress (AC: 1..5)
-  - [ ] `npm run test`
-  - [ ] `npm run build`
+- [x] Implementar shell base com layout de apresentacao e rodape fixo funcional (AC: 1, 4)
+  - [x] Criar `src/components/layout/PresentationLayout.tsx` com estrutura `min-h-screen`, area central de conteudo e regiao de progresso no rodape
+  - [x] Garantir contenção visual para 1024x768 sem overflow horizontal e sem cortes de conteudo principal
+  - [x] Manter classes de tema Matrix e legibilidade (fundo escuro, texto claro, destaque neon)
+- [x] Implementar `CyberProgressBar` com 5 segmentos narrativos e estado ativo derivado do topico (AC: 2, 3)
+  - [x] Criar `src/components/layout/CyberProgressBar.tsx`
+  - [x] Definir funcao pura de mapeamento `topicIndex -> segmentIndex` (1..16 para 1..5)
+  - [x] Aplicar estado visual ativo com glow Matrix Green (`#00FF41`) e estado inativo discreto
+- [x] Integrar shell ao app mantendo o `PresentationContext` como source of truth (AC: 1, 2)
+  - [x] Refatorar `src/App.tsx` para renderizar `PresentationLayout` envolvendo o conteudo do topico atual
+  - [x] Continuar usando `useKeyboardNavigation` sem regressao comportamental
+- [x] Configurar lazy-load real dos topicos no App shell (AC: 5)
+  - [x] Declarar `React.lazy` para `Topic1..Topic16` e fallback via `Suspense`
+  - [x] Garantir que shell e progress bar nao fiquem dentro do fallback (shell deve estar sempre presente)
+  - [x] Adotar placeholders temporarios para topicos nao implementados sem bloquear navegacao
+- [x] Cobrir comportamento critico com testes automatizados (AC: 2, 3, 4, 5)
+  - [x] Testar mapeamento de segmento ativo (incluindo validacao explicita de topico 6 -> segmento 3)
+  - [x] Testar render do layout shell + progress bar sem depender de estilos
+  - [x] Testar fluxo de lazy/suspense garantindo fallback apenas no conteudo do topico
+- [x] Validar story localmente antes de mover para in-progress (AC: 1..5)
+  - [x] `npm run test`
+  - [x] `npm run build`
 
 ## Dev Notes
 
@@ -187,13 +187,22 @@ so that eu e a audiencia saibamos em qual bloco narrativo estamos durante a apre
 
 ### Agent Model Used
 
-Codex (GPT-5)
+Claude Opus 4.6
 
 ### Debug Log References
 
 - Workflow: `_bmad/bmm/workflows/4-implementation/create-story/workflow.yaml`
 - Instructions: `_bmad/bmm/workflows/4-implementation/create-story/instructions.xml`
 - Template: `_bmad/bmm/workflows/4-implementation/create-story/template.md`
+
+### Implementation Plan
+
+- Shell layout com `PresentationLayout` como container principal (min-h-screen, flex column, overflow hidden)
+- `CyberProgressBar` com funcao pura `getSegmentIndex` para mapeamento topic->segment
+- Glow neon via Tailwind shadow utilities com cor #00FF41
+- Lazy loading de 16 topicos via `React.lazy` + `Suspense` no `App.tsx`
+- Shell (layout + progress bar) fora do Suspense boundary para ficar sempre visivel
+- Placeholders para Topic2..Topic16 com conteudo minimo
 
 ### Completion Notes List
 
@@ -202,12 +211,42 @@ Codex (GPT-5)
 - Inteligencia de story anterior e historico recente incorporada para reduzir regressao.
 - Story marcada como `ready-for-dev` no tracking de sprint.
 - Story pronta para execucao com `dev-story`.
+- Implementacao completa: PresentationLayout, CyberProgressBar, lazy-load de topicos, testes automatizados.
+- 27 testes passando (6 arquivos), 0 regressoes. Build OK.
+- Todos os 5 ACs satisfeitos e validados com testes.
 
 ### File List
 
-- `_bmad-output/implementation-artifacts/1-3-shell-layout-e-cyberprogressbar.md`
-- `_bmad-output/implementation-artifacts/sprint-status.yaml`
+- `src/components/layout/PresentationLayout.tsx` (novo)
+- `src/components/layout/CyberProgressBar.tsx` (novo)
+- `src/components/topics/Topic1.tsx` (novo)
+- `src/components/topics/Topic2.tsx` (novo)
+- `src/components/topics/Topic3.tsx` (novo)
+- `src/components/topics/Topic4.tsx` (novo)
+- `src/components/topics/Topic5.tsx` (novo)
+- `src/components/topics/Topic6.tsx` (novo)
+- `src/components/topics/Topic7.tsx` (novo)
+- `src/components/topics/Topic8.tsx` (novo)
+- `src/components/topics/Topic9.tsx` (novo)
+- `src/components/topics/Topic10.tsx` (novo)
+- `src/components/topics/Topic11.tsx` (novo)
+- `src/components/topics/Topic12.tsx` (novo)
+- `src/components/topics/Topic13.tsx` (novo)
+- `src/components/topics/Topic14.tsx` (novo)
+- `src/components/topics/Topic15.tsx` (novo)
+- `src/components/topics/Topic16.tsx` (novo)
+- `src/App.tsx` (modificado)
+- `src/App.test.tsx` (modificado)
+- `src/__tests__/cyberProgressBar.test.ts` (novo)
+- `src/__tests__/presentationLayout.test.tsx` (novo)
+- `src/__tests__/appLazyLoad.test.tsx` (novo)
+- `_bmad-output/implementation-artifacts/sprint-status.yaml` (modificado)
+- `_bmad-output/implementation-artifacts/1-3-shell-layout-e-cyberprogressbar.md` (modificado)
+
+### Change Log
+
+- 2026-03-05: Implementacao completa da story 1.3 — shell layout, CyberProgressBar, lazy-load de topicos, testes
 
 ### Status
 
-- [ ] Done
+- [x] Done

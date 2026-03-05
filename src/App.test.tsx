@@ -1,11 +1,19 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
-import { App } from './App';
+import { App, getTopicComponentForIndex } from './App';
 
 describe('App', () => {
-  it('renders the main heading', () => {
+  it('renders the presentation shell with progress bar', async () => {
     render(<App />);
-    const heading = screen.getByRole('heading', { level: 1 });
-    expect(heading).toHaveTextContent(/Vibe Coding/i);
+    expect(screen.getByRole('progressbar')).toBeInTheDocument();
+
+    await waitFor(() => {
+      expect(screen.getByText(/Topic 1/)).toBeInTheDocument();
+    });
+  });
+
+  it('uses topic 1 as fallback for invalid topic indexes', () => {
+    expect(getTopicComponentForIndex(0)).toBe(getTopicComponentForIndex(1));
+    expect(getTopicComponentForIndex(99)).toBe(getTopicComponentForIndex(1));
   });
 });
