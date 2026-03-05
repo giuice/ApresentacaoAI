@@ -43,8 +43,8 @@ development_status:
   # ─── Epic 1: App Shell & Sistema de Navegação ───────────────────────────────
   epic-1: in-progress
   1-1-inicializacao-e-configuracao-do-projeto: done
-  1-2-presentationcontext-e-navegacao-por-teclado: backlog
-  1-3-shell-layout-e-cyberprogressbar: backlog
+  1-2-presentationcontext-e-navegacao-por-teclado: done
+  1-3-shell-layout-e-cyberprogressbar: ready-for-dev
   1-4-modo-overview-mapa-de-topicos: backlog
   1-5-deep-link-via-url-hash: backlog
   epic-1-retrospective: optional
