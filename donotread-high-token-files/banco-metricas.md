@@ -107,3 +107,55 @@ Este documento contém todas as métricas(nao checadas), dados e cases de sucess
 - GitHub Copilot: +40% do crescimento de receita do GitHub
 
 **Uso sugerido:** Slide de hook ou Call to Action para mostrar que o mercado já se moveu.
+
+---
+
+## Adoção Atualizada (2025–2026) — Dados Verificados Online
+
+- **85% dos devs usam IA regularmente** (final de 2025) — atualização do 76% do Stack Overflow 2024. Fonte: [Greptile - State of AI Coding 2025](https://www.greptile.com/state-of-ai-coding-2025)
+- **90% dos engenheiros enterprise usarão assistentes de IA até 2028** — Gartner. Fonte: [LogRocket AI Dev Tool Rankings Feb 2026](https://blog.logrocket.com/ai-dev-tool-power-rankings/)
+- **80% da força de engenharia precisará de upskilling até 2027** — Gartner (mesmo relatório)
+- **MIT Technology Review** publicou artigo "From vibe coding to context engineering: 2025 in software development" — validação institucional do arco narrativo. Fonte: [MIT Tech Review, Nov 2025](https://www.technologyreview.com/2025/11/05/1127477/from-vibe-coding-to-context-engineering-2025-in-software-development/)
+
+**Uso sugerido:** Bloco 3 (overview de ferramentas) e Call to Action. O 85% atualiza o 76% anterior. O artigo do MIT valida a narrativa inteira.
+
+---
+
+## Spec-Kit — Dados Verificados Online
+
+- **~71k GitHub stars** desde lançamento em agosto 2025 (16k na primeira semana; 40k+ em nov/2025). Fonte: [Augment Code](https://www.augmentcode.com/tools/best-ai-tools-for-spec-driven-development), [Ry Walker Research](https://rywalker.com/research/github-spec-kit)
+- **Suporte a 22+ plataformas de agentes IA** (Claude Code, Codex, Cursor, etc.). Fonte: [Augment Code](https://www.augmentcode.com/tools/best-ai-tools-for-spec-driven-development)
+- **110 releases** até fev/2026, contribuidores de 50+ países. Fonte: [Augment Code](https://www.augmentcode.com/tools/best-ai-tools-for-spec-driven-development)
+- **Artigo acadêmico arXiv (fev/2026)** propõe 3 níveis de rigor SDD: spec-first, spec-anchored, spec-as-source. Fonte: [arXiv:2602.00180](https://arxiv.org/abs/2602.00180)
+
+**Uso sugerido:** Slide 7 (Spec-Kit) e Slide 6 (overview de ferramentas). Os 71k stars mostram adoção explosiva.
+
+---
+
+## GSD — Dados Verificados Online
+
+- **Usado por engenheiros da Amazon, Google e Shopify**. Fonte: [GSD Build](https://gsd.build/)
+- **Arquitetura de contexto fresco:** cada executor recebe 200K tokens limpos; contexto principal fica em 30-40%. Fonte: [The New Stack](https://thenewstack.io/beating-the-rot-and-getting-stuff-done/)
+- **Multi-runtime:** suporta Claude Code, OpenCode, Gemini CLI e Codex. Fonte: [GSD GitHub](https://github.com/gsd-build/get-shit-done)
+
+**Uso sugerido:** Slide 8 (GSD). A arquitetura de contexto fresco é a resposta direta ao Context Rot do Bloco 1.
+
+---
+
+## BMAD — Dados Verificados Online
+
+- **v6 Alpha:** cross-platform agent teams, skills architecture, dev loop automation. Fonte: [BMAD GitHub](https://github.com/bmad-code-org/BMAD-METHOD)
+- **100% open source**, framework universal para múltiplos domínios. Fonte: [BMAD Docs](https://docs.bmad-method.org/)
+- **Filosofia docs-as-code:** documentação (PRDs, arquitetura, stories) é a fonte da verdade, código é derivado. Fonte: [Benny's Mind Hack - Applied BMAD](https://bennycheung.github.io/bmad-reclaiming-control-in-ai-dev)
+
+**Uso sugerido:** Slide 9 (BMAD). A filosofia docs-as-code conecta diretamente com SDD do Tópico 5.
+
+---
+
+## Pesquisa Acadêmica — SDD e IA
+
+- **IA aumenta complexidade do código em ~41%** e warnings de análise estática em 30% (quando usada sem estrutura). Fonte: [Red Hat Developer](https://developers.redhat.com/articles/2025/10/22/how-spec-driven-development-improves-ai-coding-quality)
+- **McKinsey 2025:** organizações com IA estruturada obtêm 20-45% de ganho em produtividade. Fonte: [Red Hat Developer](https://developers.redhat.com/articles/2025/10/22/how-spec-driven-development-improves-ai-coding-quality)
+- **EU AI Act:** sistemas de IA de alto risco devem cumprir obrigações a partir de 2 de agosto de 2026. Fonte: [LogRocket](https://blog.logrocket.com/ai-dev-tool-power-rankings/)
+
+**Uso sugerido:** Contraponto no Bloco 2 (IA sem estrutura piora as coisas) e Call to Action (regulamentação vindo).
