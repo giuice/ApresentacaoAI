@@ -1,0 +1,9 @@
+@import "./theme.css";
+
+@layer base {
+  body {
+    background-color: var(--color-matrix-bg);
+    color: var(--color-matrix-green);
+    font-family: var(--font-sans);
+  }
+}

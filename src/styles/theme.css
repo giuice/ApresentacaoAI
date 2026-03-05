@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+@theme {
+  --color-matrix-bg: #000000;
+  --color-matrix-green: #00FF41;
+  --color-matrix-green-dark: #008F11;
+  --color-matrix-green-light: #00FF00;
+  
+  --font-mono: "Courier New", Courier, monospace;
+  --font-sans: "Inter", system-ui, sans-serif;
+}
