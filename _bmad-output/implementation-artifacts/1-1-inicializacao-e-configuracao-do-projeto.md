@@ -1,6 +1,6 @@
 # Story 1.1: inicializacao-e-configuracao-do-projeto
 
-Status: review
+Status: done
 
 <!-- Note: Validation is optional. Run validate-create-story for quality check before dev-story. -->
 
@@ -169,12 +169,18 @@ Codex (GPT-5)
 - ✅ Estrutura de pastas `components/(topics|ui|layout)`, `contexts`, `data`, `hooks`, `styles` criadas sem barrels.
 - ✅ Tailwind CSS 4 inicializado globalmente com variáveis Matrix-theme (`src/styles/theme.css` + `src/styles/globals.css`).
 - ✅ Setup do ambiente testing (`vitest` + `jsdom` + `@testing-library/react`) funcionando 100%.
+- ✅ Correção pós-code-review: `tsconfig.json` agora explicita `strict: true` e alias `@/*`.
+- ✅ Correção pós-code-review: adicionado `framer-motion` 12.x nas dependências e lockfile atualizado.
+- ✅ Correção pós-code-review: script `dev` fixado em `localhost:5173` com `--strictPort`.
+- ✅ Correção pós-code-review: Tailwind limitado a fontes de `src/` e `index.html` para evitar classes inválidas no build.
+- ✅ Correção pós-code-review: import em `main.tsx` sem extensão, conforme padrão do projeto.
 
 ### File List
 
 - `_bmad-output/implementation-artifacts/1-1-inicializacao-e-configuracao-do-projeto.md`
 - `_bmad-output/implementation-artifacts/sprint-status.yaml`
 - `package.json`
+- `package-lock.json`
 - `vite.config.ts`
 - `tsconfig.json`
 - `tsconfig.app.json`
@@ -191,3 +197,27 @@ Codex (GPT-5)
 ### Status
 
 - [x] Done
+
+## Senior Developer Review (AI)
+
+### Reviewer
+
+- Codex (GPT-5)
+- Date: 2026-03-05
+
+### Findings Resolved
+
+- [CRITICAL] Task marcada como concluída sem evidência no arquivo raiz: `tsconfig.json` atualizado para declarar `strict` e alias `@/*`.
+- [HIGH] Requisito de stack de arquitetura atendido com inclusão de `framer-motion` 12.x.
+- [MEDIUM] Script `dev` atualizado para iniciar em `localhost:5173` com `--strictPort`.
+- [MEDIUM] Escopo do Tailwind restringido com `@source` para evitar captura de conteúdo fora do app e geração de CSS inválido.
+- [LOW] Import em `src/main.tsx` ajustado para omitir extensão de arquivo.
+
+### Validation
+
+- `npm run test` executado com sucesso.
+- `npm run build` executado com sucesso, sem warning de propriedade CSS inválida gerada por classe acidental.
+
+### Change Log
+
+- 2026-03-05: Revisão de código executada e correções aplicadas em `package.json`, `package-lock.json`, `tsconfig.json`, `src/styles/theme.css` e `src/main.tsx`. Story promovida para `done`.
