@@ -2,8 +2,8 @@
 
 @layer base {
   body {
-    background-color: var(--color-matrix-bg);
-    color: var(--color-matrix-green);
+    background-color: var(--color-bg-deep);
+    color: var(--color-text-primary);
     font-family: var(--font-sans);
   }
 }

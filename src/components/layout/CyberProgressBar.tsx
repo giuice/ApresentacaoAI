@@ -53,8 +53,8 @@ export const CyberProgressBar = ({ currentTopicIndex }: CyberProgressBarProps) =
             className={`
               h-2 flex-1 max-w-32 rounded-sm transition-all duration-300
               ${isActive
-                ? 'bg-matrix-green shadow-[0_0_8px_#00FF41,0_0_16px_#00FF41]'
-                : 'bg-matrix-green/20'
+                ? 'bg-accent-primary shadow-[0_0_8px_var(--glow-primary-strong),0_0_16px_var(--glow-primary-strong)]'
+                : 'bg-accent-primary/20'
               }
             `}
             aria-label={`${label}${isActive ? ' (ativo)' : ''}`}

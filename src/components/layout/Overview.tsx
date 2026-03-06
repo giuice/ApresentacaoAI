@@ -70,7 +70,7 @@ export function Overview() {
 
   return (
     <div
-      className="fixed inset-0 bg-matrix-bg/95 z-50 flex items-center justify-center"
+      className="fixed inset-0 bg-bg-deep/95 z-50 flex items-center justify-center"
       onClick={handleClose}
     >
       <div
@@ -83,7 +83,7 @@ export function Overview() {
       >
         <h2
           id="overview-title"
-          className="text-xl font-mono text-matrix-green mb-6 text-center"
+          className="text-xl font-mono text-accent-primary mb-6 text-center"
         >
           Mapa de Topicos
         </h2>
@@ -101,10 +101,10 @@ export function Overview() {
                     handleSelect(topic.index);
                   }
                 }}
-                className={`p-4 border font-mono text-left rounded transition-colors focus:outline-none focus:ring-2 focus:ring-matrix-green ${
+                className={`p-4 border font-mono text-left rounded transition-colors focus:outline-none focus:ring-2 focus:ring-accent-primary ${
                   isActive
-                    ? 'border-matrix-green bg-matrix-green/20 text-matrix-green'
-                    : 'border-matrix-green/30 text-matrix-green/70 hover:border-matrix-green/60 hover:bg-matrix-green/10'
+                    ? 'border-accent-primary bg-accent-primary/20 text-accent-primary'
+                    : 'border-accent-primary/30 text-accent-primary/70 hover:border-accent-primary/60 hover:bg-accent-primary/10'
                 }`}
               >
                 <span className="block text-lg font-bold">{topic.index}</span>

@@ -61,6 +61,19 @@ describe('PresentationLayout', () => {
     expect(screen.getByTestId('presentation-content')).toHaveClass('max-w-[1024px]');
   });
 
+  it('keeps the shell on semantic primary text instead of accent text', () => {
+    render(
+      <PresentationProvider>
+        <PresentationLayout>
+          <div>Content</div>
+        </PresentationLayout>
+      </PresentationProvider>
+    );
+
+    expect(screen.getByTestId('presentation-shell')).toHaveClass('text-text-primary');
+    expect(screen.getByTestId('presentation-shell')).not.toHaveClass('text-accent-primary');
+  });
+
   it('shows suspense fallback while loading topic and keeps shell visible', async () => {
     let resolveTopicModule: ((module: { default: ComponentType }) => void) | undefined;
 

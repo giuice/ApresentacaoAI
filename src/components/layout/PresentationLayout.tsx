@@ -7,7 +7,7 @@ interface PresentationLayoutProps {
 }
 
 const TopicFallback = () => (
-  <div className="flex items-center justify-center h-full text-matrix-green/60 font-mono">
+  <div className="flex items-center justify-center h-full text-accent-primary/60 font-mono">
     Carregando...
   </div>
 );
@@ -17,7 +17,7 @@ export const PresentationLayout = ({ children }: PresentationLayoutProps) => {
 
   return (
     <div
-      className="min-h-screen h-screen flex flex-col bg-matrix-bg text-matrix-green overflow-hidden"
+      className="min-h-screen h-screen flex flex-col bg-bg-deep text-text-primary overflow-hidden"
       data-testid="presentation-shell"
     >
       <main className="flex-1 overflow-y-auto overflow-x-hidden">
