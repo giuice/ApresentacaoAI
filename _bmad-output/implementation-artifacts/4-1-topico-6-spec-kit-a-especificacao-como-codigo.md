@@ -1,6 +1,6 @@
 # Story 4.1: Topico 6 — Spec-Kit: A Especificacao como Codigo
 
-Status: ready-for-dev
+Status: done
 
 <!-- Note: Validation is optional. Run validate-create-story for quality check before dev-story. -->
 
@@ -23,13 +23,13 @@ so that eu entenda que nao existe "a melhor ferramenta" — existe a ferramenta 
 
 ## Tasks / Subtasks
 
-- [ ] Task 1: Criar arquivo de dados `src/data/topic6Data.ts` (AC: #1, #8)
-  - [ ] 1.1 Definir interface `Topic6Data` com campos: title, subtitle, heroMetric, inevitabilityQuote, toolLadder (array de 3 ferramentas com name, level, icon, problem, solution, audience, sddLevel, adoptionSignal, impactMetric), comparisonNote, narratorNotes
-  - [ ] 1.2 Popular dados a partir de `docs/topicos/topic6.md` — metricas aprovadas, analogias, textos em PT-BR
-  - [ ] 1.3 Exportar interface e const tipadas
-- [ ] Task 2: Implementar componente `Topic6.tsx` com layout de ESCADA DE 3 DEGRAUS (AC: #1, #2, #3, #4, #5, #6, #7)
-  - [ ] 2.1 Estrutura base: TopicReveal container com state de pagina (content/notes) e NarratorToggle no header
-  - [ ] 2.2 PAGINA 1 — Layout escada criativo (DIFERENTE dos topicos anteriores):
+- [x] Task 1: Criar arquivo de dados `src/data/topic6Data.ts` (AC: #1, #8)
+  - [x] 1.1 Definir interface `Topic6Data` com campos: title, subtitle, heroMetric, inevitabilityQuote, toolLadder (array de 3 ferramentas com name, level, icon, problem, solution, audience, sddLevel, adoptionSignal, impactMetric), comparisonNote, narratorNotes
+  - [x] 1.2 Popular dados a partir de `docs/topicos/topic6.md` — metricas aprovadas, analogias, textos em PT-BR
+  - [x] 1.3 Exportar interface e const tipadas
+- [x] Task 2: Implementar componente `Topic6.tsx` com layout de ESCADA DE 3 DEGRAUS (AC: #1, #2, #3, #4, #5, #6, #7)
+  - [x] 2.1 Estrutura base: TopicReveal container com state de pagina (content/notes) e NarratorToggle no header
+  - [x] 2.2 PAGINA 1 — Layout escada criativo (DIFERENTE dos topicos anteriores):
     - Hero metric (85%) com AnimatedCounter variant="success" centralizado no topo
     - Frase de inevitabilidade (MIT quote) como subtitle
     - 3 CARDS EM ESCADA ASCENDENTE: cada card mais alto que o anterior (translateY progressivo), com tamanho e glow crescente, representando Spec-Kit (nivel 1, glow sutil) -> GSD (nivel 2, glow medio) -> BMAD (nivel 3, glow maximo)
@@ -37,23 +37,23 @@ so that eu entenda que nao existe "a melhor ferramenta" — existe a ferramenta 
     - Cada card mostra: nome da ferramenta, problema que resolve, metrica matadora, nivel SDD
     - Entrada staggered: cards sobem sequencialmente com 400ms delay entre cada
     - Nota de complementaridade na base
-  - [ ] 2.3 PAGINA 2 — Notas do narrador via MatrixTerminal:
+  - [x] 2.3 PAGINA 2 — Notas do narrador via MatrixTerminal:
     - Usar MatrixTerminal com title="narrador-topic6.md"
     - Converter narratorNotes em TerminalLine[] (comment header + output lines numeradas + comment footer)
     - Layout centrado, flex-1 com scroll
-  - [ ] 2.4 Garantir que o layout e responsivo: cards empilham verticalmente em telas menores (<1024px), mantendo escada horizontal em desktop
-  - [ ] 2.5 Respeitar prefers-reduced-motion (via TopicReveal e AnimatedCounter existentes)
-- [ ] Task 3: Testes do Topico 6 (AC: #1, #2, #3, #4, #5, #6, #7, #8)
-  - [ ] 3.1 Testar que Topic6 renderiza titulo e subtitulo vindos de topic6Data
-  - [ ] 3.2 Testar que AnimatedCounter esta presente com value=85 e variant="success"
-  - [ ] 3.3 Testar que 3 cards de ferramenta sao renderizados (Spec-Kit, GSD, BMAD)
-  - [ ] 3.4 Testar alternancia de pagina (content/notes) via NarratorToggle
-  - [ ] 3.5 Testar que MatrixTerminal aparece na pagina de notas
-  - [ ] 3.6 Testar que dados vem de topic6Data (nenhum hardcode)
-- [ ] Task 4: Gates de qualidade (AC: todos)
-  - [ ] 4.1 Rodar `npm test` — suite completa verde
-  - [ ] 4.2 Rodar `npm run build` — build sem erros
-  - [ ] 4.3 Verificar que lazy-load existente no App.tsx ja cobre Topic6 (PlaceholderTopic -> componente real)
+  - [x] 2.4 Garantir que o layout e responsivo: cards empilham verticalmente em telas menores (<1024px), mantendo escada horizontal em desktop
+  - [x] 2.5 Respeitar prefers-reduced-motion (via TopicReveal e AnimatedCounter existentes)
+- [x] Task 3: Testes do Topico 6 (AC: #1, #2, #3, #4, #5, #6, #7, #8)
+  - [x] 3.1 Testar que Topic6 renderiza titulo e subtitulo vindos de topic6Data
+  - [x] 3.2 Testar que AnimatedCounter esta presente com value=85 e variant="success"
+  - [x] 3.3 Testar que 3 cards de ferramenta sao renderizados (Spec-Kit, GSD, BMAD)
+  - [x] 3.4 Testar alternancia de pagina (content/notes) via NarratorToggle
+  - [x] 3.5 Testar que MatrixTerminal aparece na pagina de notas
+  - [x] 3.6 Testar que dados vem de topic6Data (nenhum hardcode)
+- [x] Task 4: Gates de qualidade (AC: todos)
+  - [x] 4.1 Rodar `npm test` — suite completa verde
+  - [x] 4.2 Rodar `npm run build` — build sem erros
+  - [x] 4.3 Verificar que lazy-load existente no App.tsx ja cobre Topic6 (PlaceholderTopic -> componente real)
 
 ## Dev Notes
 
@@ -166,10 +166,30 @@ so that eu entenda que nao existe "a melhor ferramenta" — existe a ferramenta 
 
 ### Agent Model Used
 
-(to be filled during implementation)
+GPT-5 (GitHub Copilot CLI)
 
 ### Debug Log References
 
+- `npm test -- src/__tests__/topic6.test.tsx`
+- `npm test`
+- `npm run build`
+
 ### Completion Notes List
 
+- Implementado `topic6Data.ts` com estrutura tipada e todo o conteudo textual do Topico 6.
+- Substituido placeholder de `Topic6.tsx` por layout real em escada com 3 cards progressivos (Spec-Kit, GSD, BMAD).
+- Integrados `TopicReveal`, `AnimatedCounter`, `NeonCard`, `NarratorToggle`, `MatrixTerminal` e `GlowDivider`.
+- Criado teste dedicado `topic6.test.tsx` cobrindo data source, hero metric, escada, toggle e pagina de notas.
+- Validacao executada com suite completa de testes e build.
+
 ### File List
+
+- `src/data/topic6Data.ts` (created)
+- `src/components/topics/Topic6.tsx` (updated)
+- `src/__tests__/topic6.test.tsx` (created)
+- `_bmad-output/implementation-artifacts/4-1-topico-6-spec-kit-a-especificacao-como-codigo.md` (updated)
+- `_bmad-output/implementation-artifacts/sprint-status.yaml` (updated — story status → review)
+
+## Change Log
+
+- 2026-03-06: Implementacao completa da Story 4.1 (Topic6 real, data source tipado, testes dedicados, validacao por teste focado + suite completa + build).

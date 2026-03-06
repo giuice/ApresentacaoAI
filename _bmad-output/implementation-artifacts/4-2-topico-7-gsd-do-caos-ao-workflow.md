@@ -1,6 +1,6 @@
 # Story 4.2: Topico 7 — Spec-Kit: Da Ideia ao PR em 7 Comandos
 
-Status: ready-for-dev
+Status: done
 
 ## Story
 
@@ -20,33 +20,33 @@ so that eu entenda como especificacao estruturada substitui 12h de documentacao 
 
 ## Tasks / Subtasks
 
-- [ ] Task 1: Criar `src/data/topic7Data.ts` (AC: #1, #7)
-  - [ ] 1.1 Definir interface `Topic7Data` com: title, subtitle, heroMetric (12h->15min), pipelineSteps (array de 7 etapas com command, description, outputs, checklist), sixPrinciples (array), ecosystem (array de ferramentas SDD), honestView (criticas e respostas), narratorNotes
-  - [ ] 1.2 Popular dados a partir de `docs/topicos/topic7.md`
-  - [ ] 1.3 Exportar interface e const tipadas
-- [ ] Task 2: Implementar `Topic7.tsx` com layout PIPELINE VERTICAL (AC: #1-#7)
-  - [ ] 2.1 Estrutura base: TopicReveal + state pagina + NarratorToggle
-  - [ ] 2.2 PAGINA 1 — Layout pipeline vertical criativo:
-    - Hero metric "12h -> 15min" com AnimatedCounter (value=15, suffix="min") variant="success"
-    - Pipeline vertical: 7 nos conectados por linhas com glow (tipo circuito tech)
-    - Cada no mostra: comando (/specify, /clarify, /plan, /analyze, /tasks, /implement) + descricao curta + icones de outputs
-    - Nos se revelam sequencialmente de cima para baixo com stagger
-    - Linha de conexao entre nos com animacao de "fluxo" (gradient moving)
-    - Abaixo do pipeline: card de credibilidade com quote do GitHub + stars (71k)
-  - [ ] 2.3 PAGINA 2 — MatrixTerminal com narratorNotes
-  - [ ] 2.4 Responsividade: pipeline vertical funciona bem em qualquer largura
-  - [ ] 2.5 Respeitar prefers-reduced-motion
-- [ ] Task 3: Testes (AC: todos)
-  - [ ] 3.1 Testar render titulo/subtitulo de topic7Data
-  - [ ] 3.2 Testar AnimatedCounter presente
-  - [ ] 3.3 Testar que 7 nos do pipeline sao renderizados (commands visiveis)
-  - [ ] 3.4 Testar toggle content/notes
-  - [ ] 3.5 Testar MatrixTerminal na pagina de notas
-  - [ ] 3.6 Testar dados de topic7Data
-- [ ] Task 4: Gates de qualidade
-  - [ ] 4.1 `npm test` verde
-  - [ ] 4.2 `npm run build` sem erros
-  - [ ] 4.3 Verificar lazy-load no App.tsx
+- [x] Task 1: Criar `src/data/topic7Data.ts` (AC: #1, #7)
+  - [x] 1.1 Definir interface `Topic7Data` com: title, subtitle, heroMetric (12h->15min), pipelineSteps (array de 7 etapas com command, description, outputs, checklist), sixPrinciples (array), ecosystem (array de ferramentas SDD), honestView (criticas e respostas), narratorNotes
+  - [x] 1.2 Popular dados a partir de `docs/topicos/topic7.md`
+  - [x] 1.3 Exportar interface e const tipadas
+- [x] Task 2: Implementar `Topic7.tsx` com layout PIPELINE VERTICAL (AC: #1-#7)
+  - [x] 2.1 Estrutura base: TopicReveal + state pagina + NarratorToggle
+  - [x] 2.2 PAGINA 1 — Layout pipeline vertical criativo:
+    - [x] Hero metric "12h -> 15min" com AnimatedCounter (value=15, suffix="min") variant="success"
+    - [x] Pipeline vertical: 7 nos conectados por linhas com glow (tipo circuito tech)
+    - [x] Cada no mostra: comando (/specify, /clarify, /plan, /analyze, /tasks, /implement) + descricao curta + icones de outputs
+    - [x] Nos se revelam sequencialmente de cima para baixo com stagger
+    - [x] Linha de conexao entre nos com animacao de "fluxo" (gradient moving)
+    - [x] Abaixo do pipeline: card de credibilidade com quote do GitHub + stars (71k)
+  - [x] 2.3 PAGINA 2 — MatrixTerminal com narratorNotes
+  - [x] 2.4 Responsividade: pipeline vertical funciona bem em qualquer largura
+  - [x] 2.5 Respeitar prefers-reduced-motion
+- [x] Task 3: Testes (AC: todos)
+  - [x] 3.1 Testar render titulo/subtitulo de topic7Data
+  - [x] 3.2 Testar AnimatedCounter presente
+  - [x] 3.3 Testar que 7 nos do pipeline sao renderizados (commands visiveis)
+  - [x] 3.4 Testar toggle content/notes
+  - [x] 3.5 Testar MatrixTerminal na pagina de notas
+  - [x] 3.6 Testar dados de topic7Data
+- [x] Task 4: Gates de qualidade
+  - [x] 4.1 `npm test` verde
+  - [x] 4.2 `npm run build` sem erros
+  - [x] 4.3 Verificar lazy-load no App.tsx
 
 ## Dev Notes
 
@@ -101,6 +101,25 @@ so that eu entenda como especificacao estruturada substitui 12h de documentacao 
 ## Dev Agent Record
 
 ### Agent Model Used
+- GPT-5.1 (GitHub Copilot CLI)
 ### Debug Log References
+- `npm test -- src/__tests__/topic7.test.tsx` (falha inicial: `act is not a function`; corrigido import de `act`)
+- `npm test -- src/__tests__/topic7.test.tsx` (passou: 6/6)
+- `npm run build` (passou)
+- `npm test` (suite completa passou: 169/169)
 ### Completion Notes List
+- Placeholder de `Topic7.tsx` substituido por implementacao completa com pipeline vertical de 7 nos conectados e animacao de fluxo.
+- Todo texto funcional do topico foi centralizado em `src/data/topic7Data.ts`, incluindo labels de secoes, metrica hero, pipeline, principios, ecossistema, visao honesta e notas.
+- Pagina 2 implementada com `NarratorToggle` + `MatrixTerminal`, mantendo padrao dos topicos e acessibilidade.
+- Criada suite `src/__tests__/topic7.test.tsx` cobrindo dados e comportamento principal do Topico 7.
 ### File List
+- `src/data/topic7Data.ts` (novo)
+- `src/components/topics/Topic7.tsx` (atualizado)
+- `src/__tests__/topic7.test.tsx` (novo)
+- `_bmad-output/implementation-artifacts/4-2-topico-7-gsd-do-caos-ao-workflow.md` (atualizado)
+- `_bmad-output/implementation-artifacts/sprint-status.yaml` (atualizado — story status → review)
+
+## Change Log
+
+- 2026-03-06: Implementacao completa da Story 4.2 (Topic7), com dados tipados, layout diferencial de pipeline vertical, testes dedicados e validacao de build/test suite.
+- 2026-03-06: Code review — corrigido titulo para text-5xl lg:text-6xl (design system compliance); adicionado GlowDivider entre hero metric e pipeline.

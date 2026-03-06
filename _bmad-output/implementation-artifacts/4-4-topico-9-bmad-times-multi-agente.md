@@ -1,6 +1,6 @@
 # Story 4.4: Topico 9 — BMAD: Times Multi-Agente
 
-Status: ready-for-dev
+Status: done
 
 ## Story
 
@@ -21,32 +21,32 @@ so that eu entenda o salto de um dev solo para um time virtual com roles definid
 
 ## Tasks / Subtasks
 
-- [ ] Task 1: Criar `src/data/topic9Data.ts` (AC: #1, #8)
-  - [ ] 1.1 Definir interface `Topic9Data` com: title, subtitle, phases (array de 4 fases com name, description, outputs, agentName), agents (array de 9 agentes com name, role, whenEnters, delivers), conflictExample (sem ADR vs com ADR), metricRedHat (41% complexidade), metricMcKinsey (20-45% produtividade), narratorNotes
-  - [ ] 1.2 Popular dados de docs/topicos/topic9.md e docs/bmad-guide.md
-  - [ ] 1.3 Exportar interface e const
-- [ ] Task 2: Implementar `Topic9.tsx` com SQUAD BOARD + ESTEIRA DE FASES (AC: #1-#8)
-  - [ ] 2.1 Estrutura base: TopicReveal + NarratorToggle
-  - [ ] 2.2 PAGINA 1 — Layout squad board criativo:
+- [x] Task 1: Criar `src/data/topic9Data.ts` (AC: #1, #8)
+  - [x] 1.1 Definir interface `Topic9Data` com: title, subtitle, phases (array de 4 fases com name, description, outputs, agentName), agents (array de 9 agentes com name, role, whenEnters, delivers), conflictExample (sem ADR vs com ADR), metricRedHat (41% complexidade), metricMcKinsey (20-45% produtividade), narratorNotes
+  - [x] 1.2 Popular dados de docs/topicos/topic9.md e docs/bmad-guide.md
+  - [x] 1.3 Exportar interface e const
+- [x] Task 2: Implementar `Topic9.tsx` com SQUAD BOARD + ESTEIRA DE FASES (AC: #1-#8)
+  - [x] 2.1 Estrutura base: TopicReveal + NarratorToggle
+  - [x] 2.2 PAGINA 1 — Layout squad board criativo:
     - Titulo + subtitulo no topo
     - SECAO 1: Esteira de 4 fases horizontal (Analysis -> Planning -> Solutioning -> Implementation) como blocos conectados com setas/linhas. Cada bloco mostra nome + outputs principais. Blocos se revelam sequencialmente.
     - SECAO 2: Grid de agent cards (3x3 ou responsivo) — cada card mostra: nome do agente, role (1 linha), quando entra. Cards usam NeonCard variant="success" com tamanho compacto.
     - SECAO 3: Metricas de impacto — Red Hat (41% sem estrutura) e McKinsey (20-45% com estrutura) como counters pequenos
     - Frase ancora: "Documentos sao fonte da verdade. Chat e transitorio."
-  - [ ] 2.3 PAGINA 2 — MatrixTerminal com narratorNotes
-  - [ ] 2.4 Responsivo: esteira empilha vertical, grid de agents adapta colunas
-  - [ ] 2.5 Respeitar prefers-reduced-motion
-- [ ] Task 3: Testes (AC: todos)
-  - [ ] 3.1 Testar render titulo de topic9Data
-  - [ ] 3.2 Testar que 4 blocos de fases sao renderizados
-  - [ ] 3.3 Testar que cards de agentes sao renderizados (minimo 7 agents visiveis)
-  - [ ] 3.4 Testar toggle content/notes
-  - [ ] 3.5 Testar MatrixTerminal nas notas
-  - [ ] 3.6 Testar dados de topic9Data
-- [ ] Task 4: Gates
-  - [ ] 4.1 `npm test` verde
-  - [ ] 4.2 `npm run build` sem erros
-  - [ ] 4.3 Lazy-load ok
+  - [x] 2.3 PAGINA 2 — MatrixTerminal com narratorNotes
+  - [x] 2.4 Responsivo: esteira empilha vertical, grid de agents adapta colunas
+  - [x] 2.5 Respeitar prefers-reduced-motion
+- [x] Task 3: Testes (AC: todos)
+  - [x] 3.1 Testar render titulo de topic9Data
+  - [x] 3.2 Testar que 4 blocos de fases sao renderizados
+  - [x] 3.3 Testar que cards de agentes sao renderizados (minimo 7 agents visiveis)
+  - [x] 3.4 Testar toggle content/notes
+  - [x] 3.5 Testar MatrixTerminal nas notas
+  - [x] 3.6 Testar dados de topic9Data
+- [x] Task 4: Gates
+  - [x] 4.1 `npm test` verde
+  - [x] 4.2 `npm run build` sem erros
+  - [x] 4.3 Lazy-load ok
 
 ## Dev Notes
 
@@ -94,6 +94,28 @@ so that eu entenda o salto de um dev solo para um time virtual com roles definid
 ## Dev Agent Record
 
 ### Agent Model Used
+- GitHub Copilot CLI (GPT-5)
+
 ### Debug Log References
+- `npm test && npm run build` (baseline antes da implementacao)
+- `npm test -- src/__tests__/topic9.test.tsx` (teste focado da story)
+- `npm run build` (validacao pos-implementacao)
+- `npm test` (suite completa pos-implementacao, incluindo lazy-load)
+
 ### Completion Notes List
+- Placeholder de `Topic9.tsx` substituido por layout real com squad board, esteira de 4 fases e secao de impacto.
+- Todo conteudo textual exibido no topico foi centralizado em `src/data/topic9Data.ts`.
+- Pagina 2 implementada com `NarratorToggle` + `MatrixTerminal`.
+- Criada suite dedicada `src/__tests__/topic9.test.tsx` cobrindo dados, renderizacao, fases, agentes e toggle.
+
 ### File List
+- `src/data/topic9Data.ts` (novo)
+- `src/components/topics/Topic9.tsx` (atualizado)
+- `src/__tests__/topic9.test.tsx` (novo)
+- `_bmad-output/implementation-artifacts/4-4-topico-9-bmad-times-multi-agente.md` (atualizado)
+- `_bmad-output/implementation-artifacts/sprint-status.yaml` (atualizado — story status → review)
+
+## Change Log
+
+- 2026-03-06: Implementacao completa da Story 4.4 com Topic9 real, data model dedicado, testes focados e validacoes de build/test.
+- 2026-03-06: Code review — corrigido titulo para text-5xl lg:text-6xl (design system compliance); adicionado GlowDivider entre phases e agents sections.
