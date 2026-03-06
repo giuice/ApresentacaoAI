@@ -50,23 +50,23 @@ development_status:
   epic-1-retrospective: done
 
   # ─── Epic 2: Identidade Visual & Transições Cinematográficas ────────────────
-  epic-2: in-progress
+  epic-2: done
   2-1-tokens-do-tema-matrix-e-tipografia: done
   2-2-matrix-background-canvas-com-raf: done
-  2-2b-matrix-background-visibilidade-reduced-motion: review
+  2-2b-matrix-background-visibilidade-reduced-motion: done
   2-3-transicoes-cinematograficas-entre-topicos: done
   2-4-animacoes-de-entrada-por-topico: done
   epic-2-retrospective: optional
 
   # ─── Epic 3: Bloco 1 & 2 — O Problema (Tópicos 1–5) ────────────────────────
-  epic-3: in-progress
+  epic-3: done
   3-1-componente-animatedcounter: done
   3-2-componentes-splitscreen-e-neoncard: done
-  3-3-topico-1-hook-o-problema-88: review
-  3-4-topico-2-vibe-coding-a-escada-quebrada: ready-for-dev
-  3-5-topico-3-context-rot: ready-for-dev
-  3-6-topico-4-context-engineering: ready-for-dev
-  3-7-topico-5-spec-driven-development: ready-for-dev
+  3-3-topico-1-hook-o-problema-88: done
+  3-4-topico-2-vibe-coding-a-escada-quebrada: done
+  3-5-topico-3-context-rot: done
+  3-6-topico-4-context-engineering: done
+  3-7-topico-5-spec-driven-development: done
   epic-3-retrospective: optional
 
   # ─── Epic 4: Bloco 3 — As Ferramentas (Tópicos 6–10) ───────────────────────
