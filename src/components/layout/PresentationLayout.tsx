@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import { CyberProgressBar } from '@/components/layout/CyberProgressBar';
 import { MatrixBackground } from '@/components/layout/MatrixBackground';
+import { ScanlineOverlay } from '@/components/layout/ScanlineOverlay';
 import { usePresentation } from '@/contexts/PresentationContext';
 
 interface PresentationLayoutProps {
@@ -11,19 +12,23 @@ export const PresentationLayout = ({ children }: PresentationLayoutProps) => {
   const { currentTopicIndex } = usePresentation();
 
   return (
-    <div
-      className="min-h-screen h-screen flex flex-col bg-bg-deep text-text-primary overflow-hidden"
-      data-testid="presentation-shell"
-    >
+    <>
       <MatrixBackground />
-      <main className="relative z-10 flex-1 overflow-y-auto overflow-x-hidden">
-        <div className="w-full h-full max-w-[1024px] mx-auto px-4" data-testid="presentation-content">
-          {children}
-        </div>
-      </main>
-      <footer className="relative z-10 shrink-0 px-4 py-3">
-        <CyberProgressBar currentTopicIndex={currentTopicIndex} />
-      </footer>
-    </div>
+      <ScanlineOverlay />
+      <div
+        className="min-h-screen h-screen flex flex-col text-text-primary overflow-hidden"
+        data-testid="presentation-shell"
+        style={{ position: 'relative', zIndex: 2 }}
+      >
+        <main className="flex-1 overflow-y-auto overflow-x-hidden">
+          <div className="w-full min-h-full max-w-7xl mx-auto px-8" data-testid="presentation-content">
+            {children}
+          </div>
+        </main>
+        <footer className="shrink-0 px-4 py-3">
+          <CyberProgressBar currentTopicIndex={currentTopicIndex} />
+        </footer>
+      </div>
+    </>
   );
 };

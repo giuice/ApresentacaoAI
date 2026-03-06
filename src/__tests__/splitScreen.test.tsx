@@ -75,7 +75,7 @@ describe('SplitScreen', () => {
     );
 
     const leftPane = screen.getByTestId('split-screen-left');
-    expect(leftPane.className).toMatch(/danger|red/i);
+    expect(leftPane.className).toMatch(/1a0005/);
   });
 
   it('applies success tone styling to right pane', () => {
@@ -87,7 +87,7 @@ describe('SplitScreen', () => {
     );
 
     const rightPane = screen.getByTestId('split-screen-right');
-    expect(rightPane.className).toMatch(/primary|green|success/i);
+    expect(rightPane.className).toMatch(/000a03/);
   });
 
   it('passes custom className to container', () => {

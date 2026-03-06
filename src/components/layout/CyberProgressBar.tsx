@@ -36,31 +36,49 @@ export const CyberProgressBar = ({ currentTopicIndex }: CyberProgressBarProps) =
 
   return (
     <div
-      className="flex gap-2 justify-center"
-      role="progressbar"
-      aria-valuenow={activeSegment}
-      aria-valuemin={1}
-      aria-valuemax={TOTAL_SEGMENTS}
-      aria-label="Progresso da apresentacao"
+      className="w-full max-w-[900px] mx-auto bg-bg-card border border-border-subtle rounded-xl p-4"
     >
-      {SEGMENT_LABELS.map((label, i) => {
-        const segmentNumber = i + 1;
-        const isActive = segmentNumber === activeSegment;
+      <div
+        className="flex gap-1.5"
+        role="progressbar"
+        aria-valuenow={activeSegment}
+        aria-valuemin={1}
+        aria-valuemax={TOTAL_SEGMENTS}
+        aria-label="Progresso da apresentacao"
+      >
+        {SEGMENT_LABELS.map((label, i) => {
+          const segmentNumber = i + 1;
+          const isActive = segmentNumber === activeSegment;
 
-        return (
-          <div
-            key={segmentNumber}
-            className={`
-              h-2 flex-1 max-w-32 rounded-sm transition-all duration-300
-              ${isActive
-                ? 'bg-accent-primary shadow-[0_0_8px_var(--glow-primary-strong),0_0_16px_var(--glow-primary-strong)]'
-                : 'bg-accent-primary/20'
-              }
-            `}
-            aria-label={`${label}${isActive ? ' (ativo)' : ''}`}
-          />
-        );
-      })}
+          return (
+            <div
+              key={segmentNumber}
+              className={`
+                h-2 flex-1 rounded-sm transition-all duration-500
+                ${isActive
+                  ? 'bg-accent-primary shadow-[0_0_12px_var(--glow-primary-strong)]'
+                  : 'bg-border-subtle'
+                }
+              `}
+              aria-label={`${label}${isActive ? ' (ativo)' : ''}`}
+            />
+          );
+        })}
+      </div>
+      <div className="flex gap-1.5 mt-2 px-0">
+        {SEGMENT_LABELS.map((label, i) => {
+          const segmentNumber = i + 1;
+          const isActive = segmentNumber === activeSegment;
+          return (
+            <span
+              key={segmentNumber}
+              className={`flex-1 text-center font-mono text-[0.6rem] tracking-[0.1em] uppercase transition-colors duration-400 ${isActive ? 'text-accent-primary' : 'text-text-muted'}`}
+            >
+              {label}
+            </span>
+          );
+        })}
+      </div>
     </div>
   );
 };

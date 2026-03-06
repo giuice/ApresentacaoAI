@@ -81,9 +81,18 @@ para que a virada narrativa do Problema para a Solucao seja clara e impactante.
 - Verificar classe/semantica visual de tom de solucao.
 - Rodar testes + build.
 
+### Topic Component Pattern (OBRIGATORIO)
+
+**Referencia:** Story 3.3 (Topic1) estabeleceu o pattern definitivo. Ver `src/components/topics/Topic1.tsx` + `src/data/topic1Data.ts`.
+- Data source tipado em `src/data/topicNData.ts` (title, subtitle, metric, supportingItems com highlight+text, talkingPoints)
+- `TopicReveal`/`TopicRevealItem` para stagger, `AnimatedCounter` para hero metric, `NeonCard` para dados de apoio
+- Talking points visiveis na parte inferior (text-xs font-mono text-muted, border-top)
+- Tipografia: titulo `text-5xl lg:text-6xl font-mono font-bold`, corpo `text-base-lg font-sans`, metric context `text-xs font-mono font-light text-muted`
+- Este topico usa `accent-primary` (verde) como dominante — virada narrativa
+
 ### Previous Story Intelligence
 
-- Story 3.5 em `ready-for-dev`, sem learnings de implementacao ainda.
+- Story 3.3 (Topic1) COMPLETA e em review — usar como referencia de pattern.
 - Garantir continuidade com padrao de transicao/reveal ja consolidado.
 
 ### Git Intelligence Summary
@@ -101,8 +110,10 @@ para que a virada narrativa do Problema para a Solucao seja clara e impactante.
 - `_bmad-output/planning-artifacts/epics.md` (Epic 3 / Story 3.6)
 - `docs/topicos/topic4.md`
 - `_bmad-output/planning-artifacts/design-system.md`
+- `_bmad-output/implementation-artifacts/3-3-topico-1-hook-o-problema-88.md` (REFERENCIA DE PATTERN)
 - `_bmad-output/implementation-artifacts/2-4-animacoes-de-entrada-por-topico.md`
 - `_bmad-output/project-context.md`
+- `src/components/topics/Topic1.tsx` + `src/data/topic1Data.ts` (implementacao de referencia)
 
 ### Story Completion Status
 

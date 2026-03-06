@@ -1,143 +1,124 @@
 import { useEffect, useRef } from 'react';
 
+/**
+ * Digital rain canvas — direct port from demo-ux-components.html.
+ * No DPR scaling, no reduced-motion gating, same draw loop.
+ */
+
 const FONT_SIZE = 18;
-const MAX_STREAMS = 40;
-const TARGET_FPS = 30;
-const FRAME_INTERVAL = 1000 / TARGET_FPS;
-const CANVAS_OPACITY = 0.5;
-const MATRIX_COLOR_FALLBACK = '#00FF41';
-const BACKGROUND_COLOR = '#000000';
-const FADE_ALPHA = 0.05;
-const CHAR_POOL = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEF';
+const MAX_ACTIVE = 40;
+const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%SpecKitBMADGSD';
+const FADE_STYLE = 'rgba(0, 0, 0, 0.08)';
+const CHAR_ALPHA = 0.8;
+const FALLBACK_COLOR = '#00FF41';
 
 export const MatrixBackground = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const rafRef = useRef<number>(0);
-  const lastFrameRef = useRef<number>(0);
-  const dropsRef = useRef<Float32Array | null>(null);
-  const reducedMotionRef = useRef(false);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    const mql = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const matrixColor = getComputedStyle(document.documentElement)
-      .getPropertyValue('--color-accent-primary')
-      .trim() || MATRIX_COLOR_FALLBACK;
-    reducedMotionRef.current = mql.matches;
+    // Local aliases that TypeScript knows are non-null inside closures
+    const cv = canvas;
+    const cx = ctx;
 
-    const stopAnimation = () => {
-      if (rafRef.current !== 0) {
-        cancelAnimationFrame(rafRef.current);
-        rafRef.current = 0;
+    let cols = 0;
+    let drops: Float32Array;
+    let activeDrops: Uint8Array;
+    let cachedColor = FALLBACK_COLOR;
+    let frameCount = 0;
+
+    function refreshColor() {
+      cachedColor =
+        getComputedStyle(document.documentElement)
+          .getPropertyValue('--color-accent-primary')
+          .trim() || FALLBACK_COLOR;
+    }
+
+    function resize() {
+      cv.width = window.innerWidth;
+      cv.height = window.innerHeight;
+      cols = Math.floor(cv.width / FONT_SIZE);
+      drops = new Float32Array(cols);
+      activeDrops = new Uint8Array(cols);
+      for (let i = 0; i < cols; i++) {
+        drops[i] = Math.random() * -50;
+        activeDrops[i] = Math.random() < MAX_ACTIVE / cols ? 1 : 0;
       }
-    };
+    }
 
-    const paintBase = () => {
-      ctx.fillStyle = BACKGROUND_COLOR;
-      ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
-    };
+    function draw() {
+      frameCount++;
 
-    const handleMotionChange = (e: MediaQueryListEvent) => {
-      reducedMotionRef.current = e.matches;
-      lastFrameRef.current = 0;
-
-      if (e.matches) {
-        stopAnimation();
-        paintBase();
-        return;
-      }
-
-      stopAnimation();
-      rafRef.current = requestAnimationFrame(draw);
-    };
-
-    const resize = () => {
-      const dpr = window.devicePixelRatio || 1;
-      canvas.width = window.innerWidth * dpr;
-      canvas.height = window.innerHeight * dpr;
-      canvas.style.width = `${window.innerWidth}px`;
-      canvas.style.height = `${window.innerHeight}px`;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-      const columns = Math.min(
-        Math.floor(window.innerWidth / FONT_SIZE),
-        MAX_STREAMS,
-      );
-      const drops = new Float32Array(columns);
-      for (let i = 0; i < columns; i++) {
-        drops[i] = Math.random() * -20;
-      }
-      dropsRef.current = drops;
-
-      paintBase();
-    };
-
-    const draw = (timestamp: number) => {
-      if (reducedMotionRef.current) {
-        rafRef.current = 0;
-        return;
-      }
-
-      const elapsed = timestamp - lastFrameRef.current;
-      if (elapsed < FRAME_INTERVAL) {
-        rafRef.current = requestAnimationFrame(draw);
-        return;
-      }
-      lastFrameRef.current = timestamp - (elapsed % FRAME_INTERVAL);
-
-      const drops = dropsRef.current;
-      if (!drops) {
+      // Skip every other frame → ~30 fps
+      if (frameCount % 2 !== 0) {
         rafRef.current = requestAnimationFrame(draw);
         return;
       }
 
-      ctx.fillStyle = `rgba(0, 0, 0, ${FADE_ALPHA})`;
-      ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+      // Refresh color every 60 frames
+      if (frameCount % 60 === 0) refreshColor();
 
-      ctx.fillStyle = matrixColor;
-      ctx.font = `${FONT_SIZE}px monospace`;
+      cx.fillStyle = FADE_STYLE;
+      cx.fillRect(0, 0, cv.width, cv.height);
 
-      const maxY = window.innerHeight / FONT_SIZE;
+      cx.fillStyle = cachedColor;
+      cx.font = `${FONT_SIZE}px monospace`;
+      cx.globalAlpha = CHAR_ALPHA;
 
-      for (let i = 0; i < drops.length; i++) {
+      let activeCount = 0;
+      for (let i = 0; i < cols; i++) {
+        if (!activeDrops[i]) continue;
+        activeCount++;
+
         if (drops[i] < 0) {
-          drops[i] += 1;
+          drops[i] += 0.3;
           continue;
         }
 
-        const char = CHAR_POOL[Math.floor(Math.random() * CHAR_POOL.length)];
-        const x = i * (window.innerWidth / drops.length);
-        const y = drops[i] * FONT_SIZE;
+        const char = CHARS[(Math.random() * CHARS.length) | 0];
+        cx.fillText(char, i * FONT_SIZE, drops[i] * FONT_SIZE);
 
-        ctx.fillText(char, x, y);
-
-        if (drops[i] > maxY && Math.random() > 0.975) {
-          drops[i] = Math.random() * -10;
-        } else {
-          drops[i] += 1;
+        if (drops[i] * FONT_SIZE > cv.height) {
+          activeDrops[i] = 0;
+          drops[i] = Math.random() * -30;
+          // Wake a random sleeping column
+          const wake = (Math.random() * cols) | 0;
+          if (!activeDrops[wake]) {
+            activeDrops[wake] = 1;
+            drops[wake] = Math.random() * -15;
+          }
         }
+
+        drops[i] += 0.6;
       }
 
-      rafRef.current = requestAnimationFrame(draw);
-    };
+      // Ensure minimum active streams
+      if (activeCount < MAX_ACTIVE) {
+        const wake = (Math.random() * cols) | 0;
+        activeDrops[wake] = 1;
+        drops[wake] = Math.random() * -10;
+      }
 
-    mql.addEventListener('change', handleMotionChange);
-    resize();
-    window.addEventListener('resize', resize);
-
-    if (!reducedMotionRef.current) {
+      cx.globalAlpha = 1;
       rafRef.current = requestAnimationFrame(draw);
     }
 
+    resize();
+    refreshColor();
+    window.addEventListener('resize', () => {
+      resize();
+      refreshColor();
+    });
+    rafRef.current = requestAnimationFrame(draw);
+
     return () => {
-      stopAnimation();
+      cancelAnimationFrame(rafRef.current);
       window.removeEventListener('resize', resize);
-      mql.removeEventListener('change', handleMotionChange);
     };
   }, []);
 
@@ -145,9 +126,17 @@ export const MatrixBackground = () => {
     <canvas
       ref={canvasRef}
       data-testid="matrix-background"
-      className="fixed inset-0 pointer-events-none"
-      style={{ opacity: CANVAS_OPACITY, zIndex: 0 }}
       aria-hidden="true"
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        zIndex: 0,
+        pointerEvents: 'none',
+        opacity: 0.5,
+      }}
     />
   );
 };

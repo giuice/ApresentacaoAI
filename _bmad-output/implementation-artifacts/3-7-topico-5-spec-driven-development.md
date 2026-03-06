@@ -87,10 +87,18 @@ para que a diferenca de abordagens seja visualmente obvia e os ganhos de velocid
 - Testar que conteudo vem de `topic5Data`.
 - Garantir regressao verde da suite e build.
 
+### Topic Component Pattern (OBRIGATORIO)
+
+**Referencia:** Story 3.3 (Topic1) estabeleceu o pattern definitivo. Ver `src/components/topics/Topic1.tsx` + `src/data/topic1Data.ts`.
+- Data source tipado em `src/data/topicNData.ts` (title, subtitle, metric, supportingItems com highlight+text, talkingPoints)
+- `TopicReveal`/`TopicRevealItem` para stagger, `AnimatedCounter` para hero metric, `NeonCard` para dados de apoio
+- Talking points visiveis na parte inferior (text-xs font-mono text-muted, border-top)
+- Este topico usa `SplitScreen` (esquerda=danger, direita=success) + `AnimatedCounter` variant="success"
+
 ### Previous Story Intelligence
 
-- Stories predecessoras (3.1 a 3.6) foram criadas neste ciclo como `ready-for-dev`.
-- Ainda nao ha feedback de implementacao; manter abordagem incremental e verificavel.
+- Story 3.3 (Topic1) COMPLETA e em review — usar como referencia de pattern.
+- Manter abordagem incremental e verificavel.
 
 ### Git Intelligence Summary
 
@@ -106,10 +114,13 @@ para que a diferenca de abordagens seja visualmente obvia e os ganhos de velocid
 
 - `_bmad-output/planning-artifacts/epics.md` (Epic 3 / Story 3.7)
 - `docs/topicos/topic5.md`
+- `_bmad-output/planning-artifacts/design-system.md`
+- `_bmad-output/implementation-artifacts/3-3-topico-1-hook-o-problema-88.md` (REFERENCIA DE PATTERN)
 - `_bmad-output/implementation-artifacts/3-1-componente-animatedcounter.md`
 - `_bmad-output/implementation-artifacts/3-2-componentes-splitscreen-e-neoncard.md`
 - `_bmad-output/implementation-artifacts/2-4-animacoes-de-entrada-por-topico.md`
 - `_bmad-output/project-context.md`
+- `src/components/topics/Topic1.tsx` + `src/data/topic1Data.ts` (implementacao de referencia)
 
 ### Story Completion Status
 

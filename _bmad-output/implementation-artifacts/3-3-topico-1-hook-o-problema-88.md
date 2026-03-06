@@ -139,18 +139,20 @@ Claude Opus 4.6
 
 ### Implementation Plan
 
-- Criado `src/data/topic1Data.ts` com interface tipada e dados em PT-BR (titulo, subtitulo, metrica 88%, supporting items)
-- Reescrito `Topic1.tsx` usando `AnimatedCounter` variant="danger" com `text-8xl`, `TopicReveal`/`TopicRevealItem` para animacao de entrada
-- Layout hero centralizado com hierarquia visual: titulo danger > subtitulo italico > counter gigante > supporting items com borda lateral
-- Testes cobrem: render de titulo/subtitulo/counter, dados vindos de data source, tamanho minimo do hero metric, reveal container, supporting items
+- Criado `src/data/topic1Data.ts` com interface tipada e dados em PT-BR (titulo, subtitulo, definicao, analogia, metrica 88%, supporting items com highlights, talking points)
+- Reescrito `Topic1.tsx` com layout split: esquerda = definicao + analogia + AnimatedCounter hero | direita = NeonCards com dados de adocao
+- Talking points do apresentador visiveis na parte inferior como lista sutil
+- Testes cobrem: render de titulo/definicao/analogia/counter, NeonCards, talking points, tamanho minimo do hero metric, reveal container
 
 ### Completion Notes List
 
 - Story 3.3 criada com contrato claro de conteudo em `src/data` e topico hero.
 - Dependencia com 3.1 explicitada.
-- Implementacao completa: Topic1 renderiza dados de `topic1Data.ts`, AnimatedCounter 88% em danger, layout hero com TopicReveal
-- 137 testes passando (7 novos + 130 existentes), build OK
+- Implementacao completa: Topic1 com layout split usando NeonCards, AnimatedCounter 88% danger, talking points visiveis
+- 141 testes passando (11 novos + 130 existentes), build OK
 - Testes existentes `App.test.tsx` e `appLazyLoad.test.tsx` atualizados para refletir novo conteudo do Topic1
+- Correcao de compliance com design system: tipografia, espacamento, max-width do PresentationLayout (1024px -> max-w-7xl)
+- Documentado topic component pattern para reuso em topicos subsequentes
 
 ### File List
 
@@ -159,9 +161,14 @@ Claude Opus 4.6
 - `src/__tests__/topic1.test.tsx` (created)
 - `src/App.test.tsx` (modified)
 - `src/__tests__/appLazyLoad.test.tsx` (modified)
+- `src/components/layout/PresentationLayout.tsx` (modified — max-w-7xl + px-8)
+- `src/__tests__/presentationLayout.test.tsx` (modified)
 - `_bmad-output/implementation-artifacts/3-3-topico-1-hook-o-problema-88.md` (modified)
 - `_bmad-output/implementation-artifacts/sprint-status.yaml` (modified)
 
 ### Change Log
 
 - 2026-03-06: Implementacao completa do Topic1 com AnimatedCounter 88% danger, data source separado, testes dedicados
+- 2026-03-06: Enriquecido Topic1 com layout split (NeonCards a direita), talking points, compliance com design system (tipografia, espacamento, max-width)
+- 2026-03-06: PresentationLayout max-width corrigido de 1024px para max-w-7xl per design system
+- 2026-03-06: Documentado topic component pattern em memoria do agente

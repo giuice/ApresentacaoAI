@@ -55,7 +55,7 @@ export const TopicTransition = ({ topicIndex, direction, children }: TopicTransi
         initial="initial"
         animate="animate"
         exit="exit"
-        className="w-full h-full"
+        className="w-full min-h-full"
       >
         {children}
       </motion.div>

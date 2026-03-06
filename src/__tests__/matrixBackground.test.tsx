@@ -5,7 +5,7 @@ import { MatrixBackground } from '@/components/layout/MatrixBackground';
 const mockCtx = {
   fillStyle: '',
   font: '',
-  setTransform: vi.fn(),
+  globalAlpha: 1,
   fillRect: vi.fn(),
   fillText: vi.fn(),
 };
@@ -15,12 +15,10 @@ describe('MatrixBackground', () => {
   let cafSpy: MockInstance;
   let rafId: number;
   let rafCallback: FrameRequestCallback | null;
-  let matchMediaMatches = false;
 
   beforeEach(() => {
     rafId = 1;
     rafCallback = null;
-    matchMediaMatches = false;
     rafSpy = vi.spyOn(window, 'requestAnimationFrame').mockImplementation((callback) => {
       rafCallback = callback;
       return rafId++;
@@ -29,23 +27,10 @@ describe('MatrixBackground', () => {
 
     vi.spyOn(window, 'getComputedStyle').mockReturnValue({
       getPropertyValue: vi.fn().mockImplementation((property: string) => {
-        if (property === '--color-accent-primary') {
-          return '#12AB34';
-        }
-
+        if (property === '--color-accent-primary') return '#12AB34';
         return '';
       }),
     } as unknown as CSSStyleDeclaration);
-
-    Object.defineProperty(window, 'matchMedia', {
-      writable: true,
-      configurable: true,
-      value: vi.fn().mockReturnValue({
-        matches: matchMediaMatches,
-        addEventListener: vi.fn(),
-        removeEventListener: vi.fn(),
-      }),
-    });
 
     HTMLCanvasElement.prototype.getContext = vi.fn().mockReturnValue(mockCtx) as unknown as typeof HTMLCanvasElement.prototype.getContext;
   });
@@ -60,42 +45,27 @@ describe('MatrixBackground', () => {
     expect(rafSpy).toHaveBeenCalled();
   });
 
-  it('does not start the RAF loop when reduced motion is enabled', () => {
-    matchMediaMatches = true;
-    Object.defineProperty(window, 'matchMedia', {
-      writable: true,
-      configurable: true,
-      value: vi.fn().mockReturnValue({
-        matches: true,
-        addEventListener: vi.fn(),
-        removeEventListener: vi.fn(),
-      }),
-    });
-
-    render(<MatrixBackground />);
-
-    expect(rafSpy).not.toHaveBeenCalled();
-  });
-
   it('calls cancelAnimationFrame on unmount', () => {
     const { unmount } = render(<MatrixBackground />);
     unmount();
     expect(cafSpy).toHaveBeenCalled();
   });
 
-  it('renders a canvas with pointer-events-none and aria-hidden', () => {
+  it('renders a canvas with aria-hidden', () => {
     render(<MatrixBackground />);
     const canvas = screen.getByTestId('matrix-background');
     expect(canvas.tagName).toBe('CANVAS');
-    expect(canvas).toHaveClass('pointer-events-none');
     expect(canvas).toHaveAttribute('aria-hidden', 'true');
   });
 
   it('renders with fixed positioning for fullscreen coverage', () => {
     render(<MatrixBackground />);
     const canvas = screen.getByTestId('matrix-background');
-    expect(canvas).toHaveClass('fixed');
-    expect(canvas).toHaveClass('inset-0');
+    expect(canvas.style.position).toBe('fixed');
+    expect(canvas.style.top).toBe('0px');
+    expect(canvas.style.left).toBe('0px');
+    expect(canvas.style.width).toBe('100%');
+    expect(canvas.style.height).toBe('100%');
   });
 
   it('applies subtle opacity via inline style', () => {
@@ -104,13 +74,22 @@ describe('MatrixBackground', () => {
     expect(canvas.style.opacity).toBe('0.5');
   });
 
-  it('uses the semantic accent token for matrix characters', () => {
+  it('draws characters on even frames using accent color', () => {
     render(<MatrixBackground />);
 
-    act(() => {
-      rafCallback?.(100);
-    });
+    // Frame 1 (odd) — skipped
+    act(() => { rafCallback?.(16); });
+    // Frame 2 (even) — draws
+    act(() => { rafCallback?.(32); });
 
     expect(mockCtx.fillStyle).toBe('#12AB34');
+    expect(mockCtx.fillRect).toHaveBeenCalled();
+  });
+
+  it('has pointer-events none and z-index 0', () => {
+    render(<MatrixBackground />);
+    const canvas = screen.getByTestId('matrix-background');
+    expect(canvas.style.pointerEvents).toBe('none');
+    expect(canvas.style.zIndex).toBe('0');
   });
 });

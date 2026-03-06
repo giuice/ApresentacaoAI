@@ -2,7 +2,7 @@
 
 @layer base {
   body {
-    background-color: var(--color-bg-deep);
+    background: linear-gradient(135deg, var(--color-bg-deep) 0%, #001a0d 50%, var(--color-bg-deep) 100%);
     color: var(--color-text-primary);
     font-family: var(--font-sans);
   }

@@ -9,7 +9,7 @@ export const PlaceholderTopic = ({ topicIndex }: PlaceholderTopicProps) => {
   const topic = getTopicPlaceholderContent(topicIndex);
 
   return (
-    <TopicReveal className="flex flex-col items-center justify-center h-full p-8 gap-6">
+    <TopicReveal className="flex flex-col items-center justify-center min-h-full px-4 py-8 lg:px-8 lg:py-16 gap-6">
       <TopicRevealItem>
         <h2 className="text-3xl font-mono text-accent-primary">{topic.title}</h2>
       </TopicRevealItem>

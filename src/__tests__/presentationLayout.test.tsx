@@ -9,22 +9,8 @@ beforeAll(() => {
     fillRect: vi.fn(),
     fillText: vi.fn(),
     font: '',
-    setTransform: vi.fn(),
+    globalAlpha: 1,
   })) as unknown as typeof HTMLCanvasElement.prototype.getContext;
-
-  Object.defineProperty(window, 'matchMedia', {
-    writable: true,
-    value: vi.fn((query: string) => ({
-      matches: false,
-      media: query,
-      onchange: null,
-      addListener: vi.fn(),
-      removeListener: vi.fn(),
-      addEventListener: vi.fn(),
-      removeEventListener: vi.fn(),
-      dispatchEvent: vi.fn(),
-    })),
-  });
 });
 
 describe('PresentationLayout', () => {
@@ -39,6 +25,19 @@ describe('PresentationLayout', () => {
 
     expect(screen.getByTestId('topic-content')).toBeInTheDocument();
     expect(screen.getByRole('progressbar')).toBeInTheDocument();
+  });
+
+  it('renders canvas rain and scanline overlay', () => {
+    render(
+      <PresentationProvider>
+        <PresentationLayout>
+          <div>Content</div>
+        </PresentationLayout>
+      </PresentationProvider>
+    );
+
+    expect(screen.getByTestId('matrix-background')).toBeInTheDocument();
+    expect(screen.getByTestId('scanline-overlay')).toBeInTheDocument();
   });
 
   it('renders progress bar with correct aria attributes', () => {
@@ -70,7 +69,7 @@ describe('PresentationLayout', () => {
     expect(segments.length).toBe(5);
   });
 
-  it('applies horizontal containment classes for 1024x768 safety', () => {
+  it('applies horizontal containment classes for projector safety', () => {
     render(
       <PresentationProvider>
         <PresentationLayout>
@@ -80,8 +79,7 @@ describe('PresentationLayout', () => {
     );
 
     expect(screen.getByTestId('presentation-shell')).toHaveClass('overflow-hidden');
-    expect(screen.getByRole('main')).toHaveClass('overflow-x-hidden');
-    expect(screen.getByTestId('presentation-content')).toHaveClass('max-w-[1024px]');
+    expect(screen.getByTestId('presentation-content')).toHaveClass('max-w-7xl');
   });
 
   it('keeps the shell on semantic primary text instead of accent text', () => {
@@ -97,16 +95,15 @@ describe('PresentationLayout', () => {
     expect(screen.getByTestId('presentation-shell')).not.toHaveClass('text-accent-primary');
   });
 
-  it('renders children directly without wrapping Suspense (Suspense is in App)', () => {
+  it('shell has z-index 2 for correct stacking over canvas and scanline', () => {
     render(
       <PresentationProvider>
         <PresentationLayout>
-          <div data-testid="direct-child">Direct Content</div>
+          <div>Content</div>
         </PresentationLayout>
       </PresentationProvider>
     );
 
-    expect(screen.getByTestId('direct-child')).toBeInTheDocument();
-    expect(screen.getByRole('progressbar')).toBeInTheDocument();
+    expect(screen.getByTestId('presentation-shell').style.zIndex).toBe('2');
   });
 });

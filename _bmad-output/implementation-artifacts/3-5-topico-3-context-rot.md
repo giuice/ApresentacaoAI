@@ -82,9 +82,18 @@ para que o "Aha!" moment de identificacao com o problema aconteca.
 - Testar que dados sao consumidos de `src/data/topic3Data.ts`.
 - Validar suite completa e build.
 
+### Topic Component Pattern (OBRIGATORIO)
+
+**Referencia:** Story 3.3 (Topic1) estabeleceu o pattern definitivo. Ver `src/components/topics/Topic1.tsx` + `src/data/topic1Data.ts`.
+- Data source tipado em `src/data/topicNData.ts` (title, subtitle, metric, supportingItems com highlight+text, talkingPoints)
+- `TopicReveal`/`TopicRevealItem` para stagger, `AnimatedCounter` para hero metric, `NeonCard` para dados de apoio
+- Talking points visiveis na parte inferior (text-xs font-mono text-muted, border-top)
+- Tipografia: titulo `text-5xl lg:text-6xl font-mono font-bold`, corpo `text-base-lg font-sans`, metric context `text-xs font-mono font-light text-muted`
+- Gaps: `gap-8 lg:gap-16` entre secoes
+
 ### Previous Story Intelligence
 
-- A story predecessora 3.4 ainda esta em `ready-for-dev`, sem feedback de implementacao.
+- Story 3.3 (Topic1) COMPLETA e em review — usar como referencia de pattern.
 - Continuar seguindo guardrails de animacao ja validados no Epic 2.
 
 ### Git Intelligence Summary
@@ -101,9 +110,12 @@ para que o "Aha!" moment de identificacao com o problema aconteca.
 
 - `_bmad-output/planning-artifacts/epics.md` (Epic 3 / Story 3.5)
 - `docs/topicos/topic3.md`
+- `_bmad-output/planning-artifacts/design-system.md`
+- `_bmad-output/implementation-artifacts/3-3-topico-1-hook-o-problema-88.md` (REFERENCIA DE PATTERN)
 - `_bmad-output/implementation-artifacts/3-1-componente-animatedcounter.md`
 - `_bmad-output/implementation-artifacts/2-4-animacoes-de-entrada-por-topico.md`
 - `_bmad-output/project-context.md`
+- `src/components/topics/Topic1.tsx` + `src/data/topic1Data.ts` (implementacao de referencia)
 
 ### Story Completion Status
 

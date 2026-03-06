@@ -400,6 +400,32 @@ Para que a estética tech seja mantida sem comprometer a legibilidade do conteú
 
 ---
 
+### Story 2.2b: Matrix Background — Visibilidade garantida (Reduced Motion)
+
+Como apresentador/audiência,
+Eu quero que o background Matrix continue **visível** mesmo quando `prefers-reduced-motion` estiver ativo,
+Para que a identidade visual Matrix/tech não desapareça em ambientes corporativos onde animações podem estar desabilitadas por política/OS.
+
+**Acceptance Criteria:**
+
+**Given** que o usuário está com `prefers-reduced-motion: reduce` ativo no SO/browser
+**When** o app renderiza qualquer tópico
+**Then** o `MatrixBackground.tsx` ainda renderiza um background Matrix **estático e sutil** (sem loop de animação)
+
+**Given** que `prefers-reduced-motion` está ativo
+**When** o background é renderizado
+**Then** **não** inicia o loop de `requestAnimationFrame` (sem animação contínua)
+
+**Given** que o app está em modo normal (sem reduced motion)
+**When** o app renderiza qualquer tópico
+**Then** o background Matrix anima via RAF como definido na Story 2.2, sem degradar legibilidade
+
+**Given** que o usuário alterna a preferência de reduced motion enquanto o app está aberto
+**When** a mudança ocorre
+**Then** o background troca corretamente entre animado (RAF) e estático, com cleanup correto (sem leak)
+
+---
+
 ### Story 2.3: Transições Cinematográficas entre Tópicos
 
 Como apresentador,
@@ -490,29 +516,61 @@ Para que os dados de impacto causem uma impressão emocional forte no momento ce
 
 ---
 
-### Story 3.2: Componentes SplitScreen & NeonCard
+### Story 3.2: Sistema de Composição dos Tópicos (Design System + Notas do Narrador)
 
 Como apresentador,
-Eu quero componentes visuais reutilizáveis para comparações lado a lado e cards destacados,
-Para que tópicos que contrastam "Problema vs Solução" sejam visualmente claros e impactantes.
+Eu quero um padrão obrigatório de composição para todos os tópicos do Story 3.2 em diante,
+Para que cada tópico mantenha identidade visual, criatividade orientada por roteiro e suporte ao narrador sem quebrar layout.
 
 **Acceptance Criteria:**
 
-**Given** o componente `SplitScreen` com `leftContent` e `rightContent`
-**When** renderizado em desktop (≥1024px)
-**Then** divide a tela em duas metades iguais: esquerda com tom vermelho (problema) e direita com tom verde (solução)
+**Given** qualquer tópico dos Stories 3.3 a 5.6
+**When** implementado
+**Then** deve usar componentes do design system já existentes (ex.: `TopicReveal`, `AnimatedCounter`, `NeonCard`, `SplitScreen`, `MatrixTerminal`, `LiveTable`, `GlowDivider`, `NarratorToggle`) conforme o objetivo narrativo do tópico
 
-**Given** o `SplitScreen` em viewport < 768px (mobile)
+**Given** qualquer tópico dos Stories 3.3 a 5.6
 **When** renderizado
-**Then** empilha verticalmente (problema em cima, solução embaixo)
+**Then** deve possuir duas páginas internas: Página 1 (conteúdo principal) e Página 2 (notas do narrador)
 
-**Given** o componente `NeonCard`
-**When** renderizado
-**Then** exibe borda neon (verde ou vermelho conforme `variant`) com glow sutil no hover
+**Given** a Página 2 (notas do narrador)
+**When** exibida
+**Then** as notas devem ser reescritas como lembretes de fala (tom conversacional para apresentação), baseadas no roteiro do tópico
 
-**Given** `NeonCard` com `variant="danger"`
-**When** renderizado
-**Then** borda e glow usam `#FF003C`; com `variant="success"` usam `#00FF41`
+**Given** tópicos dos Stories 3.3 a 5.6
+**When** implementados
+**Then** não podem usar `PlaceholderTopic` como conteúdo final de tópico
+
+**Given** viewport de projetor `1024x728`
+**When** qualquer tópico estiver ativo
+**Then** o conteúdo principal e controles da página não podem ficar cortados horizontal ou verticalmente
+
+**Given** um tópico da apresentação
+**When** inspecionado
+**Then** o conteúdo vem de `src/data/topicNData.ts` (ou arquivo de dados equivalente por tópico), nunca hardcoded no JSX
+
+---
+
+#### Diretriz de Criatividade Visual (OBRIGATÓRIA)
+
+**Cada tópico DEVE ter layout, composição e experiência visual ÚNICOS.** Copiar a mesma estrutura (ex.: título + grid 2-col + cards + talking points) entre tópicos é proibido. Agentes devem usar os componentes do design system de formas variadas e criativas:
+
+**Variações obrigatórias entre tópicos:**
+- Layout geral (hero centralizado vs grid assimétrico vs vertical timeline vs staircase vs SplitScreen)
+- Forma de exibir métricas (counter solo hero vs trio horizontal vs integrado em cards)
+- Posicionamento do título (topo centralizado vs lateral vs sobre o conteúdo)
+- Exibição de dados de suporte (NeonCards vs timeline vs tabela vs badges inline)
+
+**Para a Página 2 (Notas do Narrador) — criatividade equivalente:**
+- Cada tópico deve apresentar suas notas de forma DIFERENTE e tematicamente conectada ao conteúdo
+- Exemplos válidos: MatrixTerminal (estilo log de sistema), NeonCards scrolláveis (briefing de pesquisa), SplitScreen (o que dizer vs cuidados), painel scrollável com GlowDividers entre seções, lista estilizada com bordas de acento
+- Cada dado (`topicNData.ts`) inclui campo `narratorNotes: string[]` com texto conversacional para a Página 2
+- O componente `NarratorToggle` fornece botões consistentes para trocar entre páginas sem impor layout
+
+**Anti-patterns proibidos:**
+- Template único copiado entre tópicos (mesmo que funcional)
+- Todos os tópicos com grid 2-col + cards à direita + counter à esquerda
+- Notas do narrador usando sempre o mesmo componente (ex.: sempre MatrixTerminal)
+- Layout simétrico em todos os tópicos (nunca ter mais de 2 tópicos consecutivos com mesmo padrão de grid)
 
 ---
 
@@ -521,6 +579,8 @@ Para que tópicos que contrastam "Problema vs Solução" sejam visualmente claro
 Como audiência,
 Eu quero ver o Tópico 1 com o counter de 88% animado e a estética Matrix impactante,
 Para que nos primeiros 30 segundos fique claro que não é um PowerPoint comum.
+
+**Direção Criativa:** Layout "alarme de emergência" — o counter 88% é HERO central dominante que rouba a cena. Definição e analogia aparecem abaixo como texto imersivo. Cards de dados de suporte empilhados lateralmente como "relatórios de incidente". Página 2 usa um painel scrollável com estilo "briefing de segurança" (seções numeradas com border-left de acento danger, separadas por GlowDividers).
 
 **Acceptance Criteria:**
 
@@ -540,6 +600,10 @@ Para que nos primeiros 30 segundos fique claro que não é um PowerPoint comum.
 **When** inspecionado
 **Then** usa lazy-load configurado no Epic 1 e não importa de `docs/topicos/`
 
+**Given** o Tópico 1
+**When** em modo de apresentação
+**Then** deve oferecer Página 1 (conteúdo) e Página 2 (notas do narrador via `narratorNotes` em topic1Data.ts)
+
 ---
 
 ### Story 3.4: Tópico 2 — Vibe Coding: A Escada Quebrada
@@ -547,6 +611,8 @@ Para que nos primeiros 30 segundos fique claro que não é um PowerPoint comum.
 Como audiência,
 Eu quero ver o Tópico 2 ilustrando o ciclo vicioso do Vibe Coding,
 Para que eu entenda visualmente por que a abordagem sem método falha.
+
+**Direção Criativa:** Layout "triple reveal" — três AnimatedCounters lado a lado (+24% expectativa, +20% percepção, -19% realidade) com reveal progressivo. Hero gap de 43pts como destaque central abaixo. NeonCards de suporte em linha horizontal ao invés de coluna. Página 2 usa NeonCards scrolláveis em formato de "diário de pesquisa" — cada nota é um card independente com variant danger.
 
 **Acceptance Criteria:**
 
@@ -562,6 +628,10 @@ Para que eu entenda visualmente por que a abordagem sem método falha.
 **When** o tópico estabiliza
 **Then** elementos entram com delay escalonado respeitando o padrão ≥0.4s do Epic 2
 
+**Given** o Tópico 2
+**When** renderizado
+**Then** usa layout único com triple counter e inclui Página 2 com notas do narrador via NeonCards
+
 ---
 
 ### Story 3.5: Tópico 3 — Context Rot
@@ -570,19 +640,25 @@ Como audiência,
 Eu quero ver o Tópico 3 com a visualização da degradação progressiva do contexto,
 Para que o "Aha!" moment de identificação com o problema aconteça.
 
+**Direção Criativa:** Layout "timeline de degradação" — 4 zonas de contexto como barras horizontais com degradê visual (verde → amarelo → laranja → vermelho). Analogia do Alzheimer como quote estilizado. Counter 99% hero no topo. Sem grid convencional — usar layout todo vertical com as zonas como uma "barra de progresso da degradação". Página 2 usa MatrixTerminal — tematicamente perfeito para "contexto decaindo" (linhas aparecendo como logs do sistema perdendo coerência).
+
 **Acceptance Criteria:**
 
 **Given** que o apresentador navega até o Tópico 3
 **When** o tópico entra em foco
-**Then** `Topic3.tsx` é renderizado mostrando a degradação progressiva do contexto (0% → 70%)
+**Then** `Topic3.tsx` é renderizado mostrando a degradação progressiva do contexto (0% → 70%+)
 
 **Given** a métrica de degradação
 **When** exibida
-**Then** usa `AnimatedCounter` com `variant="danger"` animando de 0 a 70
+**Then** usa `AnimatedCounter` com `variant="danger"` animando de 0 a 99
 
 **Given** o Tópico 3 renderizado
 **When** inspecionado
 **Then** conteúdo vem de `src/data/topic3Data.ts`
+
+**Given** o Tópico 3
+**When** em apresentação
+**Then** possui Página 2 com notas do narrador via MatrixTerminal temático
 
 ---
 
@@ -591,6 +667,8 @@ Para que o "Aha!" moment de identificação com o problema aconteça.
 Como audiência,
 Eu quero ver o Tópico 4 introduzindo o conceito de Context Engineering como solução,
 Para que a virada narrativa do Problema para a Solução seja clara e impactante.
+
+**Direção Criativa:** Layout "escada ascendente" — 4 NeonCards de nível dispostos horizontalmente como degraus (de opaco/escuro no nível 1 até glow brilhante no nível 3/4). Hero metric 55% no topo com accent success. A virada vermelho→verde é marcante: este é o primeiro tópico SUCCESS dopo três DANGER. Página 2 usa SplitScreen: lado esquerdo "O que enfatizar" (verde), lado direito "Cuidados e armadilhas" (muted), dando contexto prático ao apresentador.
 
 **Acceptance Criteria:**
 
@@ -606,6 +684,10 @@ Para que a virada narrativa do Problema para a Solução seja clara e impactante
 **When** inspecionado
 **Then** conteúdo vem de `src/data/topic4Data.ts`
 
+**Given** o Tópico 4
+**When** renderizado
+**Then** usa layout de escada ascendente com duas páginas (conteúdo + notas via SplitScreen)
+
 ---
 
 ### Story 3.7: Tópico 5 — Spec-Driven Development
@@ -613,6 +695,8 @@ Para que a virada narrativa do Problema para a Solução seja clara e impactante
 Como audiência,
 Eu quero ver o Tópico 5 com o SplitScreen comparando Vibe Coding vs Spec-Driven,
 Para que a diferença de abordagens seja visualmente óbvia e os ganhos de velocidade impactantes.
+
+**Direção Criativa:** Layout com SplitScreen (já único entre os tópicos — mantém). Hero counters duplos (26.08% + 55%) acima do split. Página 2 usa um painel estilo "spec/blueprint" — texto estruturado em seções com headings mono, GlowDividers entre seções, visual de documento técnico scrollável (como se fosse a própria spec servindo de roteiro).
 
 **Acceptance Criteria:**
 
@@ -627,6 +711,10 @@ Para que a diferença de abordagens seja visualmente óbvia e os ganhos de veloc
 **Given** o Tópico 5
 **When** inspecionado
 **Then** conteúdo vem de `src/data/topic5Data.ts` e componentes vêm de `src/components/ui/`
+
+**Given** o Tópico 5
+**When** em apresentação
+**Then** deve incluir Página 2 com notas do narrador estilo blueprint/spec scrollável
 
 ---
 
@@ -654,6 +742,10 @@ Para que eu entenda o conceito de "spec como planta arquitetônica executável".
 **When** o tópico estabiliza
 **Then** elementos entram com delay escalonado ≥0.4s
 
+**Given** o Tópico 6
+**When** finalizado
+**Then** usa composição criativa com design system e inclui Página 2 de notas do narrador
+
 ---
 
 ### Story 4.2: Tópico 7 — GSD: Do Caos ao Workflow
@@ -675,6 +767,10 @@ Para que eu entenda quando e por que escalar para um workflow estruturado.
 **Given** as animações de entrada
 **When** o tópico estabiliza
 **Then** elementos entram com delay escalonado ≥0.4s
+
+**Given** o Tópico 7
+**When** finalizado
+**Then** possui Página 2 de notas do narrador com foco em quando escalar de Spec-Kit para GSD
 
 ---
 
@@ -702,6 +798,10 @@ Para que eu visualize de forma concreta como o workflow funciona na prática.
 **When** inspecionado
 **Then** conteúdo do terminal vem de `src/data/topic8Data.ts`
 
+**Given** o Tópico 8
+**When** apresentado
+**Then** utiliza `MatrixTerminal` (ou componente terminal equivalente do design system) na Página 1 e notas do narrador na Página 2
+
 ---
 
 ### Story 4.4: Tópico 9 — BMAD: Times Multi-Agente
@@ -723,6 +823,10 @@ Para que eu entenda o salto de um dev solo para um time virtual de agentes.
 **Given** as animações de entrada
 **When** o tópico estabiliza
 **Then** elementos entram com delay escalonado ≥0.4s
+
+**Given** o Tópico 9
+**When** renderizado
+**Then** mantém padrão de duas páginas e reforça visualmente o conceito de orquestração multi-agente
 
 ---
 
@@ -806,6 +910,10 @@ Para que a audiência visualize a comparação e os pós-palestra possam tomar a
 **When** renderizado
 **Then** o Lighthouse Performance permanece > 90 (componentes não adicionam peso excessivo)
 
+**Given** o Tópico 10
+**When** apresentado
+**Then** além de `LiveTable` e `DecisionWizard`, deve oferecer Página 2 com notas do narrador para condução da decisão em tempo real
+
 ---
 
 ## Epic 5: Bloco 4 & 5 — O Novo Papel & CTA (Tópicos 11–16)
@@ -832,6 +940,10 @@ Para que eu entenda que a IA não substitui o dev mas amplifica quem usa método
 **When** o tópico estabiliza
 **Then** elementos entram com delay escalonado ≥0.4s
 
+**Given** o Tópico 11
+**When** finalizado
+**Then** inclui Página 2 com notas do narrador focadas no reposicionamento de papel
+
 ---
 
 ### Story 5.2: Tópico 12 — ROI e Métricas de Impacto
@@ -854,6 +966,10 @@ Para que eu possa justificar o investimento em ferramentas e metodologia para mi
 **When** inspecionado
 **Then** conteúdo vem de `src/data/topic12Data.ts`
 
+**Given** o Tópico 12
+**When** apresentado
+**Then** possui Página 2 com notas do narrador orientadas a público executivo (EM/CTO)
+
 ---
 
 ### Story 5.3: Tópico 13 — O Paradoxo do Júnior
@@ -871,6 +987,10 @@ Para que eu entenda que método é o diferencial e não a experiência bruta.
 **Given** o Tópico 13 renderizado
 **When** visualizado
 **Then** conteúdo vem de `src/data/topic13Data.ts` e é legível em projetor
+
+**Given** o Tópico 13
+**When** finalizado
+**Then** segue padrão de duas páginas com notas do narrador para conduzir o “Aha!” sem tom alarmista
 
 ---
 
@@ -890,6 +1010,10 @@ Para que eu saia da apresentação com um plano de ação concreto.
 **When** visualizado
 **Then** conteúdo vem de `src/data/topic14Data.ts`
 
+**Given** o Tópico 14
+**When** apresentado
+**Then** disponibiliza Página 2 com notas do narrador convertidas para plano de ação prático
+
 ---
 
 ### Story 5.5: Tópico 15 — Caminho de Implementação
@@ -907,6 +1031,10 @@ Para que eu saia com um roadmap de adoção claro e acionável.
 **Given** o Tópico 15 renderizado
 **When** visualizado
 **Then** conteúdo vem de `src/data/topic15Data.ts` e é legível em projetor
+
+**Given** o Tópico 15
+**When** finalizado
+**Then** inclui Página 2 com notas do narrador para conduzir roadmap em etapas
 
 ---
 
@@ -937,4 +1065,8 @@ Para que a audiência saia motivada e com os próximos passos claros.
 **Given** o app completo após Epic 5
 **When** `npm run build` é executado e o Lighthouse é auditado
 **Then** Performance score ≥ 90 com todos os 16 tópicos implementados
+
+**Given** o Tópico 16
+**When** apresentado
+**Then** inclui Página 2 com notas do narrador para fechamento e chamada para ação
 

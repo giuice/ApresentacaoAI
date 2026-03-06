@@ -19,18 +19,18 @@ describe('NeonCard', () => {
     render(<NeonCard variant="danger">Danger card</NeonCard>);
 
     const card = screen.getByTestId('neon-card');
-    expect(card.className).toContain('border-accent-danger');
+    expect(card.className).toContain('border-border-subtle');
+    expect(card.className).toContain('hover:border-accent-danger-dim');
     expect(card.className).toContain('var(--glow-danger)');
-    expect(card.className).toContain('var(--glow-danger-strong)');
   });
 
   it('applies success variant border class with #00FF41 token', () => {
     render(<NeonCard variant="success">Success card</NeonCard>);
 
     const card = screen.getByTestId('neon-card');
-    expect(card.className).toContain('border-accent-primary');
+    expect(card.className).toContain('border-border-subtle');
+    expect(card.className).toContain('hover:border-accent-primary-dim');
     expect(card.className).toContain('var(--glow-primary)');
-    expect(card.className).toContain('var(--glow-primary-strong)');
   });
 
   it('has card background class', () => {
@@ -77,6 +77,6 @@ describe('NeonCard', () => {
 
     const card = screen.getByTestId('neon-card');
     expect(card.className).toContain('border');
-    expect(card.className).toContain('border-accent-primary');
+    expect(card.className).toContain('border-border-subtle');
   });
 });

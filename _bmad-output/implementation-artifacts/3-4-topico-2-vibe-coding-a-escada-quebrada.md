@@ -81,9 +81,31 @@ para que eu entenda visualmente por que a abordagem sem metodo falha.
 - Confirmar integracao com reveal.
 - Rodar test suite + build.
 
+### Topic Component Pattern (OBRIGATORIO)
+
+**Referencia:** Story 3.3 (Topic1) estabeleceu o pattern definitivo para todos os topicos.
+
+**Estrutura obrigatoria:**
+- Data source tipado em `src/data/topicNData.ts` com: title, subtitle, definition/content, metric (se aplicavel), supportingItems (com highlight + text), talkingPoints
+- Componente usa `TopicReveal` + `TopicRevealItem` para stagger de entrada
+- `AnimatedCounter` para metrica hero (se aplicavel)
+- `NeonCard` para dados de apoio em destaque (lado direito do split ou inline)
+- Talking points do apresentador visiveis na parte inferior (text-xs font-mono text-muted, border-top separador)
+- Layout split (grid 2 cols lg) quando houver dicotomia ou dados auxiliares
+
+**Tipografia (Design System):**
+- Titulo: `text-5xl lg:text-6xl font-mono font-bold`
+- Corpo: `text-base to text-lg font-sans font-normal`
+- Metric context: `text-xs font-mono font-light text-text-muted`
+- Card highlight: `font-mono font-bold text-xl`
+- Talking points: `text-xs font-mono font-normal text-text-muted`
+- Gaps: `gap-8 lg:gap-16` entre secoes
+
+**Implementacao de referencia:** `src/components/topics/Topic1.tsx` + `src/data/topic1Data.ts`
+
 ### Previous Story Intelligence
 
-- 3.1, 3.2 e 3.3 estao em `ready-for-dev`, sem feedback de review ate o momento.
+- Story 3.3 (Topic1) COMPLETA e em review — usar como referencia de pattern para layout, tipografia, data source e testes.
 - Seguir padrao de artefatos do Epic 2: escopo enxuto, rastreabilidade e gates tecnicos.
 
 ### Git Intelligence Summary
@@ -100,10 +122,15 @@ para que eu entenda visualmente por que a abordagem sem metodo falha.
 
 - `_bmad-output/planning-artifacts/epics.md` (Epic 3 / Story 3.4)
 - `docs/topicos/topic2.md`
+- `_bmad-output/planning-artifacts/design-system.md` (tipografia, espacamento, hierarquia visual)
 - `_bmad-output/implementation-artifacts/2-4-animacoes-de-entrada-por-topico.md`
+- `_bmad-output/implementation-artifacts/3-3-topico-1-hook-o-problema-88.md` (REFERENCIA DE PATTERN)
 - `_bmad-output/project-context.md`
+- `src/components/topics/Topic1.tsx` (implementacao de referencia)
+- `src/data/topic1Data.ts` (data source de referencia)
 - `src/components/topics/TopicReveal.tsx`
-- `src/data/topics.ts`
+- `src/components/ui/AnimatedCounter.tsx`
+- `src/components/ui/NeonCard.tsx`
 
 ### Story Completion Status
 
