@@ -1,6 +1,7 @@
 import { lazy, type ComponentType, type LazyExoticComponent } from 'react';
 import { PresentationProvider, usePresentation } from '@/contexts/PresentationContext';
 import { useKeyboardNavigation } from '@/hooks/useKeyboardNavigation';
+import { useHashSync } from '@/hooks/useHashSync';
 import { PresentationLayout } from '@/components/layout/PresentationLayout';
 import { Overview } from '@/components/layout/Overview';
 
@@ -33,6 +34,7 @@ export const getTopicComponentForIndex = (topicIndex: number): TopicComponent =>
 function AppContent() {
   const { currentTopicIndex, isOverviewOpen } = usePresentation();
   useKeyboardNavigation();
+  useHashSync();
 
   const TopicComponent = getTopicComponentForIndex(currentTopicIndex);
 

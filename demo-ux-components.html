@@ -1,0 +1,1852 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ApresentacaoAI - UX Component Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================
+   CSS CUSTOM PROPERTIES / THEME SYSTEM
+   ============================================ */
+:root {
+  /* Shared tokens */
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --transition-smooth: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --transition-bounce: 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Default theme: Matrix Neon */
+  --bg-deep: #000000;
+  --bg-surface: #0A0A0A;
+  --bg-card: #0D1117;
+  --bg-card-hover: #161B22;
+  --accent-primary: #00FF41;
+  --accent-primary-dim: #00cc33;
+  --accent-primary-glow: rgba(0, 255, 65, 0.15);
+  --accent-primary-glow-strong: rgba(0, 255, 65, 0.35);
+  --accent-danger: #FF003C;
+  --accent-danger-dim: #cc0030;
+  --accent-danger-glow: rgba(255, 0, 60, 0.15);
+  --accent-danger-glow-strong: rgba(255, 0, 60, 0.35);
+  --accent-warning: #FFB800;
+  --text-primary: #F3F4F6;
+  --text-secondary: #9CA3AF;
+  --text-muted: #4B5563;
+  --border-subtle: #1F2937;
+  --border-active: var(--accent-primary);
+  --rain-color: var(--accent-primary);
+  --scanline-color: rgba(0, 255, 65, 0.03);
+  --gradient-hero: linear-gradient(135deg, var(--bg-deep) 0%, #001a0d 50%, var(--bg-deep) 100%);
+}
+
+/* Theme: Synthwave Violet */
+[data-theme="synthwave"] {
+  --bg-deep: #0a0015;
+  --bg-surface: #110022;
+  --bg-card: #1a0033;
+  --bg-card-hover: #240044;
+  --accent-primary: #bf5af2;
+  --accent-primary-dim: #9945c7;
+  --accent-primary-glow: rgba(191, 90, 242, 0.15);
+  --accent-primary-glow-strong: rgba(191, 90, 242, 0.35);
+  --accent-danger: #FF2D55;
+  --accent-danger-dim: #cc2444;
+  --accent-danger-glow: rgba(255, 45, 85, 0.15);
+  --accent-danger-glow-strong: rgba(255, 45, 85, 0.35);
+  --accent-warning: #FF9F0A;
+  --text-primary: #F0E6FF;
+  --text-secondary: #A889CC;
+  --text-muted: #5C3D7A;
+  --border-subtle: #2D1B4E;
+  --border-active: var(--accent-primary);
+  --rain-color: var(--accent-primary);
+  --scanline-color: rgba(191, 90, 242, 0.03);
+  --gradient-hero: linear-gradient(135deg, var(--bg-deep) 0%, #1a0040 50%, var(--bg-deep) 100%);
+}
+
+/* Theme: Ice Circuit */
+[data-theme="ice"] {
+  --bg-deep: #000a14;
+  --bg-surface: #001020;
+  --bg-card: #001a2e;
+  --bg-card-hover: #00243d;
+  --accent-primary: #00D4FF;
+  --accent-primary-dim: #00a8cc;
+  --accent-primary-glow: rgba(0, 212, 255, 0.15);
+  --accent-primary-glow-strong: rgba(0, 212, 255, 0.35);
+  --accent-danger: #FF6B35;
+  --accent-danger-dim: #cc5529;
+  --accent-danger-glow: rgba(255, 107, 53, 0.15);
+  --accent-danger-glow-strong: rgba(255, 107, 53, 0.35);
+  --accent-warning: #FFD60A;
+  --text-primary: #E6F4FF;
+  --text-secondary: #7FB8D4;
+  --text-muted: #2E5A73;
+  --border-subtle: #0D2E42;
+  --border-active: var(--accent-primary);
+  --rain-color: var(--accent-primary);
+  --scanline-color: rgba(0, 212, 255, 0.03);
+  --gradient-hero: linear-gradient(135deg, var(--bg-deep) 0%, #001830 50%, var(--bg-deep) 100%);
+}
+
+/* ============================================
+   RESET & BASE
+   ============================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  line-height: 1.6;
+  overflow-x: hidden;
+  transition: background var(--transition-smooth), color var(--transition-smooth);
+}
+
+/* ============================================
+   CANVAS RAIN BACKGROUND
+   ============================================ */
+#rain-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+/* ============================================
+   SCANLINE OVERLAY
+   ============================================ */
+.scanline-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    var(--scanline-color) 2px,
+    var(--scanline-color) 4px
+  );
+}
+
+/* ============================================
+   LAYOUT
+   ============================================ */
+.app-container {
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+}
+
+.section {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  position: relative;
+}
+
+.section-inner {
+  max-width: 1200px;
+  width: 100%;
+}
+
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent-primary);
+  margin-bottom: 0.5rem;
+  opacity: 0.7;
+}
+
+.section-title {
+  font-family: var(--font-mono);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+  line-height: 1.15;
+}
+
+.section-subtitle {
+  font-family: var(--font-sans);
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  max-width: 640px;
+  margin-bottom: 3rem;
+}
+
+/* ============================================
+   THEME SELECTOR (FIXED TOP-RIGHT)
+   ============================================ */
+.theme-selector {
+  position: fixed;
+  top: 1.5rem;
+  right: 1.5rem;
+  z-index: 100;
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  transition: border-color var(--transition-smooth);
+}
+
+.theme-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.theme-btn::after {
+  content: '';
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  transition: box-shadow 0.3s ease;
+}
+
+.theme-btn[data-set-theme="matrix"]::after {
+  background: #00FF41;
+}
+.theme-btn[data-set-theme="synthwave"]::after {
+  background: #bf5af2;
+}
+.theme-btn[data-set-theme="ice"]::after {
+  background: #00D4FF;
+}
+
+.theme-btn:hover {
+  border-color: var(--text-muted);
+  transform: scale(1.1);
+}
+
+.theme-btn.active {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 12px var(--accent-primary-glow-strong);
+}
+
+.theme-btn-label {
+  position: absolute;
+  bottom: -20px;
+  font-size: 0.55rem;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  white-space: nowrap;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.theme-btn:hover .theme-btn-label {
+  opacity: 1;
+}
+
+/* ============================================
+   NAV DOTS (FIXED LEFT)
+   ============================================ */
+.nav-dots {
+  position: fixed;
+  left: 1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.nav-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.nav-dot:hover,
+.nav-dot.active {
+  background: var(--accent-primary);
+  box-shadow: 0 0 10px var(--accent-primary-glow-strong);
+  transform: scale(1.4);
+}
+
+.nav-dot::after {
+  content: attr(data-label);
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.2s;
+  pointer-events: none;
+}
+
+.nav-dot:hover::after {
+  opacity: 1;
+}
+
+/* ============================================
+   COMPONENT: HERO / HOOK
+   ============================================ */
+.hero-section {
+  background: var(--gradient-hero);
+  text-align: center;
+  overflow: hidden;
+}
+
+.hero-title {
+  font-family: var(--font-mono);
+  font-size: clamp(2.5rem, 7vw, 5.5rem);
+  font-weight: 700;
+  line-height: 1.05;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, var(--text-primary) 30%, var(--accent-primary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-subtitle {
+  font-family: var(--font-sans);
+  font-size: clamp(1rem, 2.5vw, 1.35rem);
+  color: var(--text-secondary);
+  max-width: 700px;
+  margin: 0 auto 3rem;
+}
+
+.hero-badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  padding: 0.4rem 1.2rem;
+  border: 1px solid var(--accent-primary);
+  border-radius: 999px;
+  color: var(--accent-primary);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  animation: pulse-border 2.5s ease-in-out infinite;
+}
+
+@keyframes pulse-border {
+  0%, 100% { box-shadow: 0 0 0 0 var(--accent-primary-glow); }
+  50% { box-shadow: 0 0 20px 4px var(--accent-primary-glow-strong); }
+}
+
+/* ============================================
+   COMPONENT: ANIMATED COUNTER
+   ============================================ */
+.counter-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2rem;
+}
+
+.counter-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  padding: 2.5rem 2rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transition: all var(--transition-smooth);
+}
+
+.counter-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  padding: 1px;
+  background: linear-gradient(180deg, transparent 0%, var(--accent-primary-glow) 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity var(--transition-smooth);
+}
+
+.counter-card:hover::before {
+  opacity: 1;
+}
+
+.counter-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent-primary-dim);
+  box-shadow: 0 8px 32px var(--accent-primary-glow);
+}
+
+.counter-card.danger:hover {
+  border-color: var(--accent-danger-dim);
+  box-shadow: 0 8px 32px var(--accent-danger-glow);
+}
+
+.counter-card.danger::before {
+  background: linear-gradient(180deg, transparent 0%, var(--accent-danger-glow) 100%);
+}
+
+.counter-value {
+  font-family: var(--font-mono);
+  font-size: clamp(3.5rem, 8vw, 5rem);
+  font-weight: 700;
+  color: var(--accent-primary);
+  line-height: 1;
+  margin-bottom: 0.5rem;
+  transition: color var(--transition-smooth);
+}
+
+.counter-card.danger .counter-value {
+  color: var(--accent-danger);
+}
+
+.counter-suffix {
+  font-size: 0.6em;
+  opacity: 0.8;
+}
+
+.counter-label {
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.counter-detail {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+}
+
+/* ============================================
+   COMPONENT: SPLIT SCREEN
+   ============================================ */
+.split-screen {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--border-subtle);
+}
+
+.split-side {
+  padding: 3rem 2.5rem;
+  position: relative;
+  min-height: 380px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.split-chaos {
+  background: linear-gradient(135deg, #1a0005 0%, #0a0000 100%);
+}
+
+.split-order {
+  background: linear-gradient(135deg, #000a03 0%, #000d00 100%);
+}
+
+.split-badge {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.8rem;
+  border-radius: 4px;
+  display: inline-block;
+  margin-bottom: 1.5rem;
+  width: fit-content;
+}
+
+.split-chaos .split-badge {
+  color: var(--accent-danger);
+  border: 1px solid var(--accent-danger-dim);
+  background: var(--accent-danger-glow);
+}
+
+.split-order .split-badge {
+  color: var(--accent-primary);
+  border: 1px solid var(--accent-primary-dim);
+  background: var(--accent-primary-glow);
+}
+
+.split-title {
+  font-family: var(--font-mono);
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.split-chaos .split-title { color: var(--accent-danger); }
+.split-order .split-title { color: var(--accent-primary); }
+
+.split-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.split-list li {
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.split-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.55rem;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.split-chaos .split-list li::before { background: var(--accent-danger-dim); }
+.split-order .split-list li::before { background: var(--accent-primary-dim); }
+
+.split-metric {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.split-metric-value {
+  font-family: var(--font-mono);
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+.split-chaos .split-metric-value { color: var(--accent-danger); }
+.split-order .split-metric-value { color: var(--accent-primary); }
+
+.split-metric-label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+}
+
+/* ============================================
+   COMPONENT: TYPEWRITER TERMINAL
+   ============================================ */
+.terminal-window {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  overflow: hidden;
+  max-width: 800px;
+  width: 100%;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+}
+
+.terminal-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.terminal-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+.terminal-dot.red { background: #FF5F56; }
+.terminal-dot.yellow { background: #FFBD2E; }
+.terminal-dot.green { background: #27C93F; }
+
+.terminal-tab {
+  margin-left: 16px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  padding: 2px 12px;
+  background: var(--bg-card);
+  border-radius: 4px 4px 0 0;
+}
+
+.terminal-body {
+  padding: 1.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  line-height: 1.8;
+  color: var(--accent-primary);
+  min-height: 260px;
+}
+
+.terminal-line {
+  opacity: 0;
+  transform: translateY(4px);
+  transition: all 0.3s ease;
+}
+
+.terminal-line.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.terminal-prompt {
+  color: var(--text-muted);
+  user-select: none;
+}
+
+.terminal-cursor {
+  display: inline-block;
+  width: 8px;
+  height: 1.1em;
+  background: var(--accent-primary);
+  vertical-align: text-bottom;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.terminal-comment { color: var(--text-muted); }
+.terminal-keyword { color: var(--accent-warning); }
+.terminal-string { color: var(--accent-primary); }
+
+/* ============================================
+   COMPONENT: CYBER PROGRESS BAR
+   ============================================ */
+.progress-demo-area {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  align-items: center;
+}
+
+.cyber-progress {
+  width: 100%;
+  max-width: 900px;
+  display: flex;
+  gap: 6px;
+  padding: 1rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+}
+
+.progress-block {
+  flex: 1;
+  height: 8px;
+  background: var(--border-subtle);
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.progress-block::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--accent-primary);
+  border-radius: 4px;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.progress-block.filled::after {
+  transform: scaleX(1);
+  box-shadow: 0 0 12px var(--accent-primary-glow-strong);
+}
+
+.progress-block:hover {
+  height: 12px;
+  margin-top: -2px;
+}
+
+.progress-labels {
+  width: 100%;
+  max-width: 900px;
+  display: flex;
+  gap: 6px;
+  padding: 0 1rem;
+}
+
+.progress-label {
+  flex: 1;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  transition: color var(--transition-smooth);
+}
+
+.progress-label.active {
+  color: var(--accent-primary);
+}
+
+.progress-controls {
+  display: flex;
+  gap: 1rem;
+}
+
+.progress-btn {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  padding: 0.6rem 1.5rem;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.progress-btn:hover {
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
+  box-shadow: 0 0 16px var(--accent-primary-glow);
+}
+
+/* ============================================
+   COMPONENT: NEON CARDS (TOOL COMPARISON)
+   ============================================ */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.neon-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+  transition: all var(--transition-smooth);
+  cursor: pointer;
+}
+
+.neon-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--accent-primary);
+  opacity: 0;
+  transition: opacity var(--transition-smooth);
+}
+
+.neon-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--accent-primary-dim);
+  box-shadow: 0 12px 40px var(--accent-primary-glow);
+}
+
+.neon-card:hover::before {
+  opacity: 1;
+  box-shadow: 0 0 20px var(--accent-primary-glow-strong);
+}
+
+.card-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  margin-bottom: 1.5rem;
+  background: var(--accent-primary-glow);
+  border: 1px solid var(--accent-primary-dim);
+  color: var(--accent-primary);
+  font-family: var(--font-mono);
+  font-weight: 700;
+  transition: all var(--transition-smooth);
+}
+
+.neon-card:hover .card-icon {
+  box-shadow: 0 0 20px var(--accent-primary-glow-strong);
+}
+
+.card-title {
+  font-family: var(--font-mono);
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.card-desc {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+.card-tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  padding: 0.2rem 0.6rem;
+  border: 1px solid var(--border-subtle);
+  border-radius: 4px;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+  margin-right: 0.4rem;
+}
+
+/* ============================================
+   COMPONENT: LIVE TABLE
+   ============================================ */
+.live-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+}
+
+.live-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+}
+
+.live-table thead {
+  background: var(--bg-surface);
+}
+
+.live-table th {
+  padding: 1rem 1.5rem;
+  text-align: left;
+  color: var(--accent-primary);
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border-subtle);
+  white-space: nowrap;
+}
+
+.live-table td {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.live-table tbody tr {
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.live-table tbody tr:hover {
+  background: var(--accent-primary-glow);
+}
+
+.live-table tbody tr:hover td {
+  color: var(--text-primary);
+}
+
+/* Scanline effect on hover */
+.live-table tbody tr::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 100%;
+  background: linear-gradient(90deg, transparent 0%, var(--accent-primary-glow) 50%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+.live-table tbody tr:hover::after {
+  opacity: 1;
+  animation: scanline-sweep 1.5s ease-in-out infinite;
+}
+
+@keyframes scanline-sweep {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.table-highlight {
+  color: var(--accent-primary) !important;
+  font-weight: 600;
+}
+
+/* ============================================
+   COMPONENT: TYPOGRAPHY SHOWCASE
+   ============================================ */
+.typo-showcase {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.typo-row {
+  display: flex;
+  align-items: baseline;
+  gap: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.typo-meta {
+  min-width: 140px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+}
+
+.typo-sample-mono {
+  font-family: var(--font-mono);
+  color: var(--text-primary);
+}
+
+.typo-sample-sans {
+  font-family: var(--font-sans);
+  color: var(--text-primary);
+}
+
+/* ============================================
+   COMPONENT: COLOR PALETTE
+   ============================================ */
+.palette-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+}
+
+.palette-swatch {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border-subtle);
+  transition: transform 0.3s ease;
+}
+
+.palette-swatch:hover {
+  transform: scale(1.03);
+}
+
+.swatch-color {
+  height: 80px;
+  transition: background var(--transition-smooth);
+}
+
+.swatch-info {
+  padding: 0.75rem;
+  background: var(--bg-card);
+}
+
+.swatch-name {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.swatch-hex {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-muted);
+}
+
+/* ============================================
+   COMPONENT: KEYBOARD HINTS
+   ============================================ */
+.kbd-hint {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  display: flex;
+  gap: 1rem;
+  padding: 0.6rem 1.2rem;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.kbd-key {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 22px;
+  padding: 0 6px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 4px;
+  font-size: 0.65rem;
+  color: var(--text-secondary);
+  margin: 0 2px;
+}
+
+/* ============================================
+   COMPONENT: GLOW DIVIDER
+   ============================================ */
+.glow-divider {
+  width: 100%;
+  max-width: 900px;
+  height: 1px;
+  margin: 0 auto;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--accent-primary-dim) 50%,
+    transparent 100%
+  );
+  position: relative;
+}
+
+.glow-divider::after {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: 30%;
+  right: 30%;
+  height: 7px;
+  background: var(--accent-primary);
+  filter: blur(6px);
+  opacity: 0.4;
+}
+
+/* ============================================
+   UTILITIES & ANIMATIONS
+   ============================================ */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.glow-text {
+  text-shadow: 0 0 10px var(--accent-primary-glow-strong), 0 0 40px var(--accent-primary-glow);
+}
+
+.glow-text-danger {
+  text-shadow: 0 0 10px var(--accent-danger-glow-strong), 0 0 40px var(--accent-danger-glow);
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+  .split-screen { grid-template-columns: 1fr; }
+  .card-grid { grid-template-columns: 1fr; }
+  .typo-row { flex-direction: column; gap: 0.5rem; }
+  .nav-dots { display: none; }
+  .section { padding: 3rem 1.25rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ==================== RAIN CANVAS ==================== -->
+<canvas id="rain-canvas"></canvas>
+<div class="scanline-overlay"></div>
+
+<!-- ==================== THEME SELECTOR ==================== -->
+<div class="theme-selector">
+  <button class="theme-btn active" data-set-theme="matrix">
+    <span class="theme-btn-label">Matrix</span>
+  </button>
+  <button class="theme-btn" data-set-theme="synthwave">
+    <span class="theme-btn-label">Synthwave</span>
+  </button>
+  <button class="theme-btn" data-set-theme="ice">
+    <span class="theme-btn-label">Ice</span>
+  </button>
+</div>
+
+<!-- ==================== NAV DOTS ==================== -->
+<nav class="nav-dots">
+  <button class="nav-dot active" data-target="hero" data-label="Hero"></button>
+  <button class="nav-dot" data-target="counters" data-label="Counters"></button>
+  <button class="nav-dot" data-target="split" data-label="Split Screen"></button>
+  <button class="nav-dot" data-target="terminal" data-label="Terminal"></button>
+  <button class="nav-dot" data-target="cards" data-label="Cards"></button>
+  <button class="nav-dot" data-target="table" data-label="Live Table"></button>
+  <button class="nav-dot" data-target="progress" data-label="Progress Bar"></button>
+  <button class="nav-dot" data-target="typography" data-label="Tipografia"></button>
+  <button class="nav-dot" data-target="palette" data-label="Paleta"></button>
+</nav>
+
+<!-- ==================== KEYBOARD HINTS ==================== -->
+<div class="kbd-hint">
+  <span><span class="kbd-key">&darr;</span> scroll</span>
+  <span><span class="kbd-key">1</span>-<span class="kbd-key">3</span> temas</span>
+</div>
+
+<!-- ==================== MAIN CONTENT ==================== -->
+<div class="app-container">
+
+  <!-- ===== SECTION: HERO ===== -->
+  <section id="hero" class="section hero-section">
+    <div class="section-inner" style="text-align:center">
+      <div class="fade-in">
+        <span class="hero-badge">UX Component Demo</span>
+      </div>
+      <h1 class="hero-title fade-in" style="transition-delay:0.15s">
+        Apresentacao<wbr>AI
+      </h1>
+      <p class="hero-subtitle fade-in" style="transition-delay:0.3s">
+        Componentes visuais para a jornada narrativa interativa.
+        De Vibe Coding a Context Engineering.
+      </p>
+      <div class="fade-in" style="transition-delay:0.45s; display:flex; justify-content:center; gap:1rem; flex-wrap:wrap;">
+        <span style="font-family:var(--font-mono);font-size:0.8rem;color:var(--text-muted);">React + Tailwind CSS + Framer Motion</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION: ANIMATED COUNTERS ===== -->
+  <section id="counters" class="section">
+    <div class="section-inner">
+      <span class="section-label fade-in">Componente</span>
+      <h2 class="section-title fade-in">&lt;AnimatedCounter /&gt;</h2>
+      <p class="section-subtitle fade-in">
+        Metricas de impacto que contam do zero ao valor final.
+        Geram emocao pura nos momentos criticos da narrativa.
+      </p>
+      <div class="counter-grid">
+        <div class="counter-card danger fade-in" style="transition-delay:0.1s">
+          <div class="counter-value glow-text-danger" data-target-value="88" data-suffix="%">0%</div>
+          <div class="counter-label">CTOs reportam problemas</div>
+          <div class="counter-detail">// fonte: pesquisa mercado 2025</div>
+        </div>
+        <div class="counter-card fade-in" style="transition-delay:0.2s">
+          <div class="counter-value glow-text" data-target-value="55" data-suffix="%">0%</div>
+          <div class="counter-label">Ganho de velocidade com SDD</div>
+          <div class="counter-detail">// spec-driven development</div>
+        </div>
+        <div class="counter-card fade-in" style="transition-delay:0.3s">
+          <div class="counter-value glow-text" data-target-value="26" data-suffix=".08%">0%</div>
+          <div class="counter-label">Reducao no churn de codigo</div>
+          <div class="counter-detail">// context engineering aplicado</div>
+        </div>
+        <div class="counter-card danger fade-in" style="transition-delay:0.4s">
+          <div class="counter-value glow-text-danger" data-target-value="70" data-suffix="%">0%</div>
+          <div class="counter-label">Degradacao de contexto (Context Rot)</div>
+          <div class="counter-detail">// em sessoes longas sem spec</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="glow-divider"></div>
+
+  <!-- ===== SECTION: SPLIT SCREEN ===== -->
+  <section id="split" class="section">
+    <div class="section-inner">
+      <span class="section-label fade-in">Componente</span>
+      <h2 class="section-title fade-in">&lt;SplitScreen /&gt;</h2>
+      <p class="section-subtitle fade-in">
+        Contraste visual entre o caos do Vibe Coding e a estrutura
+        do Spec-Driven Development. Problema a esquerda, solucao a direita.
+      </p>
+      <div class="split-screen fade-in" style="transition-delay:0.2s">
+        <div class="split-side split-chaos">
+          <span class="split-badge">Vibe Coding</span>
+          <h3 class="split-title">Caos Criativo</h3>
+          <ul class="split-list">
+            <li>Prompt ad-hoc sem estrutura</li>
+            <li>Contexto degrada a cada iteracao</li>
+            <li>Retrabalho constante e frustracao</li>
+            <li>"Construir gritando sem planta"</li>
+          </ul>
+          <div class="split-metric">
+            <div class="split-metric-value glow-text-danger">12h</div>
+            <div class="split-metric-label">tempo medio de setup tradicional</div>
+          </div>
+        </div>
+        <div class="split-side split-order">
+          <span class="split-badge">Spec-Driven</span>
+          <h3 class="split-title">Engenharia de Contexto</h3>
+          <ul class="split-list">
+            <li>Spec como "planta arquitetonica"</li>
+            <li>Contexto preservado e versionado</li>
+            <li>Output previsivel e auditavel</li>
+            <li>Pipeline de qualidade embutido</li>
+          </ul>
+          <div class="split-metric">
+            <div class="split-metric-value glow-text">15min</div>
+            <div class="split-metric-label">setup com SDD pipeline</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="glow-divider"></div>
+
+  <!-- ===== SECTION: TYPEWRITER TERMINAL ===== -->
+  <section id="terminal" class="section">
+    <div class="section-inner" style="display:flex;flex-direction:column;align-items:center;">
+      <span class="section-label fade-in">Componente</span>
+      <h2 class="section-title fade-in">&lt;MatrixTerminal /&gt;</h2>
+      <p class="section-subtitle fade-in">
+        Efeito de digitacao estilo terminal para simular output de IA
+        e comandos de ferramentas. Caractere por caractere.
+      </p>
+      <div class="terminal-window fade-in" style="transition-delay:0.2s" id="terminal-demo">
+        <div class="terminal-header">
+          <span class="terminal-dot red"></span>
+          <span class="terminal-dot yellow"></span>
+          <span class="terminal-dot green"></span>
+          <span class="terminal-tab">context-engine.sh</span>
+        </div>
+        <div class="terminal-body" id="terminal-body">
+          <!-- lines injected by JS -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="glow-divider"></div>
+
+  <!-- ===== SECTION: NEON CARDS ===== -->
+  <section id="cards" class="section">
+    <div class="section-inner">
+      <span class="section-label fade-in">Componente</span>
+      <h2 class="section-title fade-in">&lt;NeonCard /&gt;</h2>
+      <p class="section-subtitle fade-in">
+        Cards com glow interativo para apresentar ferramentas, conceitos
+        e fluxos. Hover revela borda neon e elevacao.
+      </p>
+      <div class="card-grid">
+        <div class="neon-card fade-in" style="transition-delay:0.1s">
+          <div class="card-icon">SK</div>
+          <h3 class="card-title">Spec-Kit</h3>
+          <p class="card-desc">Gerador de especificacoes tecnicas com templates modulares. De prompt caos para documento estruturado em minutos.</p>
+          <span class="card-tag">Solo Dev</span>
+          <span class="card-tag">GitHub</span>
+          <span class="card-tag">Leve</span>
+        </div>
+        <div class="neon-card fade-in" style="transition-delay:0.2s">
+          <div class="card-icon">GS</div>
+          <h3 class="card-title">GSD</h3>
+          <p class="card-desc">Framework "Get Stuff Done" para execucao sistematica. Transforma specs em implementacao rastreavel com milestones.</p>
+          <span class="card-tag">Milestones</span>
+          <span class="card-tag">Tracking</span>
+          <span class="card-tag">Mid</span>
+        </div>
+        <div class="neon-card fade-in" style="transition-delay:0.3s">
+          <div class="card-icon">BM</div>
+          <h3 class="card-title">BMAD</h3>
+          <p class="card-desc">Orquestracao multi-agente completa. "Contratar um time completo por US$10/hora." Do briefing ao deploy.</p>
+          <span class="card-tag">Multi-Agent</span>
+          <span class="card-tag">Enterprise</span>
+          <span class="card-tag">Full</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="glow-divider"></div>
+
+  <!-- ===== SECTION: LIVE TABLE ===== -->
+  <section id="table" class="section">
+    <div class="section-inner">
+      <span class="section-label fade-in">Componente</span>
+      <h2 class="section-title fade-in">&lt;LiveTable /&gt;</h2>
+      <p class="section-subtitle fade-in">
+        Tabela interativa com efeito scanline no hover.
+        Compara ferramentas em multiplas dimensoes.
+      </p>
+      <div class="live-table-wrapper fade-in" style="transition-delay:0.2s">
+        <table class="live-table">
+          <thead>
+            <tr>
+              <th>Dimensao</th>
+              <th>Spec-Kit</th>
+              <th>GSD</th>
+              <th>BMAD</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="table-highlight">Complexidade Alvo</td>
+              <td>Features isoladas</td>
+              <td>Projetos mid-size</td>
+              <td>Sistemas enterprise</td>
+            </tr>
+            <tr>
+              <td class="table-highlight">Agentes</td>
+              <td>1 (dev solo)</td>
+              <td>1-2 coordenados</td>
+              <td>6+ especializados</td>
+            </tr>
+            <tr>
+              <td class="table-highlight">Setup</td>
+              <td>~5 minutos</td>
+              <td>~30 minutos</td>
+              <td>~2 horas</td>
+            </tr>
+            <tr>
+              <td class="table-highlight">Curva de ROI</td>
+              <td>Imediato</td>
+              <td>1-2 sprints</td>
+              <td>1-2 meses</td>
+            </tr>
+            <tr>
+              <td class="table-highlight">Quando Usar</td>
+              <td>Bug fix, feature rapida</td>
+              <td>MVP, refactor grande</td>
+              <td>Produto novo, sistema critico</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <div class="glow-divider"></div>
+
+  <!-- ===== SECTION: CYBER PROGRESS BAR ===== -->
+  <section id="progress" class="section">
+    <div class="section-inner">
+      <span class="section-label fade-in">Componente</span>
+      <h2 class="section-title fade-in">&lt;CyberProgressBar /&gt;</h2>
+      <p class="section-subtitle fade-in">
+        Barra de progresso segmentada em 5 blocos narrativos.
+        Ancora visual da jornada no rodape da apresentacao.
+      </p>
+      <div class="progress-demo-area fade-in" style="transition-delay:0.2s">
+        <div class="cyber-progress" id="cyber-progress">
+          <div class="progress-block filled" data-block="0"></div>
+          <div class="progress-block filled" data-block="1"></div>
+          <div class="progress-block" data-block="2"></div>
+          <div class="progress-block" data-block="3"></div>
+          <div class="progress-block" data-block="4"></div>
+        </div>
+        <div class="progress-labels" id="progress-labels">
+          <span class="progress-label active">Problema</span>
+          <span class="progress-label active">Evolucao</span>
+          <span class="progress-label">Ferramentas</span>
+          <span class="progress-label">Novo Papel</span>
+          <span class="progress-label">Impacto</span>
+        </div>
+        <div class="progress-controls">
+          <button class="progress-btn" id="prog-prev">&larr; Anterior</button>
+          <button class="progress-btn" id="prog-next">Proximo &rarr;</button>
+          <button class="progress-btn" id="prog-reset">Reset</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="glow-divider"></div>
+
+  <!-- ===== SECTION: TYPOGRAPHY ===== -->
+  <section id="typography" class="section">
+    <div class="section-inner">
+      <span class="section-label fade-in">Fundacao</span>
+      <h2 class="section-title fade-in">Tipografia</h2>
+      <p class="section-subtitle fade-in">
+        Dois papeis fundamentais: monospace para dados e "tech vibe",
+        sans-serif para conteudo de leitura.
+      </p>
+      <div class="typo-showcase fade-in" style="transition-delay:0.2s">
+        <div class="typo-row">
+          <div class="typo-meta">MONO / 5xl<br>JetBrains Mono</div>
+          <div class="typo-sample-mono" style="font-size:3rem;font-weight:700;">88% Context Rot</div>
+        </div>
+        <div class="typo-row">
+          <div class="typo-meta">MONO / 3xl<br>JetBrains Mono</div>
+          <div class="typo-sample-mono" style="font-size:1.875rem;font-weight:600;">Spec-Driven Development</div>
+        </div>
+        <div class="typo-row">
+          <div class="typo-meta">MONO / base<br>JetBrains Mono</div>
+          <div class="typo-sample-mono" style="font-size:1rem;">const spec = await generateSpec(context);</div>
+        </div>
+        <div class="typo-row">
+          <div class="typo-meta">SANS / xl<br>Inter</div>
+          <div class="typo-sample-sans" style="font-size:1.25rem;font-weight:500;">A forma valida o fundo. O meio de entrega e tao persuasivo quanto o argumento.</div>
+        </div>
+        <div class="typo-row">
+          <div class="typo-meta">SANS / base<br>Inter</div>
+          <div class="typo-sample-sans" style="font-size:1rem;color:var(--text-secondary);">Texto auxiliar para metricas e descricoes longas que nao devem cansar os olhos da audiencia focada em fundo escuro.</div>
+        </div>
+        <div class="typo-row">
+          <div class="typo-meta">SANS / sm<br>Inter</div>
+          <div class="typo-sample-sans" style="font-size:0.875rem;color:var(--text-muted);">Metadados, fontes, notas de rodape e informacoes complementares.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="glow-divider"></div>
+
+  <!-- ===== SECTION: COLOR PALETTE ===== -->
+  <section id="palette" class="section">
+    <div class="section-inner">
+      <span class="section-label fade-in">Fundacao</span>
+      <h2 class="section-title fade-in">Paleta de Cores</h2>
+      <p class="section-subtitle fade-in">
+        Cores que se adaptam ao tema selecionado.
+        Contraste rigido para legibilidade em projetores.
+      </p>
+      <div class="palette-grid fade-in" style="transition-delay:0.2s">
+        <div class="palette-swatch">
+          <div class="swatch-color" style="background:var(--bg-deep)"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Background Deep</div>
+            <div class="swatch-hex" id="hex-bg-deep">--bg-deep</div>
+          </div>
+        </div>
+        <div class="palette-swatch">
+          <div class="swatch-color" style="background:var(--bg-surface)"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Surface</div>
+            <div class="swatch-hex" id="hex-bg-surface">--bg-surface</div>
+          </div>
+        </div>
+        <div class="palette-swatch">
+          <div class="swatch-color" style="background:var(--bg-card)"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Card</div>
+            <div class="swatch-hex" id="hex-bg-card">--bg-card</div>
+          </div>
+        </div>
+        <div class="palette-swatch">
+          <div class="swatch-color" style="background:var(--accent-primary)"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Primary Accent</div>
+            <div class="swatch-hex" id="hex-primary">--accent-primary</div>
+          </div>
+        </div>
+        <div class="palette-swatch">
+          <div class="swatch-color" style="background:var(--accent-danger)"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Danger</div>
+            <div class="swatch-hex" id="hex-danger">--accent-danger</div>
+          </div>
+        </div>
+        <div class="palette-swatch">
+          <div class="swatch-color" style="background:var(--accent-warning)"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Warning</div>
+            <div class="swatch-hex" id="hex-warning">--accent-warning</div>
+          </div>
+        </div>
+        <div class="palette-swatch">
+          <div class="swatch-color" style="background:var(--text-primary)"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Text Primary</div>
+            <div class="swatch-hex" id="hex-text">--text-primary</div>
+          </div>
+        </div>
+        <div class="palette-swatch">
+          <div class="swatch-color" style="background:var(--text-secondary)"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Text Secondary</div>
+            <div class="swatch-hex" id="hex-text-sec">--text-secondary</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Spacer at bottom -->
+  <div style="height:6rem;"></div>
+
+</div><!-- /app-container -->
+
+<script>
+/* ============================================
+   DIGITAL RAIN (CANVAS)
+   ============================================ */
+(function() {
+  const canvas = document.getElementById('rain-canvas');
+  const ctx = canvas.getContext('2d');
+  let cols, drops, activeDrops;
+  const fontSize = 18; // larger = fewer columns = faster
+  const maxActive = 40; // cap simultaneous streams
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%SpecKitBMADGSD';
+  let cachedColor = '#00FF41';
+  let frameCount = 0;
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    cols = Math.floor(canvas.width / fontSize);
+    drops = new Float32Array(cols); // typed array = faster
+    activeDrops = new Uint8Array(cols); // 1 = active, 0 = sleeping
+    // Start with only some columns active
+    for (let i = 0; i < cols; i++) {
+      drops[i] = Math.random() * -50;
+      activeDrops[i] = Math.random() < (maxActive / cols) ? 1 : 0;
+    }
+  }
+
+  function refreshColor() {
+    cachedColor = getComputedStyle(document.documentElement)
+      .getPropertyValue('--rain-color').trim() || '#00FF41';
+  }
+
+  function draw() {
+    frameCount++;
+
+    // Skip every other frame = 30fps effective (plenty for rain)
+    if (frameCount % 2 !== 0) {
+      requestAnimationFrame(draw);
+      return;
+    }
+
+    // Refresh color every 60 frames instead of every frame
+    if (frameCount % 60 === 0) refreshColor();
+
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = cachedColor;
+    ctx.font = fontSize + 'px monospace';
+    ctx.globalAlpha = 0.8;
+
+    let activeCount = 0;
+    for (let i = 0; i < cols; i++) {
+      if (!activeDrops[i]) continue;
+      activeCount++;
+
+      if (drops[i] < 0) {
+        drops[i] += 0.3;
+        continue;
+      }
+
+      const char = chars[(Math.random() * chars.length) | 0];
+      ctx.fillText(char, i * fontSize, drops[i] * fontSize);
+
+      if (drops[i] * fontSize > canvas.height) {
+        // Deactivate and maybe activate a random other column
+        activeDrops[i] = 0;
+        drops[i] = Math.random() * -30;
+        // Wake a random sleeping column
+        const wake = (Math.random() * cols) | 0;
+        if (!activeDrops[wake]) {
+          activeDrops[wake] = 1;
+          drops[wake] = Math.random() * -15;
+        }
+      }
+
+      drops[i] += 0.6;
+    }
+
+    // Ensure minimum active streams
+    if (activeCount < maxActive) {
+      const wake = (Math.random() * cols) | 0;
+      activeDrops[wake] = 1;
+      drops[wake] = Math.random() * -10;
+    }
+
+    ctx.globalAlpha = 1;
+    requestAnimationFrame(draw);
+  }
+
+  resize();
+  refreshColor();
+  window.addEventListener('resize', () => { resize(); refreshColor(); });
+  draw();
+})();
+
+/* ============================================
+   THEME SWITCHER
+   ============================================ */
+(function() {
+  const themeMap = { matrix: '', synthwave: 'synthwave', ice: 'ice' };
+  const btns = document.querySelectorAll('.theme-btn');
+
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const theme = btn.dataset.setTheme;
+      document.documentElement.setAttribute('data-theme', themeMap[theme]);
+      btns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      updatePaletteHex();
+      // Force rain color refresh on next frame
+      const rainCanvas = document.getElementById('rain-canvas');
+      const ctx = rainCanvas.getContext('2d');
+      ctx.clearRect(0, 0, rainCanvas.width, rainCanvas.height);
+    });
+  });
+
+  // Keyboard shortcuts 1-3
+  document.addEventListener('keydown', e => {
+    if (e.key === '1') btns[0].click();
+    if (e.key === '2') btns[1].click();
+    if (e.key === '3') btns[2].click();
+  });
+})();
+
+/* ============================================
+   PALETTE HEX UPDATER
+   ============================================ */
+function updatePaletteHex() {
+  const s = getComputedStyle(document.documentElement);
+  const pairs = [
+    ['hex-bg-deep', '--bg-deep'],
+    ['hex-bg-surface', '--bg-surface'],
+    ['hex-bg-card', '--bg-card'],
+    ['hex-primary', '--accent-primary'],
+    ['hex-danger', '--accent-danger'],
+    ['hex-warning', '--accent-warning'],
+    ['hex-text', '--text-primary'],
+    ['hex-text-sec', '--text-secondary'],
+  ];
+  pairs.forEach(([id, prop]) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = s.getPropertyValue(prop).trim();
+  });
+}
+// Init on load
+setTimeout(updatePaletteHex, 100);
+
+/* ============================================
+   INTERSECTION OBSERVER (FADE-IN & COUNTERS)
+   ============================================ */
+(function() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+
+        // Trigger counters
+        const counters = entry.target.querySelectorAll('.counter-value[data-target-value]');
+        counters.forEach(startCounter);
+
+        // Trigger terminal
+        if (entry.target.id === 'terminal-demo') {
+          startTerminal();
+        }
+      }
+    });
+  }, { threshold: 0.2 });
+
+  document.querySelectorAll('.fade-in, #terminal-demo').forEach(el => observer.observe(el));
+})();
+
+/* ============================================
+   ANIMATED COUNTERS
+   ============================================ */
+const animatedCounters = new Set();
+
+function startCounter(el) {
+  if (animatedCounters.has(el)) return;
+  animatedCounters.add(el);
+
+  const target = parseInt(el.dataset.targetValue);
+  const suffix = el.dataset.suffix || '';
+  const duration = 1800;
+  const start = performance.now();
+
+  function tick(now) {
+    const elapsed = now - start;
+    const progress = Math.min(elapsed / duration, 1);
+    // Ease out cubic
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const current = Math.round(eased * target);
+    el.textContent = current + suffix;
+
+    if (progress < 1) {
+      requestAnimationFrame(tick);
+    }
+  }
+
+  // Delay to let transition settle
+  setTimeout(() => requestAnimationFrame(tick), 400);
+}
+
+/* ============================================
+   TYPEWRITER TERMINAL
+   ============================================ */
+let terminalStarted = false;
+
+function startTerminal() {
+  if (terminalStarted) return;
+  terminalStarted = true;
+
+  const body = document.getElementById('terminal-body');
+  const lines = [
+    { type: 'comment', text: '# Inicializando Context Engine...' },
+    { type: 'prompt', text: '$ spec-kit init --template=react-app' },
+    { type: 'output', text: '  Gerando especificacao tecnica...' },
+    { type: 'output', text: '  PRD criado: ./specs/product-requirements.md' },
+    { type: 'output', text: '  Arquitetura: ./specs/architecture.md' },
+    { type: 'success', text: '  [OK] Spec completa em 3.2s' },
+    { type: 'blank', text: '' },
+    { type: 'prompt', text: '$ gsd plan-phase --milestone=v1.0' },
+    { type: 'output', text: '  Analisando spec... 847 tokens de contexto' },
+    { type: 'output', text: '  Gerando PLAN.md com 4 waves paralelas' },
+    { type: 'success', text: '  [OK] Fase planejada - 0% context rot' },
+    { type: 'blank', text: '' },
+    { type: 'prompt', text: '$ bmad-agent activate --team=full' },
+    { type: 'keyword', text: '  Agentes: PM, Architect, Dev, QA, SM, UX' },
+    { type: 'success', text: '  [OK] Time multi-agente ativo' },
+    { type: 'success', text: '  [OK] US$ 0.47 estimado para esta sessao' },
+  ];
+
+  body.innerHTML = '';
+
+  lines.forEach((line, i) => {
+    const div = document.createElement('div');
+    div.className = 'terminal-line';
+
+    let html = '';
+    if (line.type === 'comment') html = `<span class="terminal-comment">${line.text}</span>`;
+    else if (line.type === 'prompt') html = `<span class="terminal-prompt">~/ </span>${line.text.replace('$ ', '')}`;
+    else if (line.type === 'keyword') html = `<span class="terminal-keyword">${line.text}</span>`;
+    else if (line.type === 'success') html = `<span style="color:var(--accent-primary)">${line.text}</span>`;
+    else if (line.type === 'blank') html = '&nbsp;';
+    else html = line.text;
+
+    div.innerHTML = html;
+    body.appendChild(div);
+
+    setTimeout(() => {
+      div.classList.add('visible');
+    }, 500 + i * 220);
+  });
+
+  // Add cursor at the end
+  setTimeout(() => {
+    const cursor = document.createElement('div');
+    cursor.className = 'terminal-line visible';
+    cursor.innerHTML = '<span class="terminal-prompt">~/ </span><span class="terminal-cursor"></span>';
+    body.appendChild(cursor);
+  }, 500 + lines.length * 220 + 300);
+}
+
+/* ============================================
+   PROGRESS BAR INTERACTIVE
+   ============================================ */
+(function() {
+  let activeBlocks = 2; // start at 2 filled
+  const blocks = document.querySelectorAll('#cyber-progress .progress-block');
+  const labels = document.querySelectorAll('#progress-labels .progress-label');
+
+  function updateProgress() {
+    blocks.forEach((block, i) => {
+      block.classList.toggle('filled', i < activeBlocks);
+    });
+    labels.forEach((label, i) => {
+      label.classList.toggle('active', i < activeBlocks);
+    });
+  }
+
+  document.getElementById('prog-next').addEventListener('click', () => {
+    if (activeBlocks < 5) { activeBlocks++; updateProgress(); }
+  });
+
+  document.getElementById('prog-prev').addEventListener('click', () => {
+    if (activeBlocks > 0) { activeBlocks--; updateProgress(); }
+  });
+
+  document.getElementById('prog-reset').addEventListener('click', () => {
+    activeBlocks = 0; updateProgress();
+  });
+
+  // Click on individual blocks
+  blocks.forEach((block, i) => {
+    block.addEventListener('click', () => {
+      activeBlocks = i + 1;
+      updateProgress();
+    });
+  });
+})();
+
+/* ============================================
+   NAV DOTS — SCROLL TRACKING
+   ============================================ */
+(function() {
+  const dots = document.querySelectorAll('.nav-dot');
+  const sections = [];
+
+  dots.forEach(dot => {
+    const target = document.getElementById(dot.dataset.target);
+    if (target) sections.push({ dot, target });
+
+    dot.addEventListener('click', () => {
+      const el = document.getElementById(dot.dataset.target);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  function updateActiveDot() {
+    const scrollY = window.scrollY + window.innerHeight / 3;
+    let active = sections[0];
+
+    sections.forEach(s => {
+      if (s.target.offsetTop <= scrollY) active = s;
+    });
+
+    dots.forEach(d => d.classList.remove('active'));
+    if (active) active.dot.classList.add('active');
+  }
+
+  window.addEventListener('scroll', updateActiveDot, { passive: true });
+})();
+</script>
+</body>
+</html>

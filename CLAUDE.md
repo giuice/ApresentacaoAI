@@ -35,6 +35,12 @@ The project follows a strict 3-stage collaborative workflow defined in `AGENTS.m
 - `docs/github-spec-kit-guide.md` — Spec-Kit methodology
 - `docs/gsd-guid.md` — GSD principles and usage
 
+## Design System (Approved)
+
+- **Design System Reference:** `_bmad-output/planning-artifacts/design-system.md` — definitive tokens, colors, typography, components, visual rules. **Dev agents MUST read this before implementing Epic 2+.**
+- **Visual Demo:** `demo-ux-components.html` — interactive HTML demo with all approved components
+- **UX Spec:** `_bmad-output/planning-artifacts/ux-design-specification.md` — rationale and design journey
+
 ## Language and Tone
 
 - Content and speaker notes in **Brazilian Portuguese**

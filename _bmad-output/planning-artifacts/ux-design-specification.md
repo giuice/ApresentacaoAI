@@ -9,8 +9,17 @@ inputDocuments:
 
 # UX Design Specification ApresentacaoAI
 
-**Author:** Giuliano 
+**Author:** Giuliano
 **Date:** 2026-03-04
+**Atualizado:** 2026-03-05
+
+---
+
+> **Design System Oficializado:** Todas as decisoes visuais (tokens, cores, tipografia, componentes, regras de consistencia) foram validadas via demo interativo e consolidadas em:
+> - **Referencia tecnica:** `_bmad-output/planning-artifacts/design-system.md` (o dev agent DEVE consumir este documento)
+> - **Demo visual:** `/demo-ux-components.html` (abrir no browser para ver todos os componentes em acao)
+>
+> O `design-system.md` e a fonte de verdade para implementacao. Este UX Spec documenta o racional e a jornada de decisao.
 
 ---
 

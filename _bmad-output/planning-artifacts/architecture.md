@@ -548,6 +548,7 @@ ApresentacaoAI/
 **AI Agent Guidelines:**
 
 - Seguir `project-context.md` + este documento como fonte de verdade.
+- **Design System:** consumir `_bmad-output/planning-artifacts/design-system.md` para tokens, cores, tipografia, componentes e regras visuais. Demo visual em `/demo-ux-components.html`.
 - Não introduzir router.
 - Manter conteúdo em `src/data/` (PT-BR) e UI genérica em `src/components/ui/`.
 - Respeitar guardrails de performance.
