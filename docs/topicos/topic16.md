@@ -1,185 +1,269 @@
-
-# Tópico: Call to Action — "Dados Melhores, Decisões Melhores"
+# Tópico: Call to Action — "O Paradoxo do Review"
 ## Tópico: 16
 ## Bloco: 5 — Impacto e Encerramento
-## Título: Da Especificação ao Impacto — O Próximo Passo
+## Título: O Gargalo Mudou — E a Resposta Já Foi Dada
 
 ---
 
 ## Conteúdo
 
-### Abertura — O Espelho
+### Abertura — O Paradoxo
 
-A apresentação abre com uma conexão direta entre o que a Epimed faz para hospitais e o que estamos propondo para nossa própria engenharia.
+A apresentação inteira construiu um arco: vibe coding falha → context rot degrada → specs resolvem → ferramentas existem. O Tópico 16 fecha esse arco com o fato: os dados de 2026 mostram que a indústria inteira está descobrindo, na prática, o que dissemos desde o Tópico 1.
 
-**Frase de abertura (apresentador):**
+**O paradoxo em uma frase:**
 
-> "Durante essa apresentação, falamos sobre como profissionais bem-informados tomam melhores decisões. Esse não é só o tema de hoje — é a missão da Epimed desde 2008."
+> "IA gera código 98% mais rápido. Mas o tempo de review aumentou 91%."
 
-**O paralelo:**
+Esse é o dado que resume tudo. Times com alta adoção de IA fazem merge de quase o dobro de PRs — mas gastam quase o dobro de tempo revisando. PRs cresceram 154% em tamanho. Bugs por desenvolvedor subiram 9%. A velocidade não eliminou o gargalo — ela o moveu.
 
-| O que fazemos para hospitais | O que podemos fazer para nossa engenharia |
-|---|---|
-| Dados clínicos estruturados → decisões médicas melhores | Contexto estruturado (specs) → código melhor |
-| Benchmarking entre 900+ hospitais → melhoria contínua | Padrões compartilhados entre agentes → consistência |
-| Indicadores rastreáveis → segurança do paciente | Decisões técnicas documentadas → segurança do sistema |
-| Epimed Monitor como fonte da verdade clínica | Specs como fonte da verdade da engenharia |
+**A implicação:**
 
-**Frase-chave:**
-
-> "Nós já provamos que dados estruturados transformam a qualidade do cuidado em saúde. O princípio é o mesmo para código: contexto estruturado transforma a qualidade da engenharia."
+O bottleneck do desenvolvimento de software não é mais escrever código. É **entender** código. E quando 45% do código gerado por IA tem falhas de segurança, entender virou uma questão de sobrevivência, não de perfeccionismo.
 
 ---
 
-### Corpo — A Janela de Oportunidade
+### Corpo — Os Números que a Indústria Não Esperava
 
-#### O Momento da Migração
+#### A qualidade do código de IA em 2026
 
-Estamos migrando o Epimed Monitor e outros sistemas legados para novas tecnologias. Isso não é só uma atualização técnica — é uma oportunidade rara.
+Os dados mais recentes pintam um retrato claro:
 
-**O argumento central:**
+**Defeitos e vulnerabilidades:**
+- PRs escritos por IA contêm **1.7× mais defeitos** que PRs humanos
+- Vulnerabilidades XSS: **2.74× mais** em código de IA
+- Desserialização insegura: **1.88× mais**
+- Java gerado por IA: **72% de taxa de falha** em segurança
+- Apenas **38%** do código do melhor modelo (OpenAI o1) é simultaneamente correto E seguro
 
-Migrações são o momento em que mais decisões arquiteturais são tomadas de uma vez. É quando a dívida técnica nasce ou é prevenida. É exatamente o cenário onde specs têm o maior impacto — porque cada decisão documentada hoje evita retrabalho amanhã.
+**O efeito escala:**
+- Empresas Fortune 50 com assistentes de IA: **4× velocidade**, mas **10× mais findings de segurança por mês**
+- Caminhos de escalação de privilégio: **+322%**
+- Falhas de design arquitetural: **+153%**
 
-**O contraste (sem julgamento, apenas dados):**
+**A ameaça que não existia:**
+Slopsquatting — atacantes registram nomes de pacotes que LLMs alucinam com frequência. Estudo com 16 modelos e 576.000 amostras: **19.7% dos pacotes recomendados não existiam**. E 43% dos nomes alucinados apareciam consistentemente entre execuções, tornando-os exploráveis de forma confiável. Um vetor de ataque que simplesmente não existia antes da IA gerar código.
 
-- Sem specs: cada desenvolvedor (humano ou IA) toma decisões independentes. Em 14 países e 900+ hospitais, inconsistências se multiplicam
-- Com specs: decisões técnicas são compartilhadas como contexto. Todo agente de IA e todo dev trabalham com a mesma "fonte da verdade" — exatamente como nossos clientes trabalham com o Epimed Monitor
-
-**Dado de mercado (background, não protagonista):**
-
-O mercado de ferramentas de IA para código está em ~US$ 7 bilhões hoje e projeta-se ultrapassar US$ 25 bilhões até 2030 (CAGR ~27%). A indústria está se movendo de "velocidade com IA" (2025) para "qualidade com IA" (2026). Specs são a ponte entre os dois.
-
----
-
-#### A Escala como Argumento
-
-A Epimed opera em escala — 14 países, múltiplos idiomas, dados clínicos sensíveis. Nesse contexto:
-
-- Um bug num app de delivery atrasa uma pizza
-- Um bug num sistema de UTI pode afetar decisões clínicas
-
-Não é alarmismo — é reconhecer que nosso nível de exigência com qualidade de código deveria ser tão alto quanto o nível de exigência que nossos clientes têm com qualidade de dados clínicos.
-
-**Specs funcionam como "protocolos clínicos" para engenharia:**
-- Protocolos clínicos: padronizam condutas para que qualquer médico, em qualquer hospital, siga a melhor prática
-- Specs: padronizam decisões técnicas para que qualquer agente, em qualquer sprint, siga a mesma arquitetura
+**O paradoxo da confiança:**
+Desenvolvedores usando assistentes de IA expressam **maior confiança** na segurança do seu código — enquanto produzem código **mais vulnerável**. A IA gera código que parece profissional, compila, passa nos testes básicos. O problema não é que pareça errado — é que parece certo.
 
 ---
 
-### Fechamento — O Convite
+#### O Que os Grandes Estão Fazendo
 
-**Tom: convite, não imposição. Curiosidade, não obrigação.**
+Se esses números fossem de startups experimentando, poderiam ser descartados. Mas são as maiores empresas de engenharia do mundo:
 
-> "Nada do que vimos hoje exige uma revolução. Exige um experimento."
+**Google:**
+- 30%+ do código de produção já é gerado por IA
+- Emitiu diretriz interna exigindo review humano de todo código de IA, com ênfase em segurança e manutenibilidade
+- Relatório DORA 2025 (~5.000 profissionais): "IA não conserta um time; ela amplifica o que já existe"
 
-**A proposta (abstrata, sem prescrição):**
+**Stripe:**
+- 1.300+ PRs por semana **totalmente escritos por IA**, zero código humano
+- **Todo PR é revisado por humano** antes do merge — sem exceção
+- Agentes limitados a 1-2 tentativas de fix antes de devolver para humanos
+- Execução em ambientes isolados, separados de dados de produção
 
-Escolher uma feature da migração. Antes de pedir para a IA codificar, investir 30 minutos numa spec. Documentar o contexto, as decisões, os critérios de aceite. Depois, comparar: a IA com spec gerou algo melhor do que a IA sem spec?
+**Uber:**
+- uReview analisa 90% dos ~65.000 diffs semanais
+- 75% dos comentários marcados como úteis pelos engenheiros
+- Insight-chave: "qualidade dos comentários importa muito mais que quantidade"
 
-Se sim, temos uma resposta baseada em dados. Se não, não perdemos nada além de meia hora.
+**Shopify:**
+- CEO definiu uso de IA como expectativa baseline
+- Entrevistas de engenharia agora avaliam capacidade de **identificar erros em código de IA**
+- Meta: 90-95% de uso de IA, mas capacidade de inspecionar os outros 5-10%
 
-**Frase de fechamento:**
+**O consenso emergente:**
 
-> "A Epimed nasceu da ideia de que profissionais bem-informados tomam melhores decisões para os pacientes. Hoje, agentes de IA bem-informados podem tomar melhores decisões para nosso código. O princípio não mudou — a ferramenta evoluiu."
+> "Trate código de IA como código de terceiro não confiável — não como rascunho de um dev junior."
+
+Esse é o padrão que está se cristalizando. Não é anti-IA — é maturidade. As mesmas empresas que mais usam IA são as que mais investem em review.
 
 ---
 
-### Encerramento visual — Linha do Tempo Epimed
+### A Resposta Que Já Foi Dada
 
-Uma timeline animada mostrando a evolução:
+Aqui é onde a apresentação fecha o loop.
 
-```
-2008                    2024-2026                     Futuro
-  │                         │                            │
-  ▼                         ▼                            ▼
-Fundação              Migração do                  Engenharia
-Epimed Monitor        Legado                       Orientada por
-                                                   Contexto
-                      ┌─────────────┐
-Dados clínicos        │ JANELA DE   │              Specs como
-estruturados          │ OPORTUNIDADE│              fonte da verdade
-para hospitais        └─────────────┘              para engenharia
+Existem dois momentos para garantir qualidade de código de IA:
 
-"Decisões melhores    "O momento ideal             "O mesmo princípio,
- para pacientes"       para adotar"                 aplicado ao código"
-```
+1. **Depois** que o código foi gerado — review tools (Copilot Code Review, CodeRabbit, SonarQube, Claude Code Security)
+2. **Antes** que o código seja gerado — governance de especificação (Spec-Kit, GSD, BMAD)
+
+A distinção é crucial: ferramentas de review examinam o código que **foi** escrito. Frameworks SDD governam o código que **será** escrito. Operam em momentos diferentes, com propósitos complementares.
+
+**A conexão com cada ferramenta:**
+
+- **Spec-Kit** (Tópico 7): constituição do projeto impõe TDD obrigatório e compliance constitucional em cada transição de fase — segurança como governance, não como scan
+- **GSD** (Tópico 8): contexto fresco por tarefa elimina context rot, commits atômicos rastreáveis, verificação goal-backward
+- **BMAD** (Tópico 9): inclui agente Security Auditor alinhado com OWASP/STRIDE e o padrão de adversarial review — onde o revisor é obrigado a encontrar problemas
+
+A defesa completa é **specs upstream + review downstream**. Um sem o outro é incompleto.
+
+---
+
+### Fechamento — O Gargalo Mudou
+
+**A frase que encerra a apresentação:**
+
+> "O gargalo do desenvolvimento de software mudou permanentemente. Não é mais escrever código. É entender código."
+
+**O arco narrativo completo, em retrospecto:**
+
+| Tópico | O que dissemos | O que o review prova |
+|---|---|---|
+| 1 — Vibe Coding | IA sem estrutura gera caos | 45% do código de IA tem falhas de segurança |
+| 3 — Context Rot | Contexto longo degrada qualidade | Times com alta adoção: +91% tempo de review |
+| 5 — SDD | Specs são a fonte da verdade | Frameworks SDD governam o que será escrito |
+| 7-9 — Ferramentas | Spec-Kit, GSD, BMAD resolvem | As três operam upstream do review |
+| 12 — Paradoxo do Júnior | O papel mudou | Shopify contrata por capacidade de inspecionar código de IA |
+| 13 — Skills | Validação é a skill central | Google, Stripe, Uber: review humano é inegociável |
+
+**Frase final:**
+
+> "Especificar antes. Revisar depois. Entender sempre."
 
 ---
 
 ## Métrica de Destaque
 
-**"O mercado de IA para código cresce a 27% ao ano. Mas a métrica que importa para nós é outra: quanto retrabalho evitamos na migração ao documentar decisões antes de codificar."**
-
-(Posiciona a métrica de mercado como contexto, mas faz o ponto real ser interno e relevante.)
+**"45% do código gerado por IA tem falhas de segurança. As empresas que mais usam IA são as que mais investem em review. O gargalo mudou de escrever para entender."**
 
 ---
 
 ## Notas do Apresentador
 
-### Roteiro de fala (~3-4 minutos)
+### Roteiro de fala (~4-5 minutos)
 
-**[Abertura — 45s]**
-"Vou fechar com algo que talvez já tenha ficado óbvio. [pausa] A Epimed existe porque acredita que dados estruturados levam a decisões melhores. A gente prova isso todo dia em 900 hospitais. E se aplicássemos o mesmo princípio ao nosso próprio desenvolvimento?"
+**[Abertura — O Paradoxo — 45s]**
+"Vou fechar com um número. [pausa] Times que adotam IA de forma intensiva fazem merge de 98% mais pull requests. Impressionante, certo? Mas o tempo de review? Aumentou 91%. PRs ficaram 154% maiores. Bugs por dev subiram. A velocidade não eliminou o gargalo — ela o moveu."
 
-**[O Espelho — 30s]**
-"Olha esse paralelo. [apontar para o diagrama espelho] Do lado esquerdo, o que fazemos para hospitais. Do lado direito, o que specs fazem para engenharia. A lógica é idêntica. Dados estruturados, decisões melhores, resultados rastreáveis."
+**[Os Números — 60s]**
+"E a qualidade? 45% do código gerado por IA tem falhas de segurança. PRs de IA têm 1.7 vezes mais defeitos que PRs humanos. XSS? 2.7 vezes mais. E tem uma coisa nova que não existia: slopsquatting. A IA recomenda pacotes que não existem — quase 20% das vezes. E atacantes registram esses nomes. É um vetor de ataque que simplesmente não existia antes da IA escrever código."
 
-**[A Janela — 60s]**
-"A migração do Epimed Monitor é uma janela de oportunidade. É o momento em que mais decisões técnicas são tomadas de uma vez. Cada decisão documentada hoje como spec é uma decisão que não precisa ser rediscutida — nem por um dev novo, nem por um agente de IA. Num sistema presente em 14 países, com dados clínicos sensíveis, consistência não é luxo."
+**[Os Grandes — 60s]**
+"Mas esses não são dados de quem parou de usar IA. São das empresas que MAIS usam. Google: mais de 30% do código de produção é IA. Stripe: 1.300 PRs totalmente escritos por IA, toda semana. Uber: 65.000 diffs por semana com review automatizado. E o padrão é o mesmo em todas: [enfático] todo código de IA é revisado por humano. Sem exceção. A Stripe trata código de IA como código de terceiro não confiável. Não como rascunho de um junior — como entrega de um fornecedor que precisa ser auditada."
 
-**[O Dado de Mercado — 15s]**
-"O mercado concorda, aliás. Ferramentas de IA para código já movimentam 7 bilhões de dólares e devem passar de 25 bilhões até 2030. A indústria inteira está migrando de 'velocidade com IA' para 'qualidade com IA'. Specs são essa ponte."
+**[A Conexão — 60s]**
+"E aqui é onde tudo que vimos hoje se conecta. Existem dois momentos para garantir qualidade. Depois — com ferramentas de review. E antes — com specs. As ferramentas que apresentamos nos Tópicos 7, 8 e 9 não são alternativas ao review. São o primeiro filtro. O Spec-Kit define a constituição. O GSD mantém o contexto limpo. O BMAD inclui até um agente de segurança dedicado que é obrigado a encontrar problemas. Specs upstream, review downstream. É defesa em profundidade."
 
-**[O Convite — 45s]**
-"Não estou propondo uma revolução. Estou propondo um experimento. Uma feature. Uma spec de 30 minutos. E depois a gente compara: o resultado com contexto foi melhor que sem? Se a resposta for sim — e os dados da indústria sugerem que será — a gente discute como escalar. Se não, foram 30 minutos."
+**[Fechamento — 45s]**
+"O DORA Report de 2025, com 5.000 profissionais, concluiu com uma frase que eu acho que resume não só o review, mas tudo que discutimos hoje: [pausa] 'IA não conserta um time. Ela amplifica o que já existe.' [pausa mais longa] Se o que existe é vibe coding sem estrutura, a IA amplifica o caos. Se o que existe é specs, contexto, review — a IA amplifica a qualidade. O gargalo mudou de escrever código para entender código. E entender começa com especificar."
 
-**[Fechamento — 30s]**
-"A Epimed nasceu da ideia de que profissionais bem-informados tomam melhores decisões para os pacientes. [pausa] Hoje, agentes de IA bem-informados podem tomar melhores decisões para nosso código. O princípio não mudou. A ferramenta evoluiu."
-
-[Slide final com a frase-chave + QR code ou link para recursos internos, se aplicável]
+[Slide final: "Especificar antes. Revisar depois. Entender sempre."]
 
 ### Notas de delivery
 
-- **Tom geral:** Confiante mas não impositivo. É uma proposta, não uma ordem. Diretoria na sala = mostrar visão estratégica, não ditar processos
-- **O "experimento" é crucial:** Tira a pressão de "vamos mudar tudo". Um piloto é baixo risco, mensurável, e respeita a autonomia do time
-- **Evitar:** Críticas ao processo atual, tom de "estamos atrasados", urgência artificial
-- **Conectar sempre com a missão:** A Epimed já entende dados → decisões. Usar essa linguagem compartilhada é mais poderoso que qualquer jargão de engenharia
+- **Abrir com o número, não com filosofia.** O paradoxo 98% vs 91% é um gancho imediato — surpreende até quem é cético
+- **Os nomes importam.** Google, Stripe, Uber, Shopify — não são startups experimentando. Quando você diz "a Stripe trata código de IA como fornecedor externo", a diretoria entende
+- **A conexão com os tópicos anteriores deve ser rápida**, não didática. Citar "Tópicos 7, 8 e 9" funciona se a apresentação já cobriu — não precisa re-explicar
+- **A frase do DORA é o fechamento emocional.** Dar tempo para ela respirar. Pausa antes, pausa depois
+- **Não terminar pedindo nada.** Esse CTA é conclusivo, não prescritivo. O público deve sair pensando "faz sentido", não "o que eu tenho que fazer amanhã"
 
 ---
 
 ## Experiência Visual e Interativa
 
-### Layout Principal: Tela em Três Atos
+### Layout Principal: Quatro Momentos Visuais
 
-**Ato 1 — O Espelho (scroll ou transição automática)**
-- Tela dividida ao meio com animação suave
-- Lado esquerdo (verde/azul Epimed): ícones de hospital, dados clínicos, benchmarking
-- Lado direito (verde Matrix/tech): ícones de código, specs, agentes
-- As duas metades convergem ao centro, mostrando que o princípio é o mesmo
-- Frase central: "Dados melhores → Decisões melhores"
-- Usar as cores da marca Epimed misturadas com o tema tech da apresentação
+**Momento 1 — O Paradoxo (tela de impacto)**
+- Fundo escuro, dois números enormes lado a lado com animação de contagem
+- Esquerda: **+98%** (verde, sobe) — "mais PRs"
+- Direita: **+91%** (vermelho/âmbar, sobe) — "mais tempo de review"
+- Entre os dois, uma barra de progresso que "trava" visualmente — representando o gargalo
+- Abaixo: "+154% tamanho de PR · +9% bugs por dev"
+- Transição: os números se comprimem para o canto superior enquanto o próximo conteúdo entra
 
-**Ato 2 — A Janela de Oportunidade**
-- Timeline horizontal animada: 2008 → hoje → futuro
-- O momento "hoje" (migração) pulsa suavemente, não agressivamente
-- Ao passar pelo "hoje", os dados de mercado aparecem como anotações discretas
-- Números sobem com animação de contagem: 900+ hospitais, 14 países, US$ 25B mercado
+**Momento 2 — A Parede de Dados (estilo terminal/scan)**
+- Estilo Matrix/terminal: dados aparecem como se fossem sendo "escaneados" em tempo real
+- Layout de cards ou grid com os números-chave, cada um aparecendo com efeito typewriter
+  - `[SCAN] AI-generated code: 45% security flaws`
+  - `[SCAN] XSS vulnerabilities: 2.74× higher`
+  - `[SCAN] Hallucinated packages: 19.7%`
+  - `[SCAN] Best model correct + secure: 38%`
+  - `[ALERT] Fortune 50: 4× velocity, 10× security findings`
+- O visual sugere uma ferramenta de review rodando — meta-referência ao tema do tópico
+- Paleta: verde Matrix para os scans, vermelho/âmbar para os alerts
 
-**Ato 3 — O Convite**
-- Transição para fundo escuro com tipografia grande e limpa
-- Frase final aparece palavra por palavra, estilo typewriter lento
-- "O princípio não mudou. A ferramenta evoluiu."
-- Fade out para logo Epimed + tema tech
+**Momento 3 — O Padrão dos Grandes**
+- Cards horizontais com ícones representativos de cada empresa
+- Cada card mostra o dado principal em uma linha:
 
-### Elementos Interativos (opcionais)
-- **Hover no diagrama espelho:** detalhes de cada paralelo (hospital vs. engenharia)
-- **Clique nos números da timeline:** expande para mostrar contexto (quando cada marco aconteceu)
+```
+┌─────────────────────────────────────────────────────────┐
+│  GOOGLE     30%+ código de produção é IA               │
+│             Review humano obrigatório                   │
+├─────────────────────────────────────────────────────────┤
+│  STRIPE     1.300+ PRs/semana 100% IA                  │
+│             Todo PR revisado por humano                 │
+├─────────────────────────────────────────────────────────┤
+│  UBER       90% dos 65K diffs/semana com AI review     │
+│             75% dos comentários marcados como úteis     │
+├─────────────────────────────────────────────────────────┤
+│  SHOPIFY    Entrevistas avaliam: encontrar erros em IA  │
+│             Meta: 90-95% IA, inspecionar os outros 5%  │
+└─────────────────────────────────────────────────────────┘
+```
 
-### Paleta de cores sugerida
-- Manter o tema Matrix/tech geral da apresentação
-- Incorporar sutilmente o azul/verde da marca Epimed no slide final
-- Transição gradual do "tech genérico" para "Epimed" ao longo do tópico — simbolizando que a mensagem está se tornando pessoal
+- Abaixo dos cards, frase destacada: *"Trate código de IA como código de terceiro não confiável"*
+- Animação: cards entram sequencialmente, como layers se empilhando
+
+**Momento 4 — O Loop Fechado**
+- Diagrama circular/vertical animado mostrando o fluxo completo:
+
+```
+         SPECS (upstream)
+        ┌──────────────┐
+        │  Spec-Kit     │
+        │  GSD          │──── Governa o que será gerado
+        │  BMAD         │
+        └──────┬───────┘
+               │
+               ▼
+        ┌──────────────┐
+        │  IA GERA     │──── Código gerado com contexto
+        │  CÓDIGO      │
+        └──────┬───────┘
+               │
+               ▼
+        ┌──────────────┐
+        │  REVIEW      │
+        │  (downstream)│──── Copilot, CodeRabbit, SonarQube
+        │              │     Claude Code Security
+        └──────┬───────┘
+               │
+               ▼
+        ┌──────────────┐
+        │  HUMANO      │──── Decisão final
+        │  APROVA      │
+        └──────────────┘
+```
+
+- O diagrama "pulsa" do topo para baixo, mostrando o fluxo
+- As três ferramentas (Spec-Kit, GSD, BMAD) brilham brevemente ao serem mencionadas
+- O ponto "HUMANO APROVA" é o maior e mais destacado — reforçando que o humano é o árbitro final
+
+**Slide Final — Fechamento**
+- Fundo escuro, tipografia grande e limpa
+- Frase aparece em três linhas, sequencialmente (typewriter lento):
+
+```
+Especificar antes.
+Revisar depois.
+Entender sempre.
+```
+
+- Fade para tema tech com as três ferramentas como ícones discretos no rodapé
+- Silêncio visual — sem animação competindo com a frase
+
+### Transições
+- Entre momentos: fade suave ou scroll vertical contínuo (não corte brusco)
+- Cada momento pode ser uma "seção" de scroll na aplicação React, com snap points
+
+### Paleta
+- Dominante: fundo escuro (#0a0a0a ou similar), texto verde Matrix (#00ff41) para dados de scan
+- Acentos: âmbar (#ffb700) para alertas, branco para texto principal
 
 ---
 
@@ -187,11 +271,21 @@ para hospitais        └─────────────┘             
 
 | Dado | Fonte | Status |
 |---|---|---|
-| Mercado US$ 7.37B (2025) → US$ 24-26B (2030) | Grand View Research / Mordor Intelligence | Pesquisa atualizada mar/2026 |
-| CAGR ~27% | Grand View Research, Valuates Reports | Pesquisa atualizada mar/2026 |
-| Consenso 2025=velocidade, 2026=qualidade | Panto AI / JetBrains survey | Pesquisa atualizada mar/2026 |
-| Epimed: 900+ hospitais, 14 países | Site oficial Epimed / LinkedIn | Dado público verificado |
-| Epimed: fundada 2008 por intensivistas | Site oficial Epimed | Dado público verificado |
-| Migração de legado em andamento | Informação interna (fornecida pelo usuário) | Confirmada |
-| 85% dos devs usam IA regularmente | Greptile State of AI Coding 2025 | Banco de Métricas |
-| SDD como ponte velocidade→qualidade | InfoQ, Thoughtworks, InformationWeek | Pesquisa atualizada mar/2026 |
+| +98% PRs, +91% tempo de review, +154% tamanho PR | Faros AI telemetry, 10.000+ devs | Artigo de pesquisa fornecido |
+| 45% do código IA com falhas de segurança | Veracode 2025 GenAI Code Security Report | Artigo de pesquisa fornecido |
+| 1.7× mais defeitos, 2.74× mais XSS | CodeRabbit State of AI vs Human Code Report (470 PRs) | Artigo de pesquisa fornecido |
+| Java AI: 72% taxa de falha | Veracode 2025 | Artigo de pesquisa fornecido |
+| Melhor modelo (o1): 38% correto + seguro | BaxBench, ETH Zurich | Artigo de pesquisa fornecido |
+| Fortune 50: 4× velocidade, 10× findings | Apiiro research | Artigo de pesquisa fornecido |
+| Slopsquatting: 19.7% pacotes não existem | UT San Antonio / Virginia Tech, 576K amostras | Artigo de pesquisa fornecido |
+| Confiança vs. vulnerabilidade real | Perry et al., 2023 | Artigo de pesquisa fornecido |
+| Google: 30%+ código IA, review obrigatório | Google AI Coding Guidance, jun/2025 | Artigo de pesquisa fornecido |
+| Stripe: 1.300+ PRs/semana IA, review humano | Stripe "Minions" case study, fev/2026 | Artigo de pesquisa fornecido |
+| Uber: uReview, 90% de 65K diffs, 75% útil | Uber engineering | Artigo de pesquisa fornecido |
+| Shopify: entrevistas avaliam inspeção de IA | Shopify/Roast, Tobi Lütke | Artigo de pesquisa fornecido |
+| "Trate como third-party untrusted code" | Consenso emergente (múltiplas fontes) | Artigo de pesquisa fornecido |
+| DORA 2025: "IA amplifica o que já existe" | DORA Report 2025, ~5.000 profissionais | Artigo de pesquisa fornecido |
+| SDD frameworks governam upstream | Artigo de pesquisa (seção SDD) | Artigo de pesquisa fornecido |
+| BMAD: Security Auditor, adversarial review | BMAD docs + artigo de pesquisa | Artigo + docs do projeto |
+| Spec-Kit: TDD obrigatório, compliance constitucional | Spec-Kit docs + artigo de pesquisa | Artigo + docs do projeto |
+| GSD: contexto fresco, verificação goal-backward | GSD docs + artigo de pesquisa | Artigo + docs do projeto |
