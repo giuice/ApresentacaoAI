@@ -1,5 +1,6 @@
 import { ReactNode, Suspense } from 'react';
 import { CyberProgressBar } from '@/components/layout/CyberProgressBar';
+import { MatrixBackground } from '@/components/layout/MatrixBackground';
 import { usePresentation } from '@/contexts/PresentationContext';
 
 interface PresentationLayoutProps {
@@ -20,14 +21,15 @@ export const PresentationLayout = ({ children }: PresentationLayoutProps) => {
       className="min-h-screen h-screen flex flex-col bg-bg-deep text-text-primary overflow-hidden"
       data-testid="presentation-shell"
     >
-      <main className="flex-1 overflow-y-auto overflow-x-hidden">
+      <MatrixBackground />
+      <main className="relative z-10 flex-1 overflow-y-auto overflow-x-hidden">
         <Suspense fallback={<TopicFallback />}>
           <div className="w-full h-full max-w-[1024px] mx-auto px-4" data-testid="presentation-content">
             {children}
           </div>
         </Suspense>
       </main>
-      <footer className="shrink-0 px-4 py-3">
+      <footer className="relative z-10 shrink-0 px-4 py-3">
         <CyberProgressBar currentTopicIndex={currentTopicIndex} />
       </footer>
     </div>

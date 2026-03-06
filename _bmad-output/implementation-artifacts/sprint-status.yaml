@@ -52,7 +52,7 @@ development_status:
   # ─── Epic 2: Identidade Visual & Transições Cinematográficas ────────────────
   epic-2: in-progress
   2-1-tokens-do-tema-matrix-e-tipografia: done
-  2-2-matrix-background-canvas-com-raf: backlog
+  2-2-matrix-background-canvas-com-raf: done
   2-3-transicoes-cinematograficas-entre-topicos: backlog
   2-4-animacoes-de-entrada-por-topico: backlog
   epic-2-retrospective: optional

@@ -36,7 +36,7 @@ Por que isso acontece? Porque a IA torna o trabalho mais fácil cognitivamente, 
 
 45% dos devs já relatam dificuldades com tarefas complexas. Quase um quarto do código gerado tem falhas de segurança. A IA é boa — mas sem estrutura, ela cria uma ilusão de produtividade que esconde problemas reais.
 
-Uma nota importante sobre o estudo METR: ele usou ferramentas de início de 2025, como Cursor com Claude 3.5/3.7 Sonnet. As ferramentas evoluíram desde então. Mas o ponto central permanece: sem estrutura e sem disciplina de contexto, mais ferramenta não resolve o problema — pode até piorá-lo.
+Uma nota importante sobre o estudo METR: ele usou ferramentas de início de 2025, como Cursor com Claude 3.5/3.7 Sonnet. As ferramentas evoluíram desde então. Mas o ponto central permanece: sem estrutura e sem **disciplina de contexto** (importantissimo descatar esse termo), mais ferramenta não resolve o problema — pode até piorá-lo.
 
 ## Experiência Visual e Interativa
 - **Elemento principal:** Gráfico de barras animado contrastando as 3 barras: "Expectativa +24%" (verde) → "Percepção +20%" (amarelo) → "Realidade -19%" (vermelho) — barras crescem/decrescem com animação
