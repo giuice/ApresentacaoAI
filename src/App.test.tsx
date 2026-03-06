@@ -9,7 +9,7 @@ describe('App', () => {
     expect(screen.getByTestId('matrix-background')).toBeInTheDocument();
 
     await waitFor(() => {
-      expect(screen.getByText(/Topic 1/)).toBeInTheDocument();
+      expect(screen.getAllByText(/Vibe Coding/).length).toBeGreaterThan(0);
     });
   });
 

@@ -1,11 +1,12 @@
 import { ReactNode } from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import {
   revealContainerVariants,
   revealReducedContainerVariants,
   revealItemVariants,
   revealReducedItemVariants,
 } from '@/components/topics/topicRevealVariants';
+import { useShouldReduceMotion } from '../../hooks/useShouldReduceMotion';
 
 interface TopicRevealProps {
   children: ReactNode;
@@ -18,7 +19,7 @@ interface TopicRevealItemProps {
 }
 
 export const TopicReveal = ({ children, className }: TopicRevealProps) => {
-  const shouldReduceMotion = useReducedMotion();
+  const shouldReduceMotion = useShouldReduceMotion();
   const containerVariants = shouldReduceMotion ? revealReducedContainerVariants : revealContainerVariants;
 
   return (
@@ -35,7 +36,7 @@ export const TopicReveal = ({ children, className }: TopicRevealProps) => {
 };
 
 export const TopicRevealItem = ({ children, className }: TopicRevealItemProps) => {
-  const shouldReduceMotion = useReducedMotion();
+  const shouldReduceMotion = useShouldReduceMotion();
   const itemVariants = shouldReduceMotion ? revealReducedItemVariants : revealItemVariants;
 
   return (

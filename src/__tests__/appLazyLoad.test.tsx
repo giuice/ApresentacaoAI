@@ -12,7 +12,7 @@ describe('App lazy loading', () => {
 
     // Topic content should appear after lazy load resolves
     await waitFor(() => {
-      expect(screen.getByText(/Topic 1/)).toBeInTheDocument();
+      expect(screen.getAllByText(/Vibe Coding/).length).toBeGreaterThan(0);
     });
   });
 

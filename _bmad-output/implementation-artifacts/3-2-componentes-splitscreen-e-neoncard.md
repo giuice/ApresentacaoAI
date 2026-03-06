@@ -1,6 +1,6 @@
 # Story 3.2: componentes-splitscreen-e-neoncard
 
-Status: ready-for-dev
+Status: done
 
 <!-- Note: Validation is optional. Run validate-create-story for quality check before dev-story. -->
 
@@ -19,24 +19,24 @@ para que topicos que contrastam "Problema vs Solucao" sejam visualmente claros e
 
 ## Tasks / Subtasks
 
-- [ ] Criar `SplitScreen` reutilizavel em `src/components/ui/` (AC: 1, 2)
-  - [ ] Definir props tipadas: `leftContent`, `rightContent`, `className?`
-  - [ ] Implementar layout responsivo desktop-first (2 colunas >= `lg`) com stack em mobile
-  - [ ] Fixar semantica espacial: problema na esquerda/solucao na direita em desktop
-- [ ] Criar `NeonCard` reutilizavel em `src/components/ui/` (AC: 3, 4)
-  - [ ] Definir props tipadas: `variant`, `children`, `className?`
-  - [ ] Aplicar tokens do tema para borda/glow por variante
-  - [ ] Implementar hover com `transform`/`opacity` (sem animar propriedades de layout)
-- [ ] Integrar smoke de uso minimo sem antecipar escopo de topicos finais (AC: 1, 3)
-  - [ ] Opcional: usar placeholder simples em `Topic5` para validar composicao base
-  - [ ] Nao acoplar copy final dos topicos dentro dos componentes de UI
-- [ ] Cobrir comportamento com testes (AC: 1, 2, 3, 4)
-  - [ ] Testar comportamento responsivo do `SplitScreen` por classes/estrutura
-  - [ ] Testar variantes e classes semanticas do `NeonCard`
-  - [ ] Garantir ausencia de regressao nos testes existentes de shell/navigation
-- [ ] Executar gates obrigatorios
-  - [ ] `npm run test -- --run`
-  - [ ] `npm run build`
+- [x] Criar `SplitScreen` reutilizavel em `src/components/ui/` (AC: 1, 2)
+  - [x] Definir props tipadas: `leftContent`, `rightContent`, `className?`
+  - [x] Implementar layout responsivo desktop-first (2 colunas >= `lg`) com stack em mobile
+  - [x] Fixar semantica espacial: problema na esquerda/solucao na direita em desktop
+- [x] Criar `NeonCard` reutilizavel em `src/components/ui/` (AC: 3, 4)
+  - [x] Definir props tipadas: `variant`, `children`, `className?`
+  - [x] Aplicar tokens do tema para borda/glow por variante
+  - [x] Implementar hover com `transform`/`opacity` (sem animar propriedades de layout)
+- [x] Integrar smoke de uso minimo sem antecipar escopo de topicos finais (AC: 1, 3)
+  - [x] Opcional: usar placeholder simples em `Topic5` para validar composicao base — pulado intencionalmente (Topic5 sera implementado em story 3.7, componentes testados isoladamente)
+  - [x] Nao acoplar copy final dos topicos dentro dos componentes de UI
+- [x] Cobrir comportamento com testes (AC: 1, 2, 3, 4)
+  - [x] Testar comportamento responsivo do `SplitScreen` por classes/estrutura
+  - [x] Testar variantes e classes semanticas do `NeonCard`
+  - [x] Garantir ausencia de regressao nos testes existentes de shell/navigation
+- [x] Executar gates obrigatorios
+  - [x] `npm run test -- --run` — 130 testes passando (17 arquivos), zero regressoes
+  - [x] `npm run build` — build OK em 2.04s
 
 ## Dev Notes
 
@@ -143,19 +143,82 @@ para que topicos que contrastam "Problema vs Solucao" sejam visualmente claros e
 
 ### Agent Model Used
 
-GPT-5 Codex
+Claude Opus 4.6
 
 ### Debug Log References
 
 - Workflow: `_bmad/bmm/workflows/4-implementation/create-story/workflow.yaml`
 - Instructions: `_bmad/bmm/workflows/4-implementation/create-story/instructions.xml`
 
+### Implementation Plan
+
+- SplitScreen: grid responsivo com `grid-cols-1 lg:grid-cols-2`, tom vermelho sutil na esquerda (danger) e verde na direita (success) usando tokens do tema
+- NeonCard: card com borda sutil, hover com translateY(-6px), glow box-shadow por variante, barra superior de 3px que aparece no hover via group-hover
+- Ambos componentes usam apenas Tailwind classes + CSS tokens, sem Framer Motion (reservado para stories futuras)
+- Animacoes restritas a transform e opacity conforme requisitos de performance
+
 ### Completion Notes List
 
 - Story 3.2 criada com escopo tecnico e guardrails para `SplitScreen` e `NeonCard`.
 - Dependencias de stories seguintes (3.7 e 4.x) explicitadas.
+- SplitScreen implementado com grid responsivo, props tipadas com interface, tom vermelho/verde sutil via rgba
+- NeonCard implementado com variantes danger/success, hover glow usando tokens do tema, barra superior animada, translateY para elevacao
+- 18 novos testes (8 SplitScreen + 10 NeonCard), 130 total passando, zero regressoes
+- Build de producao OK
+- Smoke de Topic5 pulado intencionalmente — componentes testados isoladamente, Topic5 sera implementado na story 3.7
 
 ### File List
 
-- `_bmad-output/implementation-artifacts/3-2-componentes-splitscreen-e-neoncard.md` (created)
+- `src/components/ui/SplitScreen.tsx` (created)
+- `src/components/ui/NeonCard.tsx` (created)
+- `src/__tests__/splitScreen.test.tsx` (created)
+- `src/__tests__/neonCard.test.tsx` (created)
+- `src/App.tsx` (modified, detected in git during review)
+- `src/App.test.tsx` (modified, detected in git during review)
+- `src/__tests__/appLazyLoad.test.tsx` (modified, detected in git during review)
+- `src/__tests__/transitionRevealChoreography.test.tsx` (modified, detected in git during review)
+- `src/components/layout/TopicTransition.tsx` (modified, detected in git during review)
+- `src/components/topics/TopicReveal.tsx` (modified, detected in git during review)
+- `src/data/topics.ts` (modified, detected in git during review)
+- `src/hooks/useShouldReduceMotion.ts` (created, detected in git during review)
+- `_bmad-output/implementation-artifacts/3-2-componentes-splitscreen-e-neoncard.md` (modified)
 - `_bmad-output/implementation-artifacts/sprint-status.yaml` (modified)
+
+### Change Log
+
+- 2026-03-06: Implementacao completa de SplitScreen e NeonCard com testes. 18 novos testes, 130 total, zero regressoes. Build OK.
+- 2026-03-06: Code review adversarial executado. Corrigido `NeonCard` para borda por variante em estado base (AC4), removido `transition-all` em favor de transicoes direcionadas, testes de variante fortalecidos para validar tokens/glow explicitamente. Testes e build revalidados com sucesso.
+
+## Senior Developer Review (AI)
+
+### Resultado da Revisao
+
+- **Story revisada:** `3-2-componentes-splitscreen-e-neoncard.md`
+- **Git vs Story Discrepancies:** 8 (arquivos `src/` alterados e nao listados originalmente)
+- **Issues encontrados inicialmente:** 2 High, 1 Medium, 1 Low
+- **Issues corrigidos:** 3 (todos High/Medium)
+- **Issues remanescentes:** 1 Low
+
+### Achados e Evidencias
+
+1. **[HIGH][Corrigido] AC4 parcial no `NeonCard`: borda por variante nao era aplicada no estado base**  
+  - Evidencia (antes): `src/components/ui/NeonCard.tsx` usava `border-border-subtle` como borda base; `danger/success` apenas no hover.  
+  - Correcao aplicada: borda base agora usa `border-accent-danger` ou `border-accent-primary` por variante.
+
+2. **[HIGH][Corrigido] Cobertura de testes insuficiente para AC4 (tokens reais nao eram validados explicitamente)**  
+  - Evidencia (antes): `src/__tests__/neonCard.test.tsx` validava apenas regex generico (`danger|primary|success`).  
+  - Correcao aplicada: testes agora verificam classes/tokens de borda e glow (`border-accent-*`, `var(--glow-*)`).
+
+3. **[MEDIUM][Corrigido] Risco de animacao ampla com `transition-all` em componente UI sensivel a performance**  
+  - Evidencia (antes): `src/components/ui/NeonCard.tsx` utilizava `transition-all`.  
+  - Correcao aplicada: substituido por `transition-transform transition-opacity` + `will-change-transform`.
+
+4. **[LOW][Aberto] Workspace contem alteracoes paralelas fora do escopo estrito da story 3.2**  
+  - Evidencia: arquivos em `src/` modificados no Git e nao originalmente documentados pela story.  
+  - Mitigacao: `File List` sincronizada para refletir o estado real observado durante a revisao.
+
+### Validacao Pos-Correcao
+
+- `npm run test -- --run src/__tests__/neonCard.test.tsx` ✅
+- `npm run test -- --run` ✅ (130 testes, 17 arquivos)
+- `npm run build` ✅

@@ -10,6 +10,17 @@ type TopicComponent = LazyExoticComponent<ComponentType>;
 
 const FALLBACK_TOPIC_INDEX = 1;
 
+const TopicLoadingFallback = () => (
+  <div
+    className="w-full h-full flex items-center justify-center text-sm font-mono text-text-muted"
+    role="status"
+    aria-live="polite"
+    data-testid="topic-loading-fallback"
+  >
+    Carregando tópico...
+  </div>
+);
+
 const topicComponents: Record<number, TopicComponent> = {
   1: lazy(() => import('@/components/topics/Topic1')),
   2: lazy(() => import('@/components/topics/Topic2')),
@@ -45,7 +56,7 @@ function AppContent() {
         renderTopic={(topicIndex) => {
           const TopicComponent = getTopicComponentForIndex(topicIndex);
           return (
-            <Suspense fallback={null}>
+            <Suspense fallback={<TopicLoadingFallback />}>
               <TopicComponent />
             </Suspense>
           );

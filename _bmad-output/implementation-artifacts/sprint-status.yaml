@@ -54,14 +54,14 @@ development_status:
   2-1-tokens-do-tema-matrix-e-tipografia: done
   2-2-matrix-background-canvas-com-raf: done
   2-3-transicoes-cinematograficas-entre-topicos: done
-  2-4-animacoes-de-entrada-por-topico: review
+  2-4-animacoes-de-entrada-por-topico: done
   epic-2-retrospective: optional
 
   # ─── Epic 3: Bloco 1 & 2 — O Problema (Tópicos 1–5) ────────────────────────
   epic-3: in-progress
-  3-1-componente-animatedcounter: ready-for-dev
-  3-2-componentes-splitscreen-e-neoncard: ready-for-dev
-  3-3-topico-1-hook-o-problema-88: ready-for-dev
+  3-1-componente-animatedcounter: done
+  3-2-componentes-splitscreen-e-neoncard: done
+  3-3-topico-1-hook-o-problema-88: review
   3-4-topico-2-vibe-coding-a-escada-quebrada: ready-for-dev
   3-5-topico-3-context-rot: ready-for-dev
   3-6-topico-4-context-engineering: ready-for-dev

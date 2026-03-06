@@ -51,6 +51,10 @@ para que minha atencao seja guiada naturalmente para os dados chave sem esforco 
 - [x] [AI-Review][CRITICAL] Eliminar o `stderr` remanescente dos testes do shell: `App.test.tsx` e `appLazyLoad.test.tsx` ainda renderizam `MatrixBackground` sem mock de canvas/background e continuam disparando `HTMLCanvasElement.prototype.getContext` no jsdom. [src/App.test.tsx:1-16, src/__tests__/appLazyLoad.test.tsx:1-24, src/components/layout/MatrixBackground.tsx:24]
 - [x] [AI-Review][CRITICAL] Atualizar novamente a rastreabilidade da story para refletir TODO o diff real do git; `_bmad-output/implementation-artifacts/epic-2-kickoff-checklist.md` segue alterado e fora da `File List`, entao o follow-up anterior foi marcado como concluido sem cobrir todos os arquivos. [git status --porcelain, _bmad-output/implementation-artifacts/2-4-animacoes-de-entrada-por-topico.md:191-240]
 - [x] [AI-Review][MEDIUM] Remover hardcoded copy dos placeholders de topico do layer visual e centralizar o estado placeholder em `src/data`; hoje `Topic1`...`Topic16` carregavam texto inline, contrariando o `project-context.md`. [src/components/topics/Topic1.tsx:1-15, src/components/topics/Topic16.tsx:1-15, src/data/topics.ts, _bmad-output/project-context.md]
+- [x] [AI-Review][HIGH] Traduzir a copy visivel dos placeholders e asserts da suite para PT-BR: placeholders alterados para `Tópico 1`...`Tópico 16` e asserts do shell atualizados para o mesmo contrato em portugues. [src/data/topics.ts, src/App.test.tsx, src/__tests__/appLazyLoad.test.tsx]
+- [x] [AI-Review][MEDIUM] Centralizar a politica de reduced motion em um wrapper comum (`useShouldReduceMotion`), removendo chamadas diretas duplicadas de `useReducedMotion` nos componentes revisados. [src/hooks/useShouldReduceMotion.ts, src/components/layout/TopicTransition.tsx, src/components/topics/TopicReveal.tsx, src/components/ui/AnimatedCounter.tsx]
+- [x] [AI-Review][MEDIUM] Fortalecer `transitionRevealChoreography.test.tsx` com validacao temporal de runtime simulada (delay/stagger com fake timers), incluindo progressao incremental de itens e comportamento em reduced motion. [src/__tests__/transitionRevealChoreography.test.tsx]
+- [x] [AI-Review][MEDIUM] Substituir `Suspense fallback={null}` por fallback leve e consistente para lazy load de topicos (`TopicLoadingFallback` com `role=status`). [src/App.tsx]
 
 ## Dev Notes
 
@@ -221,6 +225,7 @@ para que minha atencao seja guiada naturalmente para os dados chave sem esforco 
 - `src/components/topics/Topic16.tsx` (modified)
 - `src/data/topics.ts` (modified — placeholders centralizados em TypeScript data, sem depender de markdown no runtime)
 - `src/components/layout/TopicTransition.tsx` (modified — exported TRANSITION_DURATION)
+- `src/hooks/useShouldReduceMotion.ts` (new — wrapper central para politica de reduced motion)
 - `src/components/layout/TopicViewport.tsx` (new — story 2.3/2.4)
 - `src/App.tsx` (modified — TopicViewport integration)
 - `src/App.test.tsx` (modified — shell assertions com background sem stderr)
@@ -287,6 +292,8 @@ Claude Opus 4.6
 - 2026-03-06: Addressed code review findings - 5 items resolved (2 HIGH, 3 MEDIUM). REVEAL_DELAY_BASE sync, multi-item topics, File List update, choreography integration test, canvas/matchMedia mock.
 - 2026-03-06: Re-review BMAD 2.4 em modo YOLO. Resultado: changes requested novamente; 4 novos follow-ups registrados (3 CRITICAL, 1 MEDIUM) apos validacao de testes/build e confronto com o diff real do git.
 - 2026-03-06: Follow-ups da re-review corrigidos. Placeholder copy migrada para `src/data`, suite limpa sem `stderr` e story retornada para `review`.
+- 2026-03-06: Code review BMAD registrada com 4 novos follow-ups (1 HIGH, 3 MEDIUM). Story retornada para `in-progress` sem alteracoes de codigo nesta rodada.
+- 2026-03-06: Follow-ups da rodada 3 corrigidos (`PT-BR copy`, `reduced motion` centralizado, `fallback` de lazy load e teste de coreografia temporal). Suite completa: 111/111 testes; build OK; story retornada para `review`.
 
 ## Senior Developer Review (AI)
 
@@ -402,3 +409,58 @@ Claude Opus 4.6
 - **Aprovacao:** Nao
 - **Recomendacao:** reabrir os follow-ups marcados prematuramente como concluido, corrigir os 3 itens Critical e o item Medium antes de retornar a story para `review`
 - **Status final da story apos esta re-review:** `in-progress`
+
+## Senior Developer Review (AI) - Code Review BMAD 2.4 (Rodada 3)
+
+**Reviewer:** Giuliano  
+**Data:** 2026-03-06  
+**Outcome:** Changes Requested
+
+### Resumo
+
+- Story revisada novamente: `_bmad-output/implementation-artifacts/2-4-animacoes-de-entrada-por-topico.md`
+- Stack confirmada: React 19, TypeScript strict, Framer Motion 12, Vitest + Testing Library
+- Git vs Story: sem discrepancia relevante no working tree para esta rodada; validacao baseada no codigo atual do `src/`
+- Issues encontradas: **1 High, 3 Medium, 0 Low**
+- Gates executados nesta revisao:
+  - `npm run test -- --run` ✅ (111 testes passaram)
+  - `npm run build` ✅
+
+### Validacao dos Acceptance Criteria
+
+| AC | Status | Observacao |
+|---|---|---|
+| AC1 | OK | `REVEAL_DELAY_BASE=0.6s` permanece alinhado com `TRANSITION_DURATION=0.6s`. |
+| AC2 | OK | Variants seguem definidas fora do corpo dos componentes. |
+| AC3 | OK com ressalva | O estado final esta coerente, mas a cobertura integrada ainda depende de mocks estruturais do Motion. |
+| AC4 | OK | O padrao usa `staggerChildren` e os placeholders exercitam multiplos itens por topico. |
+| AC5 | OK com ressalva | Reduced motion funciona, mas a politica segue distribuida em multiplos componentes. |
+| AC6 | OK | Testes e build passaram na rodada atual. |
+
+### Findings
+
+#### HIGH
+
+1. **Texto visivel ainda nao esta integralmente em PT-BR.**  
+  Os placeholders renderizados no app continuam usando `Topic 1`...`Topic 16`, e a suite de shell confirma explicitamente essa copy. Isso viola a regra do projeto de manter todo texto visivel em portugues brasileiro.  
+  **Evidencia:** `src/data/topics.ts:35-123`, `src/App.test.tsx:12`, `src/__tests__/appLazyLoad.test.tsx:15`
+
+#### MEDIUM
+
+2. **A politica de reduced motion nao esta centralizada.**  
+  A decisao de reduced motion esta duplicada em `TopicTransition`, `TopicReveal` e `AnimatedCounter`, aumentando custo de manutencao e risco de drift.  
+  **Evidencia:** `src/components/layout/TopicTransition.tsx:45`, `src/components/topics/TopicReveal.tsx:21-39`, `src/components/ui/AnimatedCounter.tsx:106`
+
+3. **O teste de coreografia integrada ainda protege mais wiring do que runtime.**  
+  `transitionRevealChoreography.test.tsx` renderiza composicao, mas continua ancorado em mock completo de `framer-motion`, sem validar lifecycle real do Motion.  
+  **Evidencia:** `src/__tests__/transitionRevealChoreography.test.tsx:5-119`
+
+4. **O lazy loading do viewport ainda pode gerar frame vazio.**  
+  O uso de `Suspense fallback={null}` mantem o shell, mas deixa o conteudo do topico em branco enquanto o chunk e resolvido.  
+  **Evidencia:** `src/App.tsx:46-48`
+
+### Decisao
+
+- **Aprovacao:** Nao
+- **Acao escolhida:** registrar follow-ups para tratamento posterior
+- **Status final da story apos esta rodada:** `in-progress`

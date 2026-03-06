@@ -1,6 +1,6 @@
 # Story 3.1: componente-animatedcounter
 
-Status: ready-for-dev
+Status: done
 
 <!-- Note: Validation is optional. Run validate-create-story for quality check before dev-story. -->
 
@@ -20,25 +20,25 @@ para que os dados de impacto causem uma impressao emocional forte no momento cer
 
 ## Tasks / Subtasks
 
-- [ ] Criar componente `AnimatedCounter` reutilizavel em `src/components/ui/` (AC: 1, 2, 3, 4, 5)
-  - [ ] Definir props tipadas com contrato minimo: `value: number`, `variant: 'danger' | 'success'`, `suffix?: string`, `className?: string`
-  - [ ] Extrair constantes de animacao em module scope (duracao, delay `0.4s`, easing), evitando magic numbers inline
-  - [ ] Implementar interpolacao numerica com APIs declarativas do Motion (sem `setInterval`)
-- [ ] Implementar acessibilidade/reduced-motion no proprio componente (AC: 5)
-  - [ ] Usar `useReducedMotion` para bypass de animacao numerica e reveal
-  - [ ] Garantir fallback visual estavel (valor final direto, sem deslocamento de eixo)
-- [ ] Garantir coerencia visual com design system (AC: 2, 3, 4)
-  - [ ] Aplicar variante `danger` com `--color-accent-danger` e `success` com `--color-accent-primary`
-  - [ ] Usar tipografia mono e hierarquia adequada para metricas de destaque (desktop/projetor)
-  - [ ] Restringir motion visual a `transform`/`opacity`
-- [ ] Cobrir comportamento com testes automatizados (AC: 1, 2, 3, 4, 5)
-  - [ ] Testar caminho padrao: delay `0.4s`, interpolacao ate valor final e formato com `suffix`
-  - [ ] Testar variantes de cor (`danger`/`success`)
-  - [ ] Testar reduced-motion (valor final imediato)
-  - [ ] Usar `vi.useFakeTimers` quando necessario para testes deterministicos de tempo
-- [ ] Executar gates obrigatorios antes de mover para `review`
-  - [ ] `npm run test -- --run`
-  - [ ] `npm run build`
+- [x] Criar componente `AnimatedCounter` reutilizavel em `src/components/ui/` (AC: 1, 2, 3, 4, 5)
+  - [x] Definir props tipadas com contrato minimo: `value: number`, `variant: 'danger' | 'success'`, `suffix?: string`, `className?: string`
+  - [x] Extrair constantes de animacao em module scope (duracao, delay `0.4s`, easing), evitando magic numbers inline
+  - [x] Implementar interpolacao numerica com APIs declarativas do Motion (sem `setInterval`)
+- [x] Implementar acessibilidade/reduced-motion no proprio componente (AC: 5)
+  - [x] Usar `useReducedMotion` para bypass de animacao numerica e reveal
+  - [x] Garantir fallback visual estavel (valor final direto, sem deslocamento de eixo)
+- [x] Garantir coerencia visual com design system (AC: 2, 3, 4)
+  - [x] Aplicar variante `danger` com `--color-accent-danger` e `success` com `--color-accent-primary`
+  - [x] Usar tipografia mono e hierarquia adequada para metricas de destaque (desktop/projetor)
+  - [x] Restringir motion visual a `transform`/`opacity`
+- [x] Cobrir comportamento com testes automatizados (AC: 1, 2, 3, 4, 5)
+  - [x] Testar caminho padrao: delay `0.4s`, interpolacao ate valor final e formato com `suffix`
+  - [x] Testar variantes de cor (`danger`/`success`)
+  - [x] Testar reduced-motion (valor final imediato)
+  - [x] Usar `vi.useFakeTimers` quando necessario para testes deterministicos de tempo
+- [x] Executar gates obrigatorios antes de mover para `review`
+  - [x] `npm run test -- --run`
+  - [x] `npm run build`
 
 ## Dev Notes
 
@@ -178,20 +178,42 @@ para que os dados de impacto causem uma impressao emocional forte no momento cer
 
 ### Agent Model Used
 
-GPT-5 Codex
+Claude Opus 4.6
 
 ### Debug Log References
 
-- Workflow: `_bmad/bmm/workflows/4-implementation/create-story/workflow.yaml`
-- Instructions: `_bmad/bmm/workflows/4-implementation/create-story/instructions.xml`
+- Workflow: `_bmad/bmm/workflows/4-implementation/dev-story/workflow.yaml`
+- Instructions: `_bmad/bmm/workflows/4-implementation/dev-story/instructions.xml`
+
+### Implementation Plan
+
+- Componente `AnimatedCounter` implementado com `useMotionValue` + `animate` + `useTransform` do Framer Motion
+- Interpolacao numerica declarativa (sem `setInterval`; `setTimeout` usado apenas para delay inicial de 0.4s)
+- Delay de 0.4s via `setTimeout` antes de iniciar `animate()` do motionValue
+- Reveal visual com `motion.div` usando `transform(translateY)` + `opacity` apenas
+- Reduced motion: valor final exibido imediatamente sem animacao, sem deslocamento de eixo
+- Variantes de cor mapeadas para tokens do design system (`text-accent-danger` / `text-accent-primary`)
+- Glow via `textShadow` usando CSS variables (`--glow-danger` / `--glow-primary`)
+- Suporte a valores decimais via `getDecimalPlaces` utility
+- Cleanup de animacao e listeners no unmount do componente
 
 ### Completion Notes List
 
 - Story 3.1 criada em `_bmad-output/implementation-artifacts/3-1-componente-animatedcounter.md`.
 - Contexto tecnico consolidado para implementacao segura do `AnimatedCounter`.
 - Guardrails de performance, acessibilidade e testes definidos para evitar regressao no shell atual.
+- Componente implementado: `src/components/ui/AnimatedCounter.tsx`
+- 16 testes cobrindo: delay 0.4s, interpolacao, variantes de cor, glow, suffix, reduced-motion, valores decimais
+- Suite completa: 111 testes passando, zero regressoes
+- Build limpo sem erros de TypeScript
+
+### Change Log
+
+- 2026-03-06: Implementacao completa do AnimatedCounter com testes (16 novos testes)
 
 ### File List
 
-- `_bmad-output/implementation-artifacts/3-1-componente-animatedcounter.md` (created)
+- `src/components/ui/AnimatedCounter.tsx` (created)
+- `src/__tests__/animatedCounter.test.tsx` (created)
+- `_bmad-output/implementation-artifacts/3-1-componente-animatedcounter.md` (modified)
 - `_bmad-output/implementation-artifacts/sprint-status.yaml` (modified)

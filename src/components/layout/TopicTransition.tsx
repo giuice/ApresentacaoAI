@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
-import { AnimatePresence, motion, useReducedMotion, type Variants } from 'framer-motion';
+import { AnimatePresence, motion, type Variants } from 'framer-motion';
 import type { PresentationDirection } from '@/contexts/PresentationContext';
+import { useShouldReduceMotion } from '../../hooks/useShouldReduceMotion';
 
 interface TopicTransitionProps {
   topicIndex: number;
@@ -42,7 +43,7 @@ const fadeVariants: Variants = {
 };
 
 export const TopicTransition = ({ topicIndex, direction, children }: TopicTransitionProps) => {
-  const shouldReduceMotion = useReducedMotion();
+  const shouldReduceMotion = useShouldReduceMotion();
   const variants = shouldReduceMotion ? fadeVariants : slideVariants;
 
   return (

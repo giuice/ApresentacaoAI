@@ -1,6 +1,6 @@
 # Story 3.3: topico-1-hook-o-problema-88
 
-Status: ready-for-dev
+Status: review
 
 <!-- Note: Validation is optional. Run validate-create-story for quality check before dev-story. -->
 
@@ -19,23 +19,23 @@ para que nos primeiros 30 segundos fique claro que nao e um PowerPoint comum.
 
 ## Tasks / Subtasks
 
-- [ ] Criar data source de Topico 1 em `src/data/topic1Data.ts` (AC: 3)
-  - [ ] Estruturar titulo, subtitulo, metrica principal e itens de apoio em PT-BR
-  - [ ] Incluir referencia explicita para metrica `88%` e contexto de risco
-- [ ] Implementar `Topic1.tsx` com composicao visual hero (AC: 1, 2, 4)
-  - [ ] Integrar `AnimatedCounter` em `variant="danger"` com `value={88}` e `suffix="%"`
-  - [ ] Manter uso do padrao de reveal (`TopicReveal`/`TopicRevealItem`)
-  - [ ] Garantir hierarquia visual de projetor (counter dominante)
-- [ ] Assegurar separacao conteudo/UI (AC: 3, 4)
-  - [ ] Componente deve consumir somente `src/data/topic1Data.ts`
-  - [ ] Nao acessar markdown em runtime
-- [ ] Cobrir com testes (AC: 1, 2, 3, 4)
-  - [ ] Verificar render do titulo/subtitulo/counter
-  - [ ] Verificar uso de dados externos ao componente (smoke via import)
-  - [ ] Verificar classe/tamanho minimo do hero metric
-- [ ] Executar gates obrigatorios
-  - [ ] `npm run test -- --run`
-  - [ ] `npm run build`
+- [x] Criar data source de Topico 1 em `src/data/topic1Data.ts` (AC: 3)
+  - [x] Estruturar titulo, subtitulo, metrica principal e itens de apoio em PT-BR
+  - [x] Incluir referencia explicita para metrica `88%` e contexto de risco
+- [x] Implementar `Topic1.tsx` com composicao visual hero (AC: 1, 2, 4)
+  - [x] Integrar `AnimatedCounter` em `variant="danger"` com `value={88}` e `suffix="%"`
+  - [x] Manter uso do padrao de reveal (`TopicReveal`/`TopicRevealItem`)
+  - [x] Garantir hierarquia visual de projetor (counter dominante)
+- [x] Assegurar separacao conteudo/UI (AC: 3, 4)
+  - [x] Componente deve consumir somente `src/data/topic1Data.ts`
+  - [x] Nao acessar markdown em runtime
+- [x] Cobrir com testes (AC: 1, 2, 3, 4)
+  - [x] Verificar render do titulo/subtitulo/counter
+  - [x] Verificar uso de dados externos ao componente (smoke via import)
+  - [x] Verificar classe/tamanho minimo do hero metric
+- [x] Executar gates obrigatorios
+  - [x] `npm run test -- --run`
+  - [x] `npm run build`
 
 ## Dev Notes
 
@@ -130,19 +130,38 @@ para que nos primeiros 30 segundos fique claro que nao e um PowerPoint comum.
 
 ### Agent Model Used
 
-GPT-5 Codex
+Claude Opus 4.6
 
 ### Debug Log References
 
-- Workflow: `_bmad/bmm/workflows/4-implementation/create-story/workflow.yaml`
-- Instructions: `_bmad/bmm/workflows/4-implementation/create-story/instructions.xml`
+- Workflow: `_bmad/bmm/workflows/4-implementation/dev-story/workflow.yaml`
+- Instructions: `_bmad/bmm/workflows/4-implementation/dev-story/instructions.xml`
+
+### Implementation Plan
+
+- Criado `src/data/topic1Data.ts` com interface tipada e dados em PT-BR (titulo, subtitulo, metrica 88%, supporting items)
+- Reescrito `Topic1.tsx` usando `AnimatedCounter` variant="danger" com `text-8xl`, `TopicReveal`/`TopicRevealItem` para animacao de entrada
+- Layout hero centralizado com hierarquia visual: titulo danger > subtitulo italico > counter gigante > supporting items com borda lateral
+- Testes cobrem: render de titulo/subtitulo/counter, dados vindos de data source, tamanho minimo do hero metric, reveal container, supporting items
 
 ### Completion Notes List
 
 - Story 3.3 criada com contrato claro de conteudo em `src/data` e topico hero.
 - Dependencia com 3.1 explicitada.
+- Implementacao completa: Topic1 renderiza dados de `topic1Data.ts`, AnimatedCounter 88% em danger, layout hero com TopicReveal
+- 137 testes passando (7 novos + 130 existentes), build OK
+- Testes existentes `App.test.tsx` e `appLazyLoad.test.tsx` atualizados para refletir novo conteudo do Topic1
 
 ### File List
 
-- `_bmad-output/implementation-artifacts/3-3-topico-1-hook-o-problema-88.md` (created)
+- `src/data/topic1Data.ts` (created)
+- `src/components/topics/Topic1.tsx` (modified)
+- `src/__tests__/topic1.test.tsx` (created)
+- `src/App.test.tsx` (modified)
+- `src/__tests__/appLazyLoad.test.tsx` (modified)
+- `_bmad-output/implementation-artifacts/3-3-topico-1-hook-o-problema-88.md` (modified)
 - `_bmad-output/implementation-artifacts/sprint-status.yaml` (modified)
+
+### Change Log
+
+- 2026-03-06: Implementacao completa do Topic1 com AnimatedCounter 88% danger, data source separado, testes dedicados
