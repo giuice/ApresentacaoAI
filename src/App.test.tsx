@@ -6,6 +6,7 @@ describe('App', () => {
   it('renders the presentation shell with progress bar', async () => {
     render(<App />);
     expect(screen.getByRole('progressbar')).toBeInTheDocument();
+    expect(screen.getByTestId('matrix-background')).toBeInTheDocument();
 
     await waitFor(() => {
       expect(screen.getByText(/Topic 1/)).toBeInTheDocument();

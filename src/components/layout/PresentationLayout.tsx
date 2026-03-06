@@ -1,4 +1,4 @@
-import { ReactNode, Suspense } from 'react';
+import { ReactNode } from 'react';
 import { CyberProgressBar } from '@/components/layout/CyberProgressBar';
 import { MatrixBackground } from '@/components/layout/MatrixBackground';
 import { usePresentation } from '@/contexts/PresentationContext';
@@ -6,12 +6,6 @@ import { usePresentation } from '@/contexts/PresentationContext';
 interface PresentationLayoutProps {
   children: ReactNode;
 }
-
-const TopicFallback = () => (
-  <div className="flex items-center justify-center h-full text-accent-primary/60 font-mono">
-    Carregando...
-  </div>
-);
 
 export const PresentationLayout = ({ children }: PresentationLayoutProps) => {
   const { currentTopicIndex } = usePresentation();
@@ -23,11 +17,9 @@ export const PresentationLayout = ({ children }: PresentationLayoutProps) => {
     >
       <MatrixBackground />
       <main className="relative z-10 flex-1 overflow-y-auto overflow-x-hidden">
-        <Suspense fallback={<TopicFallback />}>
-          <div className="w-full h-full max-w-[1024px] mx-auto px-4" data-testid="presentation-content">
-            {children}
-          </div>
-        </Suspense>
+        <div className="w-full h-full max-w-[1024px] mx-auto px-4" data-testid="presentation-content">
+          {children}
+        </div>
       </main>
       <footer className="relative z-10 shrink-0 px-4 py-3">
         <CyberProgressBar currentTopicIndex={currentTopicIndex} />

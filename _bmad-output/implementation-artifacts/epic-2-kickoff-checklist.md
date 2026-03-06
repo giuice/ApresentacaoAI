@@ -13,7 +13,7 @@ Source of truth:
 
 ## Goal
 
-Start Epic 2 only after the team has explicit gates for performance, reduced motion, regression protection, and projector readability.
+Start Epic 2 only after the team has explicit gates for performance, reduced motion, and regression protection.
 
 ## Kickoff Status
 
@@ -21,11 +21,9 @@ Start Epic 2 only after the team has explicit gates for performance, reduced mot
 - Regression checklist defined: [x]
 - Animation guardrails documented and accepted: [ ]
 - Reduced-motion validation integrated into story acceptance: [ ]
-- Projector dry-run completed: [ ]
 
 Epic 2 kickoff rule:
 - Do not start implementation of stories `2-2`, `2-3`, or `2-4` before items 2, 3, and 4 are complete.
-- Do not mark Epic 2 ready for demo before item 5 is complete.
 
 ## Execution Checklist
 
@@ -106,24 +104,19 @@ Validation target:
 Status:
 - [ ] Pending
 
-### 5. Projector Dry-Run
+### 5. Presentation Readability
 
 Owner:
 - Alice (PO)
 - Giuliano
 
 Done when:
-- Theme contrast is verified on projector or projector-equivalent setup
-- Typography remains legible in presenter flow
-- Matrix background does not compete with content readability
-- Progress bar and overview remain readable in presentation conditions
+- Theme contrast, typography, background subtlety, progress bar, and overview readability are reviewed continuously during story delivery
+- Any visual regression found during story delivery is corrected inside the same story, without introducing a separate blocking manual gate
 
-Manual validation:
-- [ ] Contrast verified
-- [ ] Typography verified
-- [ ] Background subtlety verified
-- [ ] Overview readability verified
-- [ ] Progress bar readability verified
+Operational note:
+- No separate visual validation checklist is required for Epic 2 stories
+- Visual review remains implicit in normal story development and demo rehearsal
 
 Status:
 - [ ] Pending
@@ -133,7 +126,7 @@ Status:
 - `SM`: keep this checklist attached to Epic 2 kickoff and verify item 1 before first story moves forward.
 - `Architect + Dev`: use this file as the non-negotiable guardrail baseline for stories `2-2`, `2-3`, and `2-4`.
 - `QA`: treat items 2 and 4 as Definition of Done gates, not optional review notes.
-- `PO + Project Lead`: close item 5 before demo or presentation rehearsal.
+- `PO + Project Lead`: monitor readability during story delivery and address any visual regressions before demo or presentation rehearsal.
 
 ## Final Readiness Rule
 
@@ -143,6 +136,4 @@ Epic 2 can begin with story preparation immediately, but implementation should b
 - item 3 is complete
 - item 4 is complete
 
-Epic 2 is not ready for demo until:
-
-- item 5 is complete
+Epic 2 demo readiness depends on keeping readability issues resolved during normal story delivery; there is no separate visual gate.

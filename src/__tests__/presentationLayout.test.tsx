@@ -1,8 +1,31 @@
-import { lazy, type ComponentType } from 'react';
-import { describe, it, expect } from 'vitest';
-import { render, screen, waitFor, act } from '@testing-library/react';
+import { describe, it, expect, vi, beforeAll } from 'vitest';
+import { render, screen } from '@testing-library/react';
 import { PresentationProvider } from '@/contexts/PresentationContext';
 import { PresentationLayout } from '@/components/layout/PresentationLayout';
+
+beforeAll(() => {
+  HTMLCanvasElement.prototype.getContext = vi.fn(() => ({
+    fillStyle: '',
+    fillRect: vi.fn(),
+    fillText: vi.fn(),
+    font: '',
+    setTransform: vi.fn(),
+  })) as unknown as typeof HTMLCanvasElement.prototype.getContext;
+
+  Object.defineProperty(window, 'matchMedia', {
+    writable: true,
+    value: vi.fn((query: string) => ({
+      matches: false,
+      media: query,
+      onchange: null,
+      addListener: vi.fn(),
+      removeListener: vi.fn(),
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      dispatchEvent: vi.fn(),
+    })),
+  });
+});
 
 describe('PresentationLayout', () => {
   it('renders shell with content area and progress bar in footer', () => {
@@ -74,33 +97,16 @@ describe('PresentationLayout', () => {
     expect(screen.getByTestId('presentation-shell')).not.toHaveClass('text-accent-primary');
   });
 
-  it('shows suspense fallback while loading topic and keeps shell visible', async () => {
-    let resolveTopicModule: ((module: { default: ComponentType }) => void) | undefined;
-
-    const LazyTopic = lazy(
-      () =>
-        new Promise<{ default: ComponentType }>((resolve) => {
-          resolveTopicModule = resolve;
-        })
-    );
-
+  it('renders children directly without wrapping Suspense (Suspense is in App)', () => {
     render(
       <PresentationProvider>
         <PresentationLayout>
-          <LazyTopic />
+          <div data-testid="direct-child">Direct Content</div>
         </PresentationLayout>
       </PresentationProvider>
     );
 
-    expect(screen.getByText('Carregando...')).toBeInTheDocument();
+    expect(screen.getByTestId('direct-child')).toBeInTheDocument();
     expect(screen.getByRole('progressbar')).toBeInTheDocument();
-
-    await act(async () => {
-      resolveTopicModule?.({ default: () => <div>Lazy Topic</div> });
-    });
-
-    await waitFor(() => {
-      expect(screen.getByText('Lazy Topic')).toBeInTheDocument();
-    });
   });
 });

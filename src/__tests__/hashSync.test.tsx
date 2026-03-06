@@ -127,5 +127,31 @@ describe('useHashSync', () => {
       expect(result.current.currentTopicIndex).toBe(8);
       expect(window.location.hash).toBe('#/topic/8');
     });
+
+    it('navigates when the browser hash changes to a valid topic after initialization', () => {
+      window.location.hash = '#/topic/2';
+      const { result } = renderHook(() => useTestHook(), { wrapper });
+
+      act(() => {
+        window.location.hash = '#/topic/7';
+        window.dispatchEvent(new HashChangeEvent('hashchange'));
+      });
+
+      expect(result.current.currentTopicIndex).toBe(7);
+      expect(window.location.hash).toBe('#/topic/7');
+    });
+
+    it('canonicalizes invalid runtime hash back to the current topic', () => {
+      window.location.hash = '#/topic/4';
+      const { result } = renderHook(() => useTestHook(), { wrapper });
+
+      act(() => {
+        window.location.hash = '#foo';
+        window.dispatchEvent(new HashChangeEvent('hashchange'));
+      });
+
+      expect(result.current.currentTopicIndex).toBe(4);
+      expect(window.location.hash).toBe('#/topic/4');
+    });
   });
 });

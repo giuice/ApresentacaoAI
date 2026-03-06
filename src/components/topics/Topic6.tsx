@@ -1,7 +1,5 @@
-const Topic6 = () => (
-  <div className="flex items-center justify-center h-full p-8">
-    <h2 className="text-3xl font-mono text-accent-primary">Topic 6 — Placeholder</h2>
-  </div>
-);
+import { PlaceholderTopic } from '@/components/topics/PlaceholderTopic';
+
+const Topic6 = () => <PlaceholderTopic topicIndex={6} />;
 
 export default Topic6;

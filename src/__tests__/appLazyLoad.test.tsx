@@ -8,6 +8,7 @@ describe('App lazy loading', () => {
 
     // Shell/progress bar should be present immediately
     expect(screen.getByRole('progressbar')).toBeInTheDocument();
+    expect(screen.getByTestId('matrix-background')).toBeInTheDocument();
 
     // Topic content should appear after lazy load resolves
     await waitFor(() => {
@@ -22,5 +23,6 @@ describe('App lazy loading', () => {
     const progressBar = screen.getByRole('progressbar');
     expect(progressBar).toBeInTheDocument();
     expect(progressBar.closest('footer')).toBeInTheDocument();
+    expect(screen.getByTestId('matrix-background')).toBeInTheDocument();
   });
 });

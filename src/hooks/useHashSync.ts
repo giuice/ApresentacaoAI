@@ -20,6 +20,7 @@ export function useHashSync() {
   const { currentTopicIndex, dispatch } = usePresentation();
   const initialized = useRef(false);
   const pendingInitializationTopic = useRef<number | null>(null);
+  const lastStateSyncedHash = useRef<string | null>(null);
 
   useEffect(() => {
     if (initialized.current) return;
@@ -31,6 +32,37 @@ export function useHashSync() {
   }, [dispatch]);
 
   useEffect(() => {
+    const handleHashChange = () => {
+      const nextHash = window.location.hash;
+
+      if (nextHash === lastStateSyncedHash.current) {
+        lastStateSyncedHash.current = null;
+        return;
+      }
+
+      const parsedTopic = parseTopicFromHash(nextHash);
+      if (parsedTopic === null) {
+        const canonicalCurrentHash = `#/topic/${currentTopicIndex}`;
+        if (window.location.hash !== canonicalCurrentHash) {
+          lastStateSyncedHash.current = canonicalCurrentHash;
+          window.location.hash = canonicalCurrentHash;
+        }
+        return;
+      }
+
+      if (parsedTopic !== currentTopicIndex) {
+        dispatch({ type: 'GOTO', payload: parsedTopic });
+      }
+    };
+
+    window.addEventListener('hashchange', handleHashChange);
+
+    return () => {
+      window.removeEventListener('hashchange', handleHashChange);
+    };
+  }, [currentTopicIndex, dispatch]);
+
+  useEffect(() => {
     if (!initialized.current) return;
 
     if (pendingInitializationTopic.current !== null && currentTopicIndex !== pendingInitializationTopic.current) {
@@ -40,6 +72,7 @@ export function useHashSync() {
 
     const expected = `#/topic/${currentTopicIndex}`;
     if (window.location.hash !== expected) {
+      lastStateSyncedHash.current = expected;
       window.location.hash = expected;
     }
   }, [currentTopicIndex]);

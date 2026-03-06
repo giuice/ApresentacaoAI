@@ -1,8 +1,9 @@
-import { lazy, type ComponentType, type LazyExoticComponent } from 'react';
+import { lazy, Suspense, type ComponentType, type LazyExoticComponent } from 'react';
 import { PresentationProvider, usePresentation } from '@/contexts/PresentationContext';
 import { useKeyboardNavigation } from '@/hooks/useKeyboardNavigation';
 import { useHashSync } from '@/hooks/useHashSync';
 import { PresentationLayout } from '@/components/layout/PresentationLayout';
+import { TopicViewport } from '@/components/layout/TopicViewport';
 import { Overview } from '@/components/layout/Overview';
 
 type TopicComponent = LazyExoticComponent<ComponentType>;
@@ -32,15 +33,24 @@ export const getTopicComponentForIndex = (topicIndex: number): TopicComponent =>
   topicComponents[topicIndex] ?? topicComponents[FALLBACK_TOPIC_INDEX];
 
 function AppContent() {
-  const { currentTopicIndex, isOverviewOpen } = usePresentation();
+  const { currentTopicIndex, direction, isOverviewOpen } = usePresentation();
   useKeyboardNavigation();
   useHashSync();
 
-  const TopicComponent = getTopicComponentForIndex(currentTopicIndex);
-
   return (
     <PresentationLayout>
-      <TopicComponent />
+      <TopicViewport
+        currentTopicIndex={currentTopicIndex}
+        direction={direction}
+        renderTopic={(topicIndex) => {
+          const TopicComponent = getTopicComponentForIndex(topicIndex);
+          return (
+            <Suspense fallback={null}>
+              <TopicComponent />
+            </Suspense>
+          );
+        }}
+      />
       {isOverviewOpen && <Overview />}
     </PresentationLayout>
   );
