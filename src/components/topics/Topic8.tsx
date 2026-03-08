@@ -47,7 +47,7 @@ const Topic8 = () => {
 
   return (
     <TopicReveal className="flex h-full flex-col gap-6 p-8">
-      <TopicRevealItem className="flex items-start justify-between gap-4 flex-wrap">
+      <TopicRevealItem className="flex flex-wrap items-start justify-between gap-4">
         <div className="space-y-1 max-w-4xl">
           <h2 className="text-5xl lg:text-6xl font-mono font-bold text-accent-primary leading-tight">
             {title}
@@ -66,23 +66,29 @@ const Topic8 = () => {
           </TopicRevealItem>
 
           <TopicRevealItem className="flex-1 min-h-0">
-            <div className="grid h-full gap-6 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)]">
+            <div className="grid h-full gap-6 lg:grid-cols-[minmax(0,1.45fr)_minmax(340px,1fr)]">
               <section
                 aria-label={labels.terminalSection}
-                className="min-h-0 flex items-start justify-center lg:justify-start"
+                className="min-h-0 flex h-full"
               >
-                <MatrixTerminal title={labels.contentTerminalTitle} lines={terminalLines} />
+                <MatrixTerminal
+                  title={labels.contentTerminalTitle}
+                  lines={terminalLines}
+                  contrast="high"
+                  className="max-w-none flex-1"
+                  bodyClassName="min-h-[420px] lg:min-h-[540px]"
+                />
               </section>
 
               <aside
                 aria-label={labels.metricsSection}
                 className="flex min-h-0 flex-col gap-4"
               >
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-1">
+                <div className="grid auto-rows-fr grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-1">
                   {[heroMetric, secondaryMetric].map((metric) => (
-                    <NeonCard key={metric.label} variant="success" className="p-4">
-                      <div className="space-y-2">
-                        <p className="text-xs font-mono uppercase tracking-[0.12em] text-text-muted">
+                    <NeonCard key={metric.label} variant="success" className="h-full p-4">
+                      <div className="flex h-full flex-col gap-3">
+                        <p className="text-xs font-mono uppercase tracking-[0.12em] text-text-secondary">
                           {metric.label}
                         </p>
                         <AnimatedCounter
@@ -91,8 +97,14 @@ const Topic8 = () => {
                           suffix={metric.suffix}
                           className="text-[clamp(2.4rem,5vw,3.4rem)] font-bold leading-none"
                         />
-                        <p className="text-xs font-sans text-text-secondary leading-relaxed">
+                        <p className="text-xs font-sans leading-relaxed text-text-secondary">
                           {metric.context}
+                        </p>
+                        <p className="text-xs font-sans leading-relaxed text-text-primary">
+                          {metric.impact}
+                        </p>
+                        <p className="pt-1 text-[11px] font-mono text-text-secondary">
+                          {metric.source}
                         </p>
                       </div>
                     </NeonCard>

@@ -9,17 +9,49 @@ export interface TerminalLine {
 interface MatrixTerminalProps {
   title: string;
   lines: TerminalLine[];
+  className?: string;
+  bodyClassName?: string;
+  contrast?: 'default' | 'high';
 }
 
-const lineColorClass: Record<TerminalLine['type'], string> = {
-  prompt: 'text-text-muted select-none',
-  comment: 'text-text-muted',
-  keyword: 'text-accent-warning',
-  string: 'text-accent-primary',
-  output: 'text-accent-primary',
+const lineColorClassByContrast: Record<
+  NonNullable<MatrixTerminalProps['contrast']>,
+  Record<TerminalLine['type'], string>
+> = {
+  default: {
+    prompt: 'text-text-muted select-none',
+    comment: 'text-text-muted',
+    keyword: 'text-accent-warning',
+    string: 'text-accent-primary',
+    output: 'text-accent-primary',
+  },
+  high: {
+    prompt: 'text-text-secondary select-none',
+    comment: 'text-text-secondary',
+    keyword: 'text-accent-warning',
+    string: 'text-accent-primary',
+    output: 'text-accent-primary',
+  },
 };
 
-export const MatrixTerminal = ({ title, lines }: MatrixTerminalProps) => {
+const headerTitleColorClassByContrast: Record<NonNullable<MatrixTerminalProps['contrast']>, string> = {
+  default: 'text-text-muted',
+  high: 'text-text-secondary',
+};
+
+export const MatrixTerminal = ({
+  title,
+  lines,
+  className,
+  bodyClassName,
+  contrast = 'default',
+}: MatrixTerminalProps) => {
+  const lineColorClass = lineColorClassByContrast[contrast];
+  const headerTitleColorClass = headerTitleColorClassByContrast[contrast];
+  const promptPrefixClass =
+    contrast === 'high' ? 'text-text-secondary select-none' : 'text-text-muted select-none';
+  const commentPrefixClass = contrast === 'high' ? 'text-text-secondary' : 'text-text-muted';
+
   const [visibleCount, setVisibleCount] = useState(0);
 
   useEffect(() => {
@@ -42,20 +74,22 @@ export const MatrixTerminal = ({ title, lines }: MatrixTerminalProps) => {
   return (
     <div
       data-testid="matrix-terminal"
-      className="w-full max-w-[800px] rounded-xl overflow-hidden border border-border-subtle bg-bg-card shadow-[0_4px_24px_rgba(0,0,0,0.4)]"
+      className={`flex h-full w-full max-w-[800px] flex-col overflow-hidden rounded-xl border border-border-subtle bg-bg-card shadow-[0_4px_24px_rgba(0,0,0,0.4)] ${className ?? ''}`}
     >
       {/* Header */}
       <div className="flex items-center gap-2 px-4 py-3 bg-bg-surface border-b border-border-subtle">
         <span className="w-3 h-3 rounded-full bg-[#FF5F56]" />
         <span className="w-3 h-3 rounded-full bg-[#FFBD2E]" />
         <span className="w-3 h-3 rounded-full bg-[#27C93F]" />
-        <span className="ml-4 font-mono text-xs text-text-muted px-3 py-0.5 bg-bg-card rounded-t">
+        <span className={`ml-4 rounded-t bg-bg-card px-3 py-0.5 font-mono text-xs ${headerTitleColorClass}`}>
           {title}
         </span>
       </div>
 
       {/* Body */}
-      <div className="p-6 font-mono text-[0.85rem] leading-[1.8] text-accent-primary min-h-[260px]">
+      <div
+        className={`min-h-[260px] flex-1 p-6 font-mono text-[0.85rem] leading-[1.8] text-accent-primary ${bodyClassName ?? ''}`}
+      >
         {lines.map((line, i) => {
           if (i >= visibleCount) return null;
 
@@ -70,10 +104,10 @@ export const MatrixTerminal = ({ title, lines }: MatrixTerminalProps) => {
               className={lineColorClass[line.type]}
             >
               {line.type === 'prompt' && (
-                <span className="text-text-muted select-none">$ </span>
+                <span className={promptPrefixClass}>$ </span>
               )}
               {line.type === 'comment' && (
-                <span className="text-text-muted">// </span>
+                <span className={commentPrefixClass}>// </span>
               )}
               <span>{line.text}</span>
               {isLast && (

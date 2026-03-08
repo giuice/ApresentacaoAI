@@ -5,6 +5,8 @@ export interface Topic8Metric {
   value: number;
   suffix: string;
   context: string;
+  impact: string;
+  source: string;
 }
 
 export interface Topic8WorkflowStep {
@@ -53,16 +55,22 @@ export const topic8Data: Topic8Data = {
   summary:
     'O GSD troca chat infinito por pipeline executavel: planos atomicos, execucao em contexto limpo e verificacao continua do inicio ao fim.',
   heroMetric: {
-    label: 'Execucao guiada por plano',
+    label: 'Prova de previsibilidade',
     value: 52,
     suffix: ' tarefas',
-    context: '68 testes validados com rastreabilidade de requisito ate commit atomico.',
+    context: '68 testes, 1.473 linhas e 24 arquivos entregues apos 15 min de planejamento inicial.',
+    impact:
+      'Cada tarefa gera 1 commit atomico, com trilha clara de requisito para implementacao e verify.',
+    source: 'Fonte: topic8.md + banco de metricas (case GSD em acao).',
   },
   secondaryMetric: {
-    label: 'Escala com contexto fresco',
+    label: 'Escala sem degradar qualidade',
     value: 100,
     suffix: 'k linhas',
-    context: '2 semanas em modo dev solo, mantendo qualidade da primeira a ultima entrega.',
+    context: 'Dev solo em 2 semanas mantendo o throughput alto com contexto fresco por plano.',
+    impact:
+      'A linha 100.000 preserva a qualidade da linha 1 porque cada execucao nasce em contexto limpo.',
+    source: 'Fonte: topic8.md (metrica secundaria de escala).',
   },
   terminalLines: [
     { type: 'comment', text: 'GSD runbook: cada fase com contexto fresco e checkpoint verificavel' },
