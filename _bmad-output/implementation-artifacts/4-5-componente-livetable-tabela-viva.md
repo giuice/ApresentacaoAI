@@ -1,6 +1,6 @@
 # Story 4.5: Componente LiveTable (Tabela Viva)
 
-Status: ready-for-dev
+Status: done
 
 ## Story
 
@@ -18,26 +18,26 @@ so that a decisao de qual ferramenta usar seja visualmente obvia sem o apresenta
 
 ## Tasks / Subtasks
 
-- [ ] Task 1: Implementar componente `LiveTable` reutilizavel (AC: #1-#5)
-  - [ ] 1.1 Definir interfaces: `TableColumn` (key, label), `TableCell` (text, tooltip?, highlight?: 'low'|'medium'|'high'), `TableRow` (label, cells: Record<string, TableCell>)
-  - [ ] 1.2 Implementar grid responsivo: header row + data rows. Header com accent-primary, rows com bg-bg-card alternado
-  - [ ] 1.3 Implementar hover effect: scanline animada (pseudo-element com translateY animation) + border accent-primary + box-shadow glow
-  - [ ] 1.4 Implementar tooltips: on hover, tooltip aparece abaixo da celula com bg-bg-surface, border-border-subtle, text-text-secondary, max-width para legibilidade
-  - [ ] 1.5 Implementar highlight por intensidade: low=text-text-muted, medium=text-text-secondary, high=text-accent-primary (visual heatmap sutil)
-  - [ ] 1.6 Garantir legibilidade em projetor: min font-size text-sm, padding adequado, sem overflow horizontal (truncate com tooltip se necessario)
-  - [ ] 1.7 Respeitar prefers-reduced-motion: scanline desabilitada, hover so muda cor
-- [ ] Task 2: Criar dados de comparacao para uso no Topic 10 (AC: #1)
-  - [ ] 2.1 Criar src/data/liveTableData.ts com os dados das 5 dimensoes do comparativo (complexidade, agentes, output, curva, caso ideal) + sinais de adocao
-  - [ ] 2.2 Exportar como const tipada
-- [ ] Task 3: Testes do LiveTable (AC: #1-#5)
-  - [ ] 3.1 Testar render do grid com colunas e linhas
-  - [ ] 3.2 Testar que celulas renderizam texto correto
-  - [ ] 3.3 Testar que tooltips existem para celulas configuradas
-  - [ ] 3.4 Testar que highlight classes sao aplicadas corretamente
-  - [ ] 3.5 Testar que componente aceita dados genericos (nao acoplado)
-- [ ] Task 4: Gates
-  - [ ] 4.1 `npm test` verde
-  - [ ] 4.2 `npm run build` sem erros
+- [x] Task 1: Implementar componente `LiveTable` reutilizavel (AC: #1-#5)
+  - [x] 1.1 Definir interfaces: `TableColumn` (key, label), `TableCell` (text, tooltip?, highlight?: 'low'|'medium'|'high'), `TableRow` (label, cells: Record<string, TableCell>)
+  - [x] 1.2 Implementar grid responsivo: header row + data rows. Header com accent-primary, rows com bg-bg-card alternado
+  - [x] 1.3 Implementar hover effect: scanline animada (pseudo-element com translateY animation) + border accent-primary + box-shadow glow
+  - [x] 1.4 Implementar tooltips: on hover, tooltip aparece abaixo da celula com bg-bg-surface, border-border-subtle, text-text-secondary, max-width para legibilidade
+  - [x] 1.5 Implementar highlight por intensidade: low=text-text-muted, medium=text-text-secondary, high=text-accent-primary (visual heatmap sutil)
+  - [x] 1.6 Garantir legibilidade em projetor: min font-size text-sm, padding adequado, sem overflow horizontal (truncate com tooltip se necessario)
+  - [x] 1.7 Respeitar prefers-reduced-motion: scanline desabilitada, hover so muda cor
+- [x] Task 2: Criar dados de comparacao para uso no Topic 10 (AC: #1)
+  - [x] 2.1 Criar src/data/liveTableData.ts com os dados das 5 dimensoes do comparativo (complexidade, agentes, output, curva, caso ideal) + sinais de adocao
+  - [x] 2.2 Exportar como const tipada
+- [x] Task 3: Testes do LiveTable (AC: #1-#5)
+  - [x] 3.1 Testar render do grid com colunas e linhas
+  - [x] 3.2 Testar que celulas renderizam texto correto
+  - [x] 3.3 Testar que tooltips existem para celulas configuradas
+  - [x] 3.4 Testar que highlight classes sao aplicadas corretamente
+  - [x] 3.5 Testar que componente aceita dados genericos (nao acoplado)
+- [x] Task 4: Gates
+  - [x] 4.1 `npm test` verde
+  - [x] 4.2 `npm run build` sem erros
 
 ## Dev Notes
 
@@ -80,6 +80,34 @@ so that a decisao de qual ferramenta usar seja visualmente obvia sem o apresenta
 ## Dev Agent Record
 
 ### Agent Model Used
+Claude Opus 4.6 (GitHub Copilot)
+
 ### Debug Log References
+Nenhum — implementação sem bloqueios.
+
 ### Completion Notes List
+- Reescreveu LiveTable.tsx com interfaces completas: TableColumn (key, label), TableCell (text, tooltip?, highlight? low/medium/high), TableRow (label, cells Record)
+- Implementou scanline sweep via CSS keyframes translateY em pseudo-element overlay, com box-shadow glow
+- Tooltips CSS-only com posicionamento fixo via ref, role="tooltip", max-width para legibilidade
+- Highlight por intensidade: low→text-muted, medium→text-secondary, high→accent-primary+font-semibold
+- prefers-reduced-motion: scanline animation e style tag condicionais
+- Rows alternadas bg-bg-card / bg-bg-surface, font-size text-sm para projetor
+- Atualizou topic10Data.ts para nova interface (TableColumn[], TableRow[] com Record<string, TableCell>)
+- Criou liveTableData.ts com 5 dimensões comparativas + 3 sinais de adoção, todos com tooltips
+- 7 testes unitários cobrindo render, tooltips, highlights, genericidade
+- 176/176 testes passando, build limpo
+
 ### File List
+- src/components/ui/LiveTable.tsx (modified — rewritten with new interfaces, tooltips, highlight levels, scanline, reduced-motion)
+- src/data/liveTableData.ts (created — comparison data with 5 dimensions + adoption signals)
+- src/data/topic10Data.ts (modified — adapted to new TableColumn/TableRow interfaces)
+- src/__tests__/liveTable.test.tsx (created — 7 tests)
+
+### Senior Developer Review (AI)
+- 2026-03-08: Revisao concluida sem bloqueios para ACs da Story 4.5.
+- Correcoes aplicadas no componente: tooltip agora reposiciona em scroll/resize para evitar drift visual durante apresentacao.
+- Evidencias de gate: `npm test -- liveTable.test.tsx decisionWizard.test.tsx topic10.test.tsx --run` (suite verde) e `npm run build` (build verde).
+
+### Change Log
+- 2026-03-08: Story 4-5 implementada. LiveTable reescrito com interfaces ricas (tooltip, highlight levels, generic Record-based cells). Dados de comparação criados. topic10Data adaptado. 7 testes, 176 total suite verde, build OK.
+- 2026-03-08: Code review aprovado. Story movida para `done` com ajustes de robustez no tooltip.

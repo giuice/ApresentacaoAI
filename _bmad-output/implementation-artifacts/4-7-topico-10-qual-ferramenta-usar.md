@@ -1,6 +1,6 @@
 # Story 4.7: Topico 10 — Qual Ferramenta Usar?
 
-Status: ready-for-dev
+Status: done
 
 ## Story
 
@@ -20,33 +20,33 @@ so that a audiencia visualize a comparacao e os pos-palestra possam tomar a deci
 
 ## Tasks / Subtasks
 
-- [ ] Task 1: Criar `src/data/topic10Data.ts` (AC: #3)
-  - [ ] 1.1 Definir interface `Topic10Data` com: title, subtitle, narratorNotes. Importar e re-exportar dados de liveTableData e decisionWizardData
-  - [ ] 1.2 Popular narratorNotes de docs/topicos/topic10.md
-  - [ ] 1.3 Exportar interface e const
-- [ ] Task 2: Implementar `Topic10.tsx` com DUAL-COMPONENT SHOWCASE (AC: #1-#7)
-  - [ ] 2.1 Estrutura base: TopicReveal + NarratorToggle
-  - [ ] 2.2 PAGINA 1 — Layout showcase com 2 secoes verticais:
+- [x] Task 1: Criar `src/data/topic10Data.ts` (AC: #3)
+  - [x] 1.1 Definir interface `Topic10Data` com: title, subtitle, narratorNotes. Importar e re-exportar dados de liveTableData e decisionWizardData
+  - [x] 1.2 Popular narratorNotes de docs/topicos/topic10.md
+  - [x] 1.3 Exportar interface e const
+- [x] Task 2: Implementar `Topic10.tsx` com DUAL-COMPONENT SHOWCASE (AC: #1-#7)
+  - [x] 2.1 Estrutura base: TopicReveal + NarratorToggle
+  - [x] 2.2 PAGINA 1 — Layout showcase com 2 secoes verticais:
     - Titulo + subtitulo ("Ferramentas por escala: Spec-Kit -> GSD -> BMAD")
     - SECAO A: LiveTable como hero (tabela comparativa das 5 dimensoes). Full-width, legivel em projetor. Sinais de adocao (stars) como rodape discreto da tabela
     - GlowDivider separando secoes
     - SECAO B: DecisionWizard como elemento interativo secundario. Card com label "Descubra qual ferramenta usar" acima do wizard. Pode ficar abaixo do fold (scroll) durante apresentacao ao vivo
     - Nota: "Nao e competicao; e maturidade por complexidade" como tagline
-  - [ ] 2.3 PAGINA 2 — MatrixTerminal com narratorNotes (foco na conducao da comparacao ao vivo)
-  - [ ] 2.4 Responsivo: LiveTable e DecisionWizard empilham naturalmente
-  - [ ] 2.5 Performance: componentes ja sao lazy-loaded via Topic10. Nao adicionar bundles extras
-- [ ] Task 3: Testes (AC: todos)
-  - [ ] 3.1 Testar render titulo de topic10Data
-  - [ ] 3.2 Testar que LiveTable esta presente com dados de comparacao
-  - [ ] 3.3 Testar que DecisionWizard esta presente
-  - [ ] 3.4 Testar toggle content/notes
-  - [ ] 3.5 Testar MatrixTerminal nas notas
-  - [ ] 3.6 Testar dados de topic10Data
-- [ ] Task 4: Gates
-  - [ ] 4.1 `npm test` verde
-  - [ ] 4.2 `npm run build` sem erros
-  - [ ] 4.3 Lazy-load ok
-  - [ ] 4.4 Verificar que Lighthouse Performance > 90 (rodar build + serve + lighthouse ou verificar bundle size)
+  - [x] 2.3 PAGINA 2 — MatrixTerminal com narratorNotes (foco na conducao da comparacao ao vivo)
+  - [x] 2.4 Responsivo: LiveTable e DecisionWizard empilham naturalmente
+  - [x] 2.5 Performance: componentes ja sao lazy-loaded via Topic10. Nao adicionar bundles extras
+- [x] Task 3: Testes (AC: todos)
+  - [x] 3.1 Testar render titulo de topic10Data
+  - [x] 3.2 Testar que LiveTable esta presente com dados de comparacao
+  - [x] 3.3 Testar que DecisionWizard esta presente
+  - [x] 3.4 Testar toggle content/notes
+  - [x] 3.5 Testar MatrixTerminal nas notas
+  - [x] 3.6 Testar dados de topic10Data
+- [x] Task 4: Gates
+  - [x] 4.1 `npm test` verde
+  - [x] 4.2 `npm run build` sem erros
+  - [x] 4.3 Lazy-load ok
+  - [x] 4.4 Verificar que Lighthouse Performance > 90 (rodar build + serve + lighthouse ou verificar bundle size)
 
 ## Dev Notes
 
@@ -112,6 +112,30 @@ so that a audiencia visualize a comparacao e os pos-palestra possam tomar a deci
 ## Dev Agent Record
 
 ### Agent Model Used
+GPT-5.4 (GitHub Copilot)
 ### Debug Log References
+- Red phase: `npm test -- topic10.test.tsx` falhou com `Topic10` ainda como placeholder e `topic10Data` sem composicao dos dados compartilhados
+- Ajuste de teste: assert de `Spec-Kit` ficou ambiguo por aparecer na tabela e no rodape de adocao; resolvido com `within(screen.getByTestId('live-table'))`
+- Gates validados: `npm test` (193 testes passando) e `npm run build` com chunk `Topic10` em 15.35 kB / gzip 5.57 kB
 ### Completion Notes List
+- Implementado `Topic10.tsx` como showcase vertical com `LiveTable` hero, `GlowDivider`, `DecisionWizard` secundario e `NarratorToggle`
+- Pagina de notas adicionada com `MatrixTerminal` alimentado por `narratorNotes` derivados do topico consolidado
+- `topic10Data.ts` reestruturado com interface `Topic10Data`, re-export de `liveTableData` e `decisionWizardData`, labels dedicados e rodape de adocao com sinais de tracao
+- Adicionados testes de integracao em `src/__tests__/topic10.test.tsx` cobrindo data source, tabela, wizard, toggle e notas
+- Regressao completa verde: 25 arquivos de teste / 193 testes passando
+- Build de producao validado com lazy-load preservado e bundle enxuto para `Topic10`
 ### File List
+- src/components/topics/Topic10.tsx (modificado)
+- src/data/topic10Data.ts (modificado)
+- src/__tests__/topic10.test.tsx (novo)
+- _bmad-output/implementation-artifacts/sprint-status.yaml (modificado)
+- _bmad-output/implementation-artifacts/4-7-topico-10-qual-ferramenta-usar.md (modificado)
+
+### Senior Developer Review (AI)
+- 2026-03-08: Revisao concluida sem bloqueios para ACs da Story 4.7.
+- Validado o fluxo dual-component (LiveTable hero + DecisionWizard) com toggle para notas e MatrixTerminal.
+- Evidencias de gate: `npm test -- liveTable.test.tsx decisionWizard.test.tsx topic10.test.tsx --run` (suite verde) e `npm run build` (build verde, chunk Topic10 mantido enxuto).
+
+### Change Log
+- 2026-03-08: Story 4.7 implementada com `Topic10` em layout dual-component showcase, `topic10Data` composto a partir de `liveTableData` e `decisionWizardData`, notas em `MatrixTerminal`, testes dedicados e validacao completa (`npm test`, `npm run build`)
+- 2026-03-08: Code review aprovado. Story movida para `done` apos ajustes de navegacao por teclado no DecisionWizard.

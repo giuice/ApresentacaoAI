@@ -70,14 +70,14 @@ development_status:
   epic-3-retrospective: optional
 
   # ─── Epic 4: Bloco 3 — As Ferramentas (Tópicos 6–10) ───────────────────────
-  epic-4: in-progress
+  epic-4: done
   4-1-topico-6-spec-kit-a-especificacao-como-codigo: done
   4-2-topico-7-gsd-do-caos-ao-workflow: done
   4-3-topico-8-gsd-em-acao-typewriter-effect: done
   4-4-topico-9-bmad-times-multi-agente: done
-  4-5-componente-livetable-tabela-viva: ready-for-dev
-  4-6-componente-decisionwizard-wizard-terminal: ready-for-dev
-  4-7-topico-10-qual-ferramenta-usar: ready-for-dev
+  4-5-componente-livetable-tabela-viva: done
+  4-6-componente-decisionwizard-wizard-terminal: done
+  4-7-topico-10-qual-ferramenta-usar: done
   epic-4-retrospective: optional
 
   # ─── Epic 5: Bloco 4 & 5 — O Novo Papel & CTA (Tópicos 11–16) ─────────────
