@@ -65,14 +65,14 @@ describe('Overview', () => {
     expect(screen.getByTestId('index').textContent).toBe('3');
   });
 
-  it('renders 16 topic cards with titles', async () => {
+  it('renders all topic cards with titles', async () => {
     const { user } = renderWithProvider();
 
     await user.keyboard('[Escape]');
     const dialog = screen.getByRole('dialog');
     const buttons = within(dialog).getAllByRole('button');
 
-    expect(buttons).toHaveLength(16);
+    expect(buttons).toHaveLength(topics.length);
 
     topics.forEach((topic) => {
       expect(dialog).toHaveTextContent(topic.title);
@@ -97,7 +97,7 @@ describe('Overview', () => {
 
     await user.keyboard('[Escape]');
 
-    const card5 = screen.getByText('5').closest('button')!;
+    const card5 = document.querySelector<HTMLButtonElement>('[data-topic-index="5"]')!;
     card5.focus();
     await user.keyboard('[Enter]');
 
@@ -110,7 +110,7 @@ describe('Overview', () => {
 
     await user.keyboard('[Escape]');
 
-    const card8 = screen.getByText('8').closest('button')!;
+    const card8 = document.querySelector<HTMLButtonElement>('[data-topic-index="8"]')!;
     card8.focus();
     await user.keyboard('[Space]');
 
@@ -142,7 +142,10 @@ describe('Overview', () => {
     const dialog = screen.getByRole('dialog');
     expect(dialog).toHaveAttribute('aria-modal', 'true');
     expect(dialog).toHaveAttribute('aria-labelledby', 'overview-title');
-    expect(screen.getByText('Mapa de Topicos')).toHaveAttribute('id', 'overview-title');
+    expect(screen.getByText('Visão operacional da apresentação')).toHaveAttribute(
+      'id',
+      'overview-title',
+    );
   });
 
   it('focuses the active topic card when opening overview', async () => {
@@ -197,11 +200,39 @@ describe('Overview', () => {
     await user.keyboard('[Escape]');
 
     const dialog = screen.getByRole('dialog');
-    const grid = dialog.querySelector('.grid');
-    expect(grid).not.toBeNull();
-    expect(grid!.classList.contains('grid-cols-4')).toBe(true);
-    expect(dialog).toHaveClass('max-h-[calc(100vh-4rem)]');
+    const sections = within(dialog).getAllByText(/Bloco \d|Bônus Operacional/i);
+    expect(sections.length).toBeGreaterThan(0);
+    expect(dialog).toHaveClass('max-h-[calc(100vh-2rem)]');
     expect(dialog).toHaveClass('overflow-y-auto');
     expect(dialog).toHaveClass('overflow-x-hidden');
+  });
+
+  it('marca o card do topico ativo com aria-current="true"', async () => {
+    const { user } = renderWithProvider();
+
+    await user.keyboard('[ArrowRight]');
+    await user.keyboard('[ArrowRight]');
+    expect(screen.getByTestId('index').textContent).toBe('3');
+
+    await user.keyboard('[Escape]');
+
+    const activeCard = document.querySelector<HTMLButtonElement>('[data-topic-index="3"]');
+    expect(activeCard).toHaveAttribute('aria-current', 'true');
+
+    const inactiveCard = document.querySelector<HTMLButtonElement>('[data-topic-index="1"]');
+    expect(inactiveCard).not.toHaveAttribute('aria-current');
+  });
+
+  it('destaca o topico 17 como bonus operacional', async () => {
+    const { user } = renderWithProvider();
+
+    await user.keyboard('[Escape]');
+
+    expect(screen.getAllByText('Bônus Operacional').length).toBeGreaterThan(0);
+    expect(
+      screen.getByText(
+        'Copilot além do autocomplete: como operar comandos, threads e multiagentes com controle',
+      ),
+    ).toBeInTheDocument();
   });
 });

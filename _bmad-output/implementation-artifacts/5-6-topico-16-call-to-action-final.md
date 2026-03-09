@@ -13,8 +13,8 @@ so that a audiencia saia motivada e com os proximos passos claros.
 ## Acceptance Criteria
 
 1. **Given** que o apresentador navega ate o Topico 16 **When** o topico entra em foco **Then** `Topic16.tsx` e renderizado com o CTA final (links/recursos/proximos passos).
-2. **Given** o Topico 16 como ultimo topico **When** renderizado **Then** e visualmente distinto dos demais, com tom de conclusao e predominancia de verde neon.
-3. **Given** a apresentacao completa (Topicos 1-16 navegados) **When** o Topico 16 esta visivel **Then** a `CyberProgressBar` mostra os 5 blocos como completos/iluminados.
+2. **Given** o Topico 16 como fechamento principal da jornada base **When** renderizado **Then** e visualmente distinto dos demais, com tom de conclusao e predominancia de verde neon.
+3. **Given** a apresentacao completa (Topicos 1-17 navegados) **When** o Topico 16 esta visivel **Then** a `CyberProgressBar` mostra os 5 blocos como completos/iluminados.
 4. **Given** o Topico 16 **When** inspecionado **Then** conteudo vem de `src/data/topic16Data.ts`.
 5. **Given** o app completo apos Epic 5 **When** `npm run build` e executado **Then** performance permanece dentro do baseline esperado do projeto (sem regressao evidente de bundle/runtime).
 6. **Given** o Topico 16 **When** apresentado **Then** inclui Pagina 2 com notas do narrador para fechamento e chamada para acao.

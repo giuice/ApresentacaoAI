@@ -5,7 +5,7 @@ import { usePresentation } from '@/contexts/PresentationContext';
 import type { PresentationContextValue } from '@/contexts/PresentationContext';
 
 vi.mock('@/contexts/PresentationContext', () => ({
-  TOTAL_TOPICS: 16,
+  TOTAL_TOPICS: 17,
   usePresentation: vi.fn(),
 }));
 

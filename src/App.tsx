@@ -1,6 +1,7 @@
 import { lazy, Suspense, type ComponentType, type LazyExoticComponent } from 'react';
 import { PresentationProvider, usePresentation } from '@/contexts/PresentationContext';
 import { useKeyboardNavigation } from '@/hooks/useKeyboardNavigation';
+import { useSwipeNavigation } from '@/hooks/useSwipeNavigation';
 import { useHashSync } from '@/hooks/useHashSync';
 import { PresentationLayout } from '@/components/layout/PresentationLayout';
 import { TopicViewport } from '@/components/layout/TopicViewport';
@@ -38,6 +39,7 @@ const topicComponents: Record<number, TopicComponent> = {
   14: lazy(() => import('@/components/topics/Topic14')),
   15: lazy(() => import('@/components/topics/Topic15')),
   16: lazy(() => import('@/components/topics/Topic16')),
+  17: lazy(() => import('@/components/topics/Topic17')),
 };
 
 export const getTopicComponentForIndex = (topicIndex: number): TopicComponent =>
@@ -46,6 +48,7 @@ export const getTopicComponentForIndex = (topicIndex: number): TopicComponent =>
 function AppContent() {
   const { currentTopicIndex, direction, isOverviewOpen } = usePresentation();
   useKeyboardNavigation();
+  useSwipeNavigation();
   useHashSync();
 
   return (

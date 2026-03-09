@@ -1,4 +1,5 @@
 import { createContext, useContext, useReducer, ReactNode } from 'react';
+import { TOTAL_TOPICS } from '@/data/topics';
 
 export type PresentationDirection = 'next' | 'prev';
 
@@ -16,7 +17,7 @@ export type PresentationAction =
   | { type: 'SET_DIRECTION'; payload: PresentationDirection }
   | { type: 'INIT_FROM_HASH'; payload: number };
 
-export const TOTAL_TOPICS = 16;
+export { TOTAL_TOPICS } from '@/data/topics';
 
 const initialState: PresentationState = {
   currentTopicIndex: 1,

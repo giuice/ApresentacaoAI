@@ -48,6 +48,7 @@ Este documento apresenta o breakdown completo de épicos e histórias para o **A
 - FR19: Sistema pode renderizar o conteúdo do Tópico 14.
 - FR20: Sistema pode renderizar o conteúdo do Tópico 15.
 - FR21: Sistema pode renderizar o conteúdo do Tópico 16.
+- FR30: Sistema pode renderizar o conteúdo do Tópico 17 (bônus operacional de Copilot, threads, plan e fleet).
 
 **Transições & Experiência Visual:**
 - FR22: Sistema pode realizar transição entre tópicos durante navegação.
@@ -135,6 +136,7 @@ Este documento apresenta o breakdown completo de épicos e histórias para o **A
 | FR19 | Epic 5 | Renderizar Tópico 14 |
 | FR20 | Epic 5 | Renderizar Tópico 15 |
 | FR21 | Epic 5 | Renderizar Tópico 16 |
+| FR30 | Epic 6 | Renderizar Tópico 17 bônus operacional |
 | FR22 | Epic 2 | Transições cinemáticas entre tópicos |
 | FR23 | Epic 2 | Animações de entrada por tópico |
 | FR24 | Epic 2 | Background Matrix consistente |
@@ -146,7 +148,7 @@ Este documento apresenta o breakdown completo de épicos e histórias para o **A
 | NFR1 | Epic 2 | Lighthouse Performance > 90 |
 | NFR2 | Epic 2 | Transições 60fps sem jank |
 | NFR3 | Epic 2 | Background Matrix sutil |
-| NFR4 | Epic 1 | Navegação estável 1→16 sem refresh |
+| NFR4 | Epic 1 + Epic 6 | Navegação estável 1→17 sem refresh |
 | NFR5 | Epic 1 | Inicialização imediata (build estático) |
 | NFR6 | Epic 1 | Compatibilidade Chrome |
 | NFR7 | Epic 2 | Legibilidade em projetor |
@@ -174,8 +176,12 @@ O apresentador pode demonstrar a escala de ferramentas (Spec-Kit → GSD → BMA
 **FRs cobertos:** FR11, FR12, FR13, FR14, FR15, FR25, FR26
 
 ### Epic 5: Bloco 4 & 5 — O Novo Papel & CTA (Tópicos 11–16)
-O apresentador pode concluir a jornada narrativa completa com os tópicos 11–16 — apresentando o novo papel do desenvolvedor, ROI, Paradoxo do Júnior e o call-to-action final. A apresentação de 1 a 16 está 100% funcional.
+O apresentador pode concluir a jornada narrativa principal com os tópicos 11–16 — apresentando o novo papel do desenvolvedor, ROI, Paradoxo do Júnior e o call-to-action final. A jornada base permanece íntegra mesmo com a extensão bônus posterior.
 **FRs cobertos:** FR16, FR17, FR18, FR19, FR20, FR21
+
+### Epic 6: Bônus Operacional & Menu Command Center
+O apresentador pode acessar um overview com acabamento de command center e concluir a experiência com um Tópico 17 bônus sobre operação prática de Copilot, threads, plan e multiagentes.
+**FRs cobertos:** FR4, FR5, FR22, FR23, FR30
 
 ---
 
@@ -1050,11 +1056,11 @@ Para que a audiência saia motivada e com os próximos passos claros.
 **When** o tópico entra em foco
 **Then** `Topic16.tsx` é renderizado com o CTA final (links/recursos/próximos passos)
 
-**Given** o Tópico 16 como último tópico
+**Given** o Tópico 16 como fechamento principal da jornada base
 **When** renderizado
 **Then** é visualmente distinto dos demais — tom de conclusão/celebração com verde neon predominante
 
-**Given** a apresentação completa (Tópicos 1–16 navegados)
+**Given** a apresentação completa (Tópicos 1–17 navegados)
 **When** o Tópico 16 está visível
 **Then** a `CyberProgressBar` mostra todos os 5 blocos completos/iluminados
 
@@ -1069,4 +1075,64 @@ Para que a audiência saia motivada e com os próximos passos claros.
 **Given** o Tópico 16
 **When** apresentado
 **Then** inclui Página 2 com notas do narrador para fechamento e chamada para ação
+
+## Epic 6: Bônus Operacional & Menu Command Center
+
+O apresentador pode abrir um overview com leitura de command center, navegar até o bônus operacional e fechar a apresentação com uma ponte prática entre conceito e operação no dia 1.
+
+### Story 6.1: Redesign do Menu/Overview
+
+Como apresentador,
+Eu quero que o overview funcione como um command center coerente com a identidade visual da apresentação,
+Para que o salto entre tópicos seja funcional, legível em projetor e visualmente memorável.
+
+**Acceptance Criteria:**
+
+**Given** o overview aberto
+**When** renderizado
+**Then** exibe agrupamento por blocos narrativos, destaque claro do tópico ativo e seção visualmente distinta para o bônus operacional
+
+**Given** o overview em uso ao vivo
+**When** o apresentador navega por teclado
+**Then** foco, trap de Tab, Esc para fechar e seleção de tópico continuam funcionando sem regressão
+
+### Story 6.2: Extensão da Navegação para 17 Tópicos
+
+Como sistema,
+Eu quero suportar 17 tópicos em registry, hash, overview e lazy-load,
+Para que o bônus faça parte da jornada sem hacks locais.
+
+**Acceptance Criteria:**
+
+**Given** qualquer navegação por teclado, hash ou overview
+**When** o índice alvo estiver entre 1 e 17
+**Then** o sistema sincroniza estado, deep link e progress bar corretamente
+
+### Story 6.3: Tópico 17 — Copilot Operacional
+
+Como audiência,
+Eu quero consumir um tópico bônus sobre comandos, threads, plan e fleet,
+Para que a apresentação termine com uma ponte prática entre conceito e operação no dia 1.
+
+**Acceptance Criteria:**
+
+**Given** o apresentador navega até o Tópico 17
+**When** o tópico entra em foco
+**Then** `Topic17.tsx` é renderizado com dados estruturados vindos de `src/data/topic17Data.ts`
+
+**Given** o Tópico 17 em exibição
+**When** a audiência percorre a tela
+**Then** a experiência cobre comandos, thread graph, plan board, fleet e guardrails com notas do narrador em página dedicada
+
+### Story 6.4: Regressão e Testes
+
+Como time,
+Eu quero validar overview, progresso, navegação e renderização do Tópico 17,
+Para que a extensão não introduza regressão no fluxo 1–17.
+
+**Acceptance Criteria:**
+
+**Given** a extensão do Epic 6 concluída
+**When** `npm test` e `npm run build` são executados
+**Then** a suíte permanece verde e o bundle compila sem regressão de navegação, overview ou progress bar
 

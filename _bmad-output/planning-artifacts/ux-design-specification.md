@@ -54,7 +54,7 @@ ApresentacaoAI is an interactive web-based presentation designed to visually and
 
 ### Defining Experience
 
-A experiência central do **ApresentacaoAI** é uma **Jornada Narrativa Interativa**. O usuário (seja o apresentador ao vivo ou um visitante pós-palestra) navegará por 16 tópicos organizados em 5 blocos dramáticos: Problema, Evolução, Ferramentas, Novo Papel e Impacto. A principal ação do usuário é avançar por essa jornada visual de forma fluida, absorvendo dados complexos e métricas (como os 88% de falha do Vibe Coding e a escala Spec-Kit → GSD → BMAD) através de visualizações interativas e não apenas de leitura passiva de texto.
+A experiência central do **ApresentacaoAI** é uma **Jornada Narrativa Interativa**. O usuário (seja o apresentador ao vivo ou um visitante pós-palestra) navegará por **17 tópicos**, sendo **16 da jornada principal em 5 blocos dramáticos** (Problema, Evolução, Ferramentas, Novo Papel e Impacto) e **1 tópico bônus operacional** ao final. A principal ação do usuário é avançar por essa jornada visual de forma fluida, absorvendo dados complexos e métricas (como os 88% de falha do Vibe Coding e a escala Spec-Kit → GSD → BMAD) através de visualizações interativas e não apenas de leitura passiva de texto.
 
 ### Platform Strategy
 
@@ -64,9 +64,9 @@ A experiência central do **ApresentacaoAI** é uma **Jornada Narrativa Interati
 
 ### Effortless Interactions
 
-- **Navegação Cinematográfica:** A transição entre os 16 tópicos deve acontecer de forma instantânea e roteirizada (usando framer-motion ou similar), sem tempos de carregamento, simulando uma experiência imersiva de app nativo.
+- **Navegação Cinematográfica:** A transição entre os 17 tópicos deve acontecer de forma instantânea e roteirizada (usando framer-motion ou similar), sem tempos de carregamento, simulando uma experiência imersiva de app nativo.
 - **Micro-interações de Dados:** Quando um novo tópico entra na tela, as métricas chave (ex: o counter de 0% a 70% no Context Rot) devem animar automaticamente de forma sutil, guiando os olhos da audiência sem que o apresentador precise apontar.
-- **Modo Overview Rápido:** Pressionar "Esc" deve afastar a câmera/tela instantaneamente para mostrar todos os 16 tópicos e os 5 blocos, permitindo pular para uma seção específica sem fricção.
+- **Modo Overview Rápido:** Pressionar "Esc" deve abrir um **overview em formato de command center**, mostrando os 5 blocos da jornada principal e o Tópico 17 tratado visualmente como bônus operacional, permitindo pular para uma seção específica sem fricção.
 
 ### Critical Success Moments
 
@@ -93,7 +93,8 @@ A experiência central do **ApresentacaoAI** é uma **Jornada Narrativa Interati
 
 - **Ao descobrir (Tópicos 1-3):** Choque de realidade e validação de dores diárias. Sensação de urgência diante das métricas de falha (88%).
 - **Durante a experiência central (Tópicos 4-10):** Clareza progressiva. A passagem da tensão para a inspiração ao entender como as ferramentas escalam.
-- **Após completar a jornada (Tópicos 14-16 - CTA):** Motivação para a ação. O paradoxo do júnior e o ROI devem gerar um senso de inevitabilidade ("preciso começar a testar specs amanhã").
+- **Após completar a jornada principal (Tópicos 14-16 - CTA):** Motivação para a ação. O paradoxo do júnior e o ROI devem gerar um senso de inevitabilidade ("preciso começar a testar specs amanhã").
+- **Após o CTA principal (Tópico 17 - Bônus Operacional):** A apresentação muda do tom manifesto para um painel de comando, conectando conceito à operação no dia 1 com `/fork`, `/compact`, `/ide`, `/skills`, thread graph, plan board e pipeline de fleet.
 
 ### Micro-Emotions
 
@@ -128,7 +129,7 @@ Padrões de navegação e componentes que já foram aprovados nos Tópicos e fun
 
 **Navigation Patterns:**
 - **Cinematic Paging (Teclado):** Navegação unicamente baseada nos fluxos narrativos de avanço `[←]` / `[→]` sem carregamento de páginas.
-- **Top/Down Bird's Eye View:** Tecla "Esc" ou gesto para "afastar a câmera" mostrando todos os blocos (Problema, Evolução, Ferramentas) — mapeamento já previsto na estrutura macro (Tópicos 1 ao 16).
+- **Top/Down Bird's Eye View:** Tecla "Esc" ou gesto para "afastar a câmera" mostrando todos os blocos da jornada principal e um highlight dedicado ao bônus operacional — mapeamento previsto na estrutura macro (Tópicos 1 ao 17).
 
 **Interaction Patterns:**
 - **Counters Animados:** Empregados para dados de impacto, como o counter de 0 até 88% no Título 1 (fundo vermelho/alarme) ou os 26.08% e 55% de ganho apresentados no Tópico 5.
@@ -260,7 +261,7 @@ Dado o escopo restrito de uma "Apresentação Interativa e Imersiva" com tema ha
 
 **A Direção Consolidada: "Cinematic Tech-Terminal"**
 
-Essa direção trata cada tópico (1 ao 16) não como uma página vertical, mas como uma "Lente de Câmera" imersiva e estática que não rola.
+Essa direção trata cada tópico (1 ao 17) não como uma página vertical, mas como uma "Lente de Câmera" imersiva e estática que não rola.
 - **Micro-Layouts Modulares:** O posicionamento na tela irá variar dependendo do Tópico. Alguns tópicos (como o Tópico 1) usarão *Split-Screen* (Analogia de um lado, Métricas do outro). Outros (como o Tópico 10) usarão *Card Flow Centralizado* (Wizard passo a passo cobrindo a tela toda). Ou seja, o layout muta para servir ao conteúdo específico, não há um "template único de texto à esquerda" padrão do PowerPoint.
 - **Visual Weight:** Foco agressivo em Tipografia Gigante, Counters Animados e Componentes Escuros com bordas/linhas Neon (Verde ou Vermelho) que ganham brilho com interação.
 
@@ -302,7 +303,7 @@ graph TD
 
 ### Journey 2: The Self-Hosted Portfolio Explorer (Visitor Mode)
 
-A jornada secundária representa o usuário que recebe o link após a palestra. Para ele, ler 16 tópicos inteiros como "slides" pode ser maçante. Ele precisa poder explorar as soluções interativamente.
+A jornada secundária representa o usuário que recebe o link após a palestra. Para ele, ler 17 tópicos inteiros como "slides" pode ser maçante. Ele precisa poder explorar as soluções interativamente.
 
 ```mermaid
 graph TD
@@ -346,8 +347,8 @@ Não usaremos bibliotecas prontas de UI que vêm cheias de modais ou inputs comp
 
 ### `1. <TopicCanvas>`
 
-**Purpose:** O Wrapper mestre de cada Tópico (1 ao 16) consumindo o espaço principal da tela e orquestrando as animações de entrada das suas *child props*.
-**Usage:** Reutilizado 16 vezes. Ele gerencia o seu "mount" via Framer Motion, impedindo o layout de quebrar ao deslizar.
+**Purpose:** O Wrapper mestre de cada Tópico (1 ao 17) consumindo o espaço principal da tela e orquestrando as animações de entrada das suas *child props*.
+**Usage:** Reutilizado 17 vezes. Ele gerencia o seu "mount" via Framer Motion, impedindo o layout de quebrar ao deslizar.
 
 ### `2. <AnimatedCounter>`
 

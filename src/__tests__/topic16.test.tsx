@@ -153,7 +153,7 @@ describe('Topic16', () => {
 
 // Subtask 4.2 — CyberProgressBar no contexto do Topico 16 (AC #3)
 describe('CyberProgressBar — Topico 16 (estado de conclusao)', () => {
-	it('topic 16 mapeia para o segmento 5 (Impacto)', () => {
+	it('topic 16 mapeia para o segmento 5 (Impacto + Bonus)', () => {
 		expect(getSegmentIndex(16)).toBe(5);
 	});
 
@@ -169,9 +169,9 @@ describe('CyberProgressBar — Topico 16 (estado de conclusao)', () => {
 		expect(progressbar).toHaveAttribute('aria-valuenow', '5');
 	});
 
-	it('no topico 16 o segmento ativo (Impacto) tem aria-label com ativo', () => {
+	it('no topico 16 o segmento ativo (Impacto + Bonus) tem aria-label com ativo', () => {
 		render(<CyberProgressBar currentTopicIndex={16} />);
-		expect(screen.getByLabelText('Impacto (ativo)')).toBeInTheDocument();
+		expect(screen.getByLabelText('Impacto + Bonus (ativo)')).toBeInTheDocument();
 	});
 
 	it('no topico 16 os segmentos anteriores tem aria-label com concluido', () => {

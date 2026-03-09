@@ -1,19 +1,21 @@
+import { TOTAL_TOPICS } from '@/data/topics';
+
 const SEGMENT_LABELS = [
   'O Problema',
   'A Evolucao',
   'As Ferramentas',
   'O Novo Papel',
-  'Impacto',
+  'Impacto + Bonus',
 ] as const;
 
 const TOTAL_SEGMENTS = SEGMENT_LABELS.length;
 const MIN_TOPIC_INDEX = 1;
-const MAX_TOPIC_INDEX = 16;
+const MAX_TOPIC_INDEX = TOTAL_TOPICS;
 
 /**
- * Maps a topic index (1..16) to a segment index (1..5).
+ * Maps a topic index (1..TOTAL_TOPICS) to a segment index (1..5).
  * Segment 1: Topics 1-3, Segment 2: 4-5, Segment 3: 6-10,
- * Segment 4: 11-13, Segment 5: 14-16
+ * Segment 4: 11-13, Segment 5: 14-17
  */
 export const getSegmentIndex = (topicIndex: number): number => {
   const normalizedTopicIndex = Number.isFinite(topicIndex)
@@ -29,15 +31,32 @@ export const getSegmentIndex = (topicIndex: number): number => {
 
 interface CyberProgressBarProps {
   currentTopicIndex: number;
+  onTap?: () => void;
 }
 
-export const CyberProgressBar = ({ currentTopicIndex }: CyberProgressBarProps) => {
+export const CyberProgressBar = ({ currentTopicIndex, onTap }: CyberProgressBarProps) => {
   const activeSegment = getSegmentIndex(currentTopicIndex);
+  const isInteractive = !!onTap;
 
-  return (
-    <div
-      className="w-full max-w-[900px] mx-auto bg-bg-card border border-border-subtle rounded-xl p-4"
-    >
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      onTap?.();
+    }
+  };
+
+  const interactiveProps = isInteractive
+    ? {
+        onClick: onTap,
+        onKeyDown: handleKeyDown,
+        tabIndex: 0,
+        'aria-label': 'Abrir menu de tópicos',
+        role: 'button' as const,
+      }
+    : {};
+
+  const progressContent = (
+    <>
       <div
         className="flex gap-1.5"
         role="progressbar"
@@ -82,6 +101,15 @@ export const CyberProgressBar = ({ currentTopicIndex }: CyberProgressBarProps) =
           );
         })}
       </div>
+    </>
+  );
+
+  return (
+    <div
+      className={`w-full max-w-[900px] mx-auto bg-bg-card border border-border-subtle rounded-xl p-4 ${isInteractive ? 'cursor-pointer md:cursor-default' : ''}`}
+      {...interactiveProps}
+    >
+      {progressContent}
     </div>
   );
 };

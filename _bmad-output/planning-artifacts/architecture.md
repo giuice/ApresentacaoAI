@@ -178,7 +178,7 @@ Inicialização do projeto via starter deve ser tratada como a primeira story de
     - Opcional: tratar `hashchange` apenas para navegação do browser (back/forward), sem deixar o hash “dirigir” a app continuamente.
   - Racional: estabilidade em apresentação ao vivo; evita edge cases de sincronização.
 
-- **Lazy-loading strategy:** lazy-load **apenas** dos componentes de tópicos (`Topic1..Topic16`) via `React.lazy` + `Suspense`.
+- **Lazy-loading strategy:** lazy-load **apenas** dos componentes de tópicos (`Topic1..Topic17`) via `React.lazy` + `Suspense`.
   - Shell (layout, background, context, keyboard navigation, overview) permanece eager.
   - Racional: performance (Lighthouse/TTI) e controle de fluidez (60fps).
 
@@ -275,14 +275,14 @@ Pontos com alto risco de divergência entre agentes: naming de arquivos/componen
 
 **URL Hash Pattern (Deep links):**
 
-- Formato canônico: `#/topic/<n>` onde `<n>` é 1..16.
+- Formato canônico: `#/topic/<n>` onde `<n>` é 1..17.
 - Regra: estado manda, hash espelha; parse do hash acontece na inicialização (e opcionalmente em back/forward).
 
 ### Structure Patterns
 
 **Project Organization (obrigatório):**
 
-- `src/components/topics/`: `Topic1.tsx` ... `Topic16.tsx`
+- `src/components/topics/`: `Topic1.tsx` ... `Topic17.tsx`
 - `src/components/ui/`: componentes genéricos (ex.: `AnimatedCounter.tsx`, `LiveTable.tsx`, `DecisionWizard.tsx`)
 - `src/components/layout/`: shell (ex.: `PresentationLayout.tsx`, `Overview.tsx`, `ProgressBar.tsx`, `MatrixBackground.tsx`)
 - `src/contexts/`: `PresentationContext.tsx`
@@ -300,7 +300,7 @@ Pontos com alto risco de divergência entre agentes: naming de arquivos/componen
 
 **PresentationContext State Shape (padrão):**
 
-- `currentTopicIndex: number` (1..16)
+- `currentTopicIndex: number` (1..17)
 - `direction: 'next' | 'prev'`
 - `isOverviewOpen: boolean`
 
@@ -369,11 +369,11 @@ ApresentacaoAI/
   │   ├── theme.css          # tokens Tailwind 4 via @theme (Matrix)
   │   └── globals.css        # imports + base styles
   ├── data/
-  │   ├── topics.ts          # registry: totalTopics=16, helpers, metadata
+  │   ├── topics.ts          # registry: totalTopics=17, helpers, metadata
   │   ├── topic1Data.ts
   │   ├── topic2Data.ts
   │   ├── ...
-  │   └── topic16Data.ts
+  │   └── topic17Data.ts
   ├── contexts/
   │   └── PresentationContext.tsx
   ├── hooks/
@@ -398,7 +398,7 @@ ApresentacaoAI/
   │       ├── Topic2.tsx
   │       ├── ...
   │       ├── Topic10.tsx
-  │       └── Topic16.tsx
+  │       └── Topic17.tsx
   └── __tests__/
     ├── presentationReducer.test.ts
     ├── hashParsing.test.ts
@@ -413,7 +413,7 @@ ApresentacaoAI/
 
 **Component Boundaries:**
 
-- `components/layout/`: orquestra navegação/transição, overview e background.
+- `components/layout/`: orquestra navegação/transição, overview command center e background.
 - `components/topics/`: UI específica por tópico (layout e orquestração interna).
 - `components/ui/`: componentes reutilizáveis e genéricos (sem conteúdo específico).
 - `data/`: conteúdo + métricas em formato estruturado (PT-BR), consumido pelos tópicos.
@@ -435,7 +435,7 @@ ApresentacaoAI/
 
 **FR Category: Topic Rendering (FR6–FR21) →**
 
-- `src/components/topics/Topic1..Topic16.tsx` (lazy-loaded)
+- `src/components/topics/Topic1..Topic17.tsx` (lazy-loaded)
 - `src/data/topicNData.ts` (conteúdo)
 
 **FR Category: Transitions & Visual Experience (FR22–FR24) →**
@@ -498,7 +498,7 @@ ApresentacaoAI/
 
 **Functional Requirements Coverage:**
 
-- Navegação/overview, render de 16 tópicos, transições/background, UI reusável e build estático têm mapeamento claro para arquivos/pastas.
+- Navegação/overview, render de 17 tópicos (16 da jornada principal + 1 bônus), transições/background, UI reusável e build estático têm mapeamento claro para arquivos/pastas.
 
 **Non-Functional Requirements Coverage:**
 

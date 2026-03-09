@@ -1,6 +1,25 @@
+export type TopicBlockKey =
+  | 'problem'
+  | 'evolution'
+  | 'tools'
+  | 'new-role'
+  | 'impact'
+  | 'bonus';
+
 export interface TopicMeta {
   index: number;
   title: string;
+  shortTitle: string;
+  block: TopicBlockKey;
+  isBonus?: boolean;
+}
+
+export interface TopicBlockMeta {
+  key: TopicBlockKey;
+  label: string;
+  rangeLabel: string;
+  description: string;
+  isBonus?: boolean;
 }
 
 export interface TopicPlaceholderContent {
@@ -9,26 +28,153 @@ export interface TopicPlaceholderContent {
   description: string;
 }
 
-const TOTAL_TOPICS = 16;
+export const topicBlocks: TopicBlockMeta[] = [
+  {
+    key: 'problem',
+    label: 'Bloco 1 — O Problema',
+    rangeLabel: 'Tópicos 1-3',
+    description: 'Vibe Coding, a ilusão de velocidade e o colapso do contexto.',
+  },
+  {
+    key: 'evolution',
+    label: 'Bloco 2 — A Evolução',
+    rangeLabel: 'Tópicos 4-5',
+    description: 'Da conversa solta para engenharia de contexto e specs executáveis.',
+  },
+  {
+    key: 'tools',
+    label: 'Bloco 3 — As Ferramentas',
+    rangeLabel: 'Tópicos 6-10',
+    description: 'Spec-Kit, GSD e BMAD posicionados por escala, fluxo e governança.',
+  },
+  {
+    key: 'new-role',
+    label: 'Bloco 4 — O Novo Papel',
+    rangeLabel: 'Tópicos 11-13',
+    description: 'O desenvolvedor vira orquestrador, PM de contexto e revisor crítico.',
+  },
+  {
+    key: 'impact',
+    label: 'Bloco 5 — Impacto & CTA',
+    rangeLabel: 'Tópicos 14-16',
+    description: 'ROI, sinais de mercado e o fechamento principal da narrativa.',
+  },
+  {
+    key: 'bonus',
+    label: 'Bônus Operacional',
+    rangeLabel: 'Tópico 17',
+    description: 'Copilot além do autocomplete: threads, plan, comandos e fleet.',
+    isBonus: true,
+  },
+];
 
-const topicTitlesByIndex: Partial<Record<number, string>> = {
-  1: 'Hook — O que é Vibe Coding?',
-  2: 'A Ilusão de Produtividade — Por que falha?',
-  3: 'Context Rot — O mecanismo técnico por trás da falha',
-  4: 'De Prompt Engineering para Context Engineering',
-  5: 'Spec-Driven Development',
-  6: 'Overview — A Escala de Complexidade',
-  7: 'Spec-Kit — A Constituição do Projeto',
-  8: 'GSD (Get Shit Done) — Contexto Fresco, Qualidade Constante',
-  9: 'BMAD — Framework Ágil para Orquestração de Agentes',
-  10: 'Comparativo Visual (Spec-Kit vs GSD vs BMAD)',
-  11: 'O Dev virou PM',
-  12: 'O Paradoxo do Júnior',
-  13: 'Skills que Agora Importam',
-  14: 'ROI e Linha do Tempo',
-  15: 'Cases Reais — A Prova em Escala',
-  16: 'Call to Action',
-};
+export const topics: TopicMeta[] = [
+  {
+    index: 1,
+    title: 'Hook — O que é Vibe Coding?',
+    shortTitle: 'Hook',
+    block: 'problem',
+  },
+  {
+    index: 2,
+    title: 'A Ilusão de Produtividade — Por que falha?',
+    shortTitle: 'A Ilusão de Produtividade',
+    block: 'problem',
+  },
+  {
+    index: 3,
+    title: 'Context Rot — O mecanismo técnico por trás da falha',
+    shortTitle: 'Context Rot',
+    block: 'problem',
+  },
+  {
+    index: 4,
+    title: 'De Prompt Engineering para Context Engineering',
+    shortTitle: 'Context Engineering',
+    block: 'evolution',
+  },
+  {
+    index: 5,
+    title: 'Spec-Driven Development',
+    shortTitle: 'Spec-Driven Development',
+    block: 'evolution',
+  },
+  {
+    index: 6,
+    title: 'Overview — A Escala de Complexidade',
+    shortTitle: 'A Escala de Complexidade',
+    block: 'tools',
+  },
+  {
+    index: 7,
+    title: 'Spec-Kit — A Constituição do Projeto',
+    shortTitle: 'Spec-Kit',
+    block: 'tools',
+  },
+  {
+    index: 8,
+    title: 'GSD (Get Shit Done) — Contexto Fresco, Qualidade Constante',
+    shortTitle: 'GSD',
+    block: 'tools',
+  },
+  {
+    index: 9,
+    title: 'BMAD — Framework Ágil para Orquestração de Agentes',
+    shortTitle: 'BMAD',
+    block: 'tools',
+  },
+  {
+    index: 10,
+    title: 'Comparativo Visual (Spec-Kit vs GSD vs BMAD)',
+    shortTitle: 'Comparativo Visual',
+    block: 'tools',
+  },
+  {
+    index: 11,
+    title: 'O Dev virou PM',
+    shortTitle: 'O Dev virou PM',
+    block: 'new-role',
+  },
+  {
+    index: 12,
+    title: 'O Paradoxo do Júnior',
+    shortTitle: 'O Paradoxo do Júnior',
+    block: 'new-role',
+  },
+  {
+    index: 13,
+    title: 'Skills que Agora Importam',
+    shortTitle: 'Skills que Importam',
+    block: 'new-role',
+  },
+  {
+    index: 14,
+    title: 'ROI e Linha do Tempo',
+    shortTitle: 'ROI e Linha do Tempo',
+    block: 'impact',
+  },
+  {
+    index: 15,
+    title: 'Cases Reais — A Prova em Escala',
+    shortTitle: 'Cases Reais',
+    block: 'impact',
+  },
+  {
+    index: 16,
+    title: 'Call to Action',
+    shortTitle: 'Call to Action',
+    block: 'impact',
+  },
+  {
+    index: 17,
+    title: 'Copilot além do autocomplete: como operar comandos, threads e multiagentes com controle',
+    shortTitle: 'Copilot Operacional',
+    block: 'bonus',
+    isBonus: true,
+  },
+];
+
+export const TOTAL_TOPICS = topics.length;
 
 const topicPlaceholderContentByIndex: Partial<Record<number, TopicPlaceholderContent>> = {
   1: {
@@ -113,20 +259,9 @@ const topicPlaceholderContentByIndex: Partial<Record<number, TopicPlaceholderCon
   },
 };
 
-const getTopicTitle = (topicIndex: number): string =>
-  topicTitlesByIndex[topicIndex] ?? `Tópico ${topicIndex} — título pendente`;
-
 export const getTopicPlaceholderContent = (topicIndex: number): TopicPlaceholderContent =>
   topicPlaceholderContentByIndex[topicIndex] ?? {
     title: `Tópico ${topicIndex} — título pendente`,
     subtitle: 'Conteúdo em consolidação',
     description: 'Conteúdo interativo em desenvolvimento',
   };
-
-export const topics: TopicMeta[] = Array.from({ length: TOTAL_TOPICS }, (_, index) => {
-  const topicIndex = index + 1;
-  return {
-    index: topicIndex,
-    title: getTopicTitle(topicIndex),
-  };
-});

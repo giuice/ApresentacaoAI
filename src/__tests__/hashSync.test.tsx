@@ -32,10 +32,10 @@ describe('useHashSync', () => {
       expect(result.current.currentTopicIndex).toBe(1);
     });
 
-    it('initializes to topic 16 for valid hash #/topic/16', () => {
-      window.location.hash = '#/topic/16';
+    it('initializes to topic 17 for valid hash #/topic/17', () => {
+      window.location.hash = '#/topic/17';
       const { result } = renderHook(() => useTestHook(), { wrapper });
-      expect(result.current.currentTopicIndex).toBe(16);
+      expect(result.current.currentTopicIndex).toBe(17);
     });
   });
 

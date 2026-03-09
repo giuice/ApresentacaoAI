@@ -72,7 +72,7 @@ O **ApresentacaoAI** é uma **SPA** usada como **apresentação interativa** (n�
 Sem metas numéricas de audiência/engajamento neste PRD (decisão do autor).  
 Sucesso do usuário = a apresentação roda **sem fricção**:
 
-- Navegação por teclado funciona do **tópico 1 ao 16**.
+- Navegação por teclado funciona do **tópico 1 ao 17**.
 - Conteúdo é **legível em projetor** (contraste/hierarquia visual validados em pelo menos **2 ambientes/dispositivos**).
 
 ### Business Success
@@ -89,8 +89,8 @@ Sucesso primário = **entregar o artefato** solicitado (pedido do Tech Lead): ap
 
 ### Completion Checklist
 
-- **Completude:** **16 tópicos** implementados e funcionais (**100%**).
-- **Navegação:** teclado cobre o fluxo completo (1→16) sem bugs.
+- **Completude:** **17 tópicos** implementados e funcionais, sendo **16 da jornada principal + 1 bônus operacional**.
+- **Navegação:** teclado cobre o fluxo completo (1→17) sem bugs.
 - **Legibilidade:** contraste/legibilidade validada em cenário de projetor.
 - **Entrega:** build estático publicado/implantável.
 
@@ -101,7 +101,7 @@ Sucesso primário = **entregar o artefato** solicitado (pedido do Tech Lead): ap
 1. Shell/base da apresentação (tema Matrix/tech)
 2. Navegação por teclado (← →, espaço, Esc para overview)
 3. Overview (mapa) com salto para tópico
-4. 16 componentes de tópico
+4. 17 componentes de tópico, incluindo 1 tópico bônus operacional
 5. Transições entre tópicos
 6. Componentes UI reutilizáveis (counters/tabelas/cards conforme necessidade)
 7. Background Matrix (sutil)
@@ -214,7 +214,7 @@ SPA para apresentação e exploração individual via browser, com **deploy est�
 
 - **Performance/fluidez (animações + background):** priorizar animações via transform/opacity; evitar animações de layout; manter background sutil.
 - **Navegação/overview previsíveis:** estado central único + teste manual “mouse-free” do tópico 1 ao 16.
-- **Escala (16 tópicos) sem acoplamento:** componentes UI reutilizáveis + organização por tópico.
+- **Escala (17 tópicos; 16 da jornada principal + 1 bônus operacional) sem acoplamento:** componentes UI reutilizáveis + organização por tópico.
 
 ## Functional Requirements
 
@@ -244,6 +244,7 @@ SPA para apresentação e exploração individual via browser, com **deploy est�
 - **FR19:** Sistema pode renderizar o conteúdo do **Tópico 14**.
 - **FR20:** Sistema pode renderizar o conteúdo do **Tópico 15**.
 - **FR21:** Sistema pode renderizar o conteúdo do **Tópico 16**.
+- **FR30:** Sistema pode renderizar o conteúdo do **Tópico 17** (bônus operacional de Copilot, threads, plan e fleet).
 
 ### Transitions & Visual Experience
 
