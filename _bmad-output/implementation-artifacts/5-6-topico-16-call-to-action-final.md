@@ -1,6 +1,6 @@
 # Story 5.6: Topico 16 — Call to Action Final
 
-Status: ready-for-dev
+Status: review
 
 <!-- Note: Validation is optional. Run validate-create-story for quality check before dev-story. -->
 
@@ -22,24 +22,24 @@ so that a audiencia saia motivada e com os proximos passos claros.
 
 ## Tasks / Subtasks
 
-- [ ] Task 1: Criar `src/data/topic16Data.ts` com modelo tipado do fechamento (AC: #1, #2, #4, #7)
-  - [ ] 1.1 Definir interface `Topic16Data` com: `title`, `subtitle`, `paradoxMetrics`, `riskFindings`, `enterpriseSignals`, `loopFlow`, `finalManifesto`, `narratorNotes`, `labels`.
-  - [ ] 1.2 Popular dados de `docs/topicos/topic16.md`, mantendo metricas e frases de fechamento aprovadas.
-  - [ ] 1.3 Estruturar campos para renderizar os 4 momentos visuais sem hardcode no componente.
-- [ ] Task 2: Implementar `Topic16.tsx` substituindo placeholder por encerramento completo (AC: #1, #2, #4, #6, #7)
-  - [ ] 2.1 Compor estrutura base com `TopicReveal` + `NarratorToggle`.
-  - [ ] 2.2 PAGINA 1: implementar secao "Paradoxo" com metricas de contraste (ex.: +98% vs +91%).
-  - [ ] 2.3 PAGINA 1: implementar "Parede de Dados" e "Padrao dos Grandes" com cards legiveis e hierarquia clara.
-  - [ ] 2.4 PAGINA 1: implementar "Loop Fechado" (specs upstream + review downstream + humano aprova) e manifesto final.
-  - [ ] 2.5 PAGINA 2: renderizar notas do narrador via `MatrixTerminal`.
-- [ ] Task 3: Adequar `CyberProgressBar` para estado de conclusao no Topico 16 (AC: #3)
-  - [ ] 3.1 Revisar `src/components/layout/CyberProgressBar.tsx` para suportar representacao de progresso cumulativo na etapa final.
-  - [ ] 3.2 Preservar mapeamento de segmentos existente (`getSegmentIndex`) e comportamento dos topicos anteriores.
-  - [ ] 3.3 Garantir acessibilidade (`aria-valuenow`, labels) consistente com o novo estado visual.
-- [ ] Task 4: Cobertura de testes para Topico 16 e progresso final (AC: #1-#7)
-  - [ ] 4.1 Criar `src/__tests__/topic16.test.tsx` para render de secoes, toggle de notas e data source.
-  - [ ] 4.2 Atualizar/adicionar testes do progress bar para verificar 5 blocos completos no contexto do Topico 16.
-  - [ ] 4.3 Rodar regressao (`npm test`) e build (`npm run build`).
+- [x] Task 1: Criar `src/data/topic16Data.ts` com modelo tipado do fechamento (AC: #1, #2, #4, #7)
+  - [x] 1.1 Definir interface `Topic16Data` com: `title`, `subtitle`, `paradoxMetrics`, `riskFindings`, `enterpriseSignals`, `loopFlow`, `finalManifesto`, `narratorNotes`, `labels`.
+  - [x] 1.2 Popular dados de `docs/topicos/topic16.md`, mantendo metricas e frases de fechamento aprovadas.
+  - [x] 1.3 Estruturar campos para renderizar os 4 momentos visuais sem hardcode no componente.
+- [x] Task 2: Implementar `Topic16.tsx` substituindo placeholder por encerramento completo (AC: #1, #2, #4, #6, #7)
+  - [x] 2.1 Compor estrutura base com `TopicReveal` + `NarratorToggle`.
+  - [x] 2.2 PAGINA 1: implementar secao "Paradoxo" com metricas de contraste (ex.: +98% vs +91%).
+  - [x] 2.3 PAGINA 1: implementar "Parede de Dados" e "Padrao dos Grandes" com cards legiveis e hierarquia clara.
+  - [x] 2.4 PAGINA 1: implementar "Loop Fechado" (specs upstream + review downstream + humano aprova) e manifesto final.
+  - [x] 2.5 PAGINA 2: renderizar notas do narrador via `MatrixTerminal`.
+- [x] Task 3: Adequar `CyberProgressBar` para estado de conclusao no Topico 16 (AC: #3)
+  - [x] 3.1 Revisar `src/components/layout/CyberProgressBar.tsx` para suportar representacao de progresso cumulativo na etapa final.
+  - [x] 3.2 Preservar mapeamento de segmentos existente (`getSegmentIndex`) e comportamento dos topicos anteriores.
+  - [x] 3.3 Garantir acessibilidade (`aria-valuenow`, labels) consistente com o novo estado visual.
+- [x] Task 4: Cobertura de testes para Topico 16 e progresso final (AC: #1-#7)
+  - [x] 4.1 Criar `src/__tests__/topic16.test.tsx` para render de secoes, toggle de notas e data source.
+  - [x] 4.2 Atualizar/adicionar testes do progress bar para verificar 5 blocos completos no contexto do Topico 16.
+  - [x] 4.3 Rodar regressao (`npm test`) e build (`npm run build`).
 
 ## Dev Notes
 
@@ -106,21 +106,30 @@ so that a audiencia saia motivada e com os proximos passos claros.
 ## Dev Agent Record
 
 ### Agent Model Used
-GPT-5 (GitHub Copilot CLI)
+claude-sonnet-4-6
 
 ### Debug Log References
 - Workflow source: `_bmad/core/tasks/workflow.xml`
-- Story workflow config: `_bmad/bmm/workflows/4-implementation/create-story/workflow.yaml`
-- Story instructions: `_bmad/bmm/workflows/4-implementation/create-story/instructions.xml`
+- Story workflow config: `_bmad/bmm/workflows/4-implementation/dev-story/workflow.yaml`
+- Story instructions: `_bmad/bmm/workflows/4-implementation/dev-story/instructions.xml`
 
 ### Completion Notes List
 - Story 5.6 criada em modo nao-interativo (YOLO) com status `ready-for-dev`.
 - Requisitos do fechamento alinhados ao Epic 5 e ao topico consolidado (`topic16.md`).
 - Guardrails tecnicos explicitam a validacao de progresso final sem introduzir dependencias externas.
+- **Task 1**: `src/data/topic16Data.ts` criado com interface `Topic16Data` tipada e dados completos dos 4 momentos visuais (paradoxo, riskFindings, enterpriseCards, loopSteps) + finalManifesto + narratorNotes.
+- **Task 2**: `Topic16.tsx` implementado substituindo placeholder. Estrutura: TopicReveal + NarratorToggle, Pagina 1 com 4 momentos separados por GlowDivider, Pagina 2 com MatrixTerminal. Animacoes Framer Motion com suporte a reduced motion.
+- **Task 3**: `CyberProgressBar.tsx` atualizado para progresso cumulativo — segmentos `< activeSegment` recebem `bg-accent-primary/50` (concluido) e `aria-label "(concluido)"`. O segmento ativo mantem o glow completo. `getSegmentIndex` preservado sem alteracao.
+- **Task 4**: `src/__tests__/topic16.test.tsx` criado com 16 testes cobrindo data source, render das 4 secoes, toggle de paginas e CyberProgressBar no contexto do topico 16. 292 testes passando, build limpo (10.10 kB gzip 3.62 kB para Topic16).
 
 ### File List
-- `_bmad-output/implementation-artifacts/5-6-topico-16-call-to-action-final.md` (created)
+- `_bmad-output/implementation-artifacts/5-6-topico-16-call-to-action-final.md` (updated)
+- `src/data/topic16Data.ts` (created)
+- `src/components/topics/Topic16.tsx` (updated)
+- `src/components/layout/CyberProgressBar.tsx` (updated)
+- `src/__tests__/topic16.test.tsx` (created)
 
 ## Change Log
 
 - 2026-03-08: Criada story de contexto 5.6 (ready-for-dev) com ACs, tasks, guardrails tecnicos e referencias de projeto.
+- 2026-03-09: Implementacao completa — Topic16Data, Topic16.tsx (4 momentos visuais + MatrixTerminal), CyberProgressBar progresso cumulativo, 16 testes. 292 testes passando, build limpo.

@@ -49,6 +49,7 @@ export const CyberProgressBar = ({ currentTopicIndex }: CyberProgressBarProps) =
         {SEGMENT_LABELS.map((label, i) => {
           const segmentNumber = i + 1;
           const isActive = segmentNumber === activeSegment;
+          const isCompleted = segmentNumber < activeSegment;
 
           return (
             <div
@@ -57,10 +58,12 @@ export const CyberProgressBar = ({ currentTopicIndex }: CyberProgressBarProps) =
                 h-2 flex-1 rounded-sm transition-all duration-500
                 ${isActive
                   ? 'bg-accent-primary shadow-[0_0_12px_var(--glow-primary-strong)]'
+                  : isCompleted
+                  ? 'bg-accent-primary/50'
                   : 'bg-border-subtle'
                 }
               `}
-              aria-label={`${label}${isActive ? ' (ativo)' : ''}`}
+              aria-label={`${label}${isActive ? ' (ativo)' : isCompleted ? ' (concluido)' : ''}`}
             />
           );
         })}
@@ -72,7 +75,7 @@ export const CyberProgressBar = ({ currentTopicIndex }: CyberProgressBarProps) =
           return (
             <span
               key={segmentNumber}
-              className={`flex-1 text-center font-mono text-[0.6rem] tracking-[0.1em] uppercase transition-colors duration-400 ${isActive ? 'text-accent-primary' : 'text-text-muted'}`}
+              className={`flex-1 text-center font-mono text-[0.6rem] tracking-[0.1em] uppercase transition-colors duration-400 ${isActive ? 'text-accent-primary' : segmentNumber < activeSegment ? 'text-accent-primary/60' : 'text-text-muted'}`}
             >
               {label}
             </span>

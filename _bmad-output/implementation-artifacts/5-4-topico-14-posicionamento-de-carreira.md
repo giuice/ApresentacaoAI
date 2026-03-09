@@ -1,6 +1,6 @@
 # Story 5.4: Tópico 14 — Posicionamento de Carreira
 
-Status: ready-for-dev
+Status: review
 
 <!-- Note: Validation is optional. Run validate-create-story for quality check before dev-story. -->
 
@@ -18,22 +18,22 @@ para que eu saia da apresentação com um plano de ação concreto.
 
 ## Tasks / Subtasks
 
-- [ ] Task 1: Criar `src/data/topic14Data.ts` com o conteúdo consolidado (AC: #1, #2)
-  - [ ] 1.1 Definir interface tipada (hero, curva J, forças do vale, duas curvas, Nyquist, ROI, plano de ação do narrador).
-  - [ ] 1.2 Consolidar os dados de `docs/topicos/topic14.md` em estrutura renderizável e escaneável.
-  - [ ] 1.3 Destacar métrica principal (`US$ 3,70 / US$ 10,30` vs `-19%`) e vincular ao posicionamento profissional orientado por validação.
-- [ ] Task 2: Implementar `Topic14.tsx` com experiência visual coerente ao bloco de impacto (AC: #1, #2, #3)
-  - [ ] 2.1 Montar Página 1 com narrativa “curva J + verificação rastreável + fórmula de ROI” sem depender de novas libs de charting.
-  - [ ] 2.2 Reusar componentes existentes (`TopicReveal`, `NeonCard`, `AnimatedCounter` quando aplicável, `GlowDivider`, `NarratorToggle`, `MatrixTerminal`).
-  - [ ] 2.3 Garantir legibilidade em projetor e foco em mensagem prática de carreira (o que fazer agora, no próximo projeto).
-  - [ ] 2.4 Montar Página 2 com roteiro de fala em formato acionável para público técnico/executivo.
-- [ ] Task 3: Cobrir com testes da story (AC: #1, #2, #3)
-  - [ ] 3.1 Criar `src/__tests__/topic14.test.tsx` para validar render dos blocos centrais e métricas.
-  - [ ] 3.2 Validar consumo de `topic14Data.ts` (sem hardcode de conteúdo no JSX).
-  - [ ] 3.3 Validar toggle entre página de conteúdo e notas do narrador.
-- [ ] Task 4: Executar gates obrigatórios do repositório
-  - [ ] 4.1 `npm run test`
-  - [ ] 4.2 `npm run build`
+- [x] Task 1: Criar `src/data/topic14Data.ts` com o conteúdo consolidado (AC: #1, #2)
+  - [x] 1.1 Definir interface tipada (hero, curva J, forças do vale, duas curvas, Nyquist, ROI, plano de ação do narrador).
+  - [x] 1.2 Consolidar os dados de `docs/topicos/topic14.md` em estrutura renderizável e escaneável.
+  - [x] 1.3 Destacar métrica principal (`US$ 3,70 / US$ 10,30` vs `-19%`) e vincular ao posicionamento profissional orientado por validação.
+- [x] Task 2: Implementar `Topic14.tsx` com experiência visual coerente ao bloco de impacto (AC: #1, #2, #3)
+  - [x] 2.1 Montar Página 1 com narrativa “curva J + verificação rastreável + fórmula de ROI” sem depender de novas libs de charting.
+  - [x] 2.2 Reusar componentes existentes (`TopicReveal`, `NeonCard`, `AnimatedCounter` quando aplicável, `GlowDivider`, `NarratorToggle`, `MatrixTerminal`).
+  - [x] 2.3 Garantir legibilidade em projetor e foco em mensagem prática de carreira (o que fazer agora, no próximo projeto).
+  - [x] 2.4 Montar Página 2 com roteiro de fala em formato acionável para público técnico/executivo.
+- [x] Task 3: Cobrir com testes da story (AC: #1, #2, #3)
+  - [x] 3.1 Criar `src/__tests__/topic14.test.tsx` para validar render dos blocos centrais e métricas.
+  - [x] 3.2 Validar consumo de `topic14Data.ts` (sem hardcode de conteúdo no JSX).
+  - [x] 3.3 Validar toggle entre página de conteúdo e notas do narrador.
+- [x] Task 4: Executar gates obrigatórios do repositório
+  - [x] 4.1 `npm run test`
+  - [x] 4.2 `npm run build`
 
 ## Dev Notes
 
@@ -100,25 +100,35 @@ para que eu saia da apresentação com um plano de ação concreto.
 
 ### Agent Model Used
 
-GitHub Copilot CLI (GPT-5.4)
+Claude Sonnet 4.6 (claude-sonnet-4-6)
 
 ### Debug Log References
 
 - Workflow engine: `_bmad/core/tasks/workflow.xml`
-- Workflow config: `_bmad/bmm/workflows/4-implementation/create-story/workflow.yaml`
-- Instructions: `_bmad/bmm/workflows/4-implementation/create-story/instructions.xml`
+- Workflow config: `_bmad/bmm/workflows/4-implementation/dev-story/workflow.yaml`
+- Instructions: `_bmad/bmm/workflows/4-implementation/dev-story/instructions.xml`
 
 ### Completion Notes List
 
 - Story context 5.4 gerada em modo YOLO a partir do fluxo create-story.
 - Contexto consolidado com base em Epic 5, `docs/topicos/topic14.md` e padrão de documentação das stories 4.x.
 - Documento pronto para execução por dev agent com guardrails de arquitetura, testes e estrutura de arquivos.
+- **Implementação completa**: `src/data/topic14Data.ts` criado com interface tipada completa (hero, curva J, 3 forças do vale, 2 curvas, 4 métricas ROI, fórmula, notas do narrador).
+- **Topic14.tsx** implementado com 5 seções: hero contraste (-19% vs US$3,70/10,30), fases da curva J, forças do vale, duas curvas, dashboard ROI + fórmula. Página 2 com MatrixTerminal.
+- **16 testes criados** em `src/__tests__/topic14.test.tsx` — todos passando.
+- **251/251 testes** na suíte completa — zero regressões.
+- **Build limpo** — `Topic14-TGG14jSZ.js` (13.79 kB) gerado sem erros TypeScript.
+- Padrão de componente Topic11/12/13 seguido rigorosamente: TopicReveal, NeonCard, AnimatedCounter, GlowDivider, NarratorToggle, MatrixTerminal. Sem novas dependências.
 
 ### File List
 
-- `_bmad-output/implementation-artifacts/5-4-topico-14-posicionamento-de-carreira.md` (created)
+- `_bmad-output/implementation-artifacts/5-4-topico-14-posicionamento-de-carreira.md` (created, updated)
+- `src/data/topic14Data.ts` (created)
+- `src/components/topics/Topic14.tsx` (updated — was placeholder)
+- `src/__tests__/topic14.test.tsx` (created)
 
 ## Change Log
 
 - 2026-03-08: Criação da story de contexto 5.4 com status `ready-for-dev`, ACs, tarefas, guardrails técnicos e referências de projeto.
+- 2026-03-09: Implementação completa — `topic14Data.ts`, `Topic14.tsx`, `topic14.test.tsx`. 251/251 testes, build limpo. Status → `review`.
 

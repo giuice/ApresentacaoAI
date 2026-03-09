@@ -81,12 +81,12 @@ development_status:
   epic-4-retrospective: optional
 
   # ─── Epic 5: Bloco 4 & 5 — O Novo Papel & CTA (Tópicos 11–16) ─────────────
-  epic-5: backlog
-  5-1-topico-11-o-novo-desenvolvedor: backlog
-  5-2-topico-12-roi-e-metricas-de-impacto: backlog
-  5-3-topico-13-o-paradoxo-do-junior: backlog
-  5-4-topico-14-posicionamento-de-carreira: backlog
-  5-5-topico-15-caminho-de-implementacao: backlog
-  5-6-topico-16-call-to-action-final: backlog
+  epic-5: in-progress
+  5-1-topico-11-o-novo-desenvolvedor: review
+  5-2-topico-12-roi-e-metricas-de-impacto: review
+  5-3-topico-13-o-paradoxo-do-junior: review
+  5-4-topico-14-posicionamento-de-carreira: review
+  5-5-topico-15-caminho-de-implementacao: review
+  5-6-topico-16-call-to-action-final: review
   epic-5-retrospective: optional
 

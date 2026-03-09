@@ -1,6 +1,6 @@
 # Story 5.3: Tópico 13 — O Paradoxo do Júnior
 
-Status: ready-for-dev
+Status: review
 
 <!-- Note: Validation is optional. Run validate-create-story for quality check before dev-story. -->
 
@@ -18,22 +18,22 @@ para que eu entenda que método é o diferencial e não a experiência bruta.
 
 ## Tasks / Subtasks
 
-- [ ] Task 1: Criar `src/data/topic13Data.ts` a partir do conteúdo consolidado (AC: #1, #2)
-  - [ ] 1.1 Definir interface tipada para o tópico (título, subtítulo, métrica principal, skills, matriz skills×ferramentas, narrador).
-  - [ ] 1.2 Consolidar os dados de `docs/topicos/topic13.md` em blocos prontos para renderização (abertura, 5 skills, mapa comparativo, fechamento).
-  - [ ] 1.3 Incluir a métrica principal de upskilling (80%) e métricas de suporte do tópico, sem hardcode no JSX.
-- [ ] Task 2: Implementar `Topic13.tsx` com layout narrativo único do bloco “Novo Papel” (AC: #1, #2, #3)
-  - [ ] 2.1 Estruturar Página 1 com composição distinta dos tópicos 6–12 (timeline narrativa + seção de skills + tabela comparativa).
-  - [ ] 2.2 Reusar componentes do design system já existentes (`TopicReveal`, `NeonCard`, `GlowDivider`, `NarratorToggle`, `MatrixTerminal`) sem criar biblioteca nova.
-  - [ ] 2.3 Garantir hierarquia visual de palco (métrica de destaque, títulos, conteúdo, metadados) e responsividade desktop-first.
-  - [ ] 2.4 Implementar Página 2 com notas do narrador em tom conversacional (orientadas ao “Aha!” e transição para fechamento do Epic 5).
-- [ ] Task 3: Cobrir com testes da story (AC: #1, #2, #3)
-  - [ ] 3.1 Criar `src/__tests__/topic13.test.tsx` para validar render de título, métrica de destaque e blocos principais.
-  - [ ] 3.2 Validar que `Topic13` consome `topic13Data.ts` (sem conteúdo hardcoded no componente).
-  - [ ] 3.3 Validar toggle entre Página 1 e Página 2 e render das notas do narrador.
-- [ ] Task 4: Executar gates obrigatórios do repositório
-  - [ ] 4.1 `npm run test`
-  - [ ] 4.2 `npm run build`
+- [x] Task 1: Criar `src/data/topic13Data.ts` a partir do conteúdo consolidado (AC: #1, #2)
+  - [x] 1.1 Definir interface tipada para o tópico (título, subtítulo, métrica principal, skills, matriz skills×ferramentas, narrador).
+  - [x] 1.2 Consolidar os dados de `docs/topicos/topic13.md` em blocos prontos para renderização (abertura, 5 skills, mapa comparativo, fechamento).
+  - [x] 1.3 Incluir a métrica principal de upskilling (80%) e métricas de suporte do tópico, sem hardcode no JSX.
+- [x] Task 2: Implementar `Topic13.tsx` com layout narrativo único do bloco “Novo Papel” (AC: #1, #2, #3)
+  - [x] 2.1 Estruturar Página 1 com composição distinta dos tópicos 6–12 (timeline narrativa + seção de skills + tabela comparativa).
+  - [x] 2.2 Reusar componentes do design system já existentes (`TopicReveal`, `NeonCard`, `GlowDivider`, `NarratorToggle`, `MatrixTerminal`) sem criar biblioteca nova.
+  - [x] 2.3 Garantir hierarquia visual de palco (métrica de destaque, títulos, conteúdo, metadados) e responsividade desktop-first.
+  - [x] 2.4 Implementar Página 2 com notas do narrador em tom conversacional (orientadas ao “Aha!” e transição para fechamento do Epic 5).
+- [x] Task 3: Cobrir com testes da story (AC: #1, #2, #3)
+  - [x] 3.1 Criar `src/__tests__/topic13.test.tsx` para validar render de título, métrica de destaque e blocos principais.
+  - [x] 3.2 Validar que `Topic13` consome `topic13Data.ts` (sem conteúdo hardcoded no componente).
+  - [x] 3.3 Validar toggle entre Página 1 e Página 2 e render das notas do narrador.
+- [x] Task 4: Executar gates obrigatórios do repositório
+  - [x] 4.1 `npm run test`
+  - [x] 4.2 `npm run build`
 
 ## Dev Notes
 
@@ -115,12 +115,20 @@ GitHub Copilot CLI (GPT-5.4)
 - Story context 5.3 gerada em modo YOLO a partir do fluxo create-story.
 - Contexto consolidado com base em Epic 5, `docs/topicos/topic13.md` e padrões das stories 4.x.
 - Documento estruturado para execução direta por dev agent sem dependências novas.
+- **Implementação (2026-03-09):** `topic13Data.ts` criado com interface tipada completa (SkillConnection, SkillItem, SkillMatrixRow, Topic13Data); 5 skills do Context Engineer com dados narrativos "Um Dia na Vida" + conexões por ferramenta; matriz skills×ferramentas; métricas de suporte (Gartner 80%, +1.445% multi-agentes, DevOps Digest); notes do narrador com 9 pontos de condução.
+- `Topic13.tsx` implementado com layout distinto dos tópicos 6–12: hero AnimatedCounter 80%, supporting metrics pills, timeline vertical com timestamps (08:30–14:00), tabela matrix skills×ferramentas, closing quote, Página 2 com MatrixTerminal.
+- 235/235 testes passando; build gerado (`Topic13-BjSUyOif.js`, 12.26 kB gzip 4.53 kB).
 
 ### File List
 
-- `_bmad-output/implementation-artifacts/5-3-topico-13-o-paradoxo-do-junior.md` (created)
+- `_bmad-output/implementation-artifacts/5-3-topico-13-o-paradoxo-do-junior.md` (updated)
+- `src/data/topic13Data.ts` (created)
+- `src/components/topics/Topic13.tsx` (updated — substituído placeholder)
+- `src/__tests__/topic13.test.tsx` (created)
+- `_bmad-output/implementation-artifacts/sprint-status.yaml` (updated — status: review)
 
 ## Change Log
 
 - 2026-03-08: Criação da story de contexto 5.3 com status `ready-for-dev`, ACs, tarefas, guardrails técnicos e referências de projeto.
+- 2026-03-09: Implementação completa — `topic13Data.ts`, `Topic13.tsx` (substituição do placeholder), `topic13.test.tsx`. 235/235 testes passando, build ok. Status: `review`.
 

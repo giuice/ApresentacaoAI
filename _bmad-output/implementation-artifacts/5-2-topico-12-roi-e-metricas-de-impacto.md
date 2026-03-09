@@ -1,6 +1,6 @@
 # Story 5.2: Tópico 12 — ROI e Métricas de Impacto
 
-Status: ready-for-dev
+Status: review
 
 ## Story
 
@@ -17,25 +17,25 @@ so that eu possa justificar o investimento em ferramentas e metodologia para min
 
 ## Tasks / Subtasks
 
-- [ ] Task 1: Criar `src/data/topic12Data.ts` com foco executivo (AC: #1, #3, #4)
-  - [ ] 1.1 Definir interface `Topic12Data` com blocos de ROI (métricas positivas), evidências de impacto e notas para decisão de investimento.
-  - [ ] 1.2 Estruturar coleção de métricas numéricas para renderização por `AnimatedCounter` (`variant="success"`), com contexto e fonte.
-  - [ ] 1.3 Consolidar `narratorNotes` orientadas à conversa com EM/CTO (trade-offs, risco de não adoção estruturada e payoff esperado).
-- [ ] Task 2: Implementar `src/components/topics/Topic12.tsx` (AC: #1, #2, #4)
-  - [ ] 2.1 Substituir placeholder por layout completo com `TopicReveal` + `NarratorToggle`.
-  - [ ] 2.2 Página 1: renderizar painel de ROI e impacto com destaque para ganhos positivos usando `AnimatedCounter variant="success"`.
-  - [ ] 2.3 Compor seções de suporte (ex.: evidências, contexto de eficiência, implicações organizacionais) com `NeonCard`/`GlowDivider` sem poluir leitura.
-  - [ ] 2.4 Página 2: renderizar notas executivas em `MatrixTerminal`.
-  - [ ] 2.5 Garantir legibilidade em projetor e responsividade sem overflow.
-- [ ] Task 3: Criar testes em `src/__tests__/topic12.test.tsx` (AC: #1-#4)
-  - [ ] 3.1 Validar render do conteúdo principal com base em `topic12Data`.
-  - [ ] 3.2 Validar presença de `AnimatedCounter` nas métricas positivas (variant success).
-  - [ ] 3.3 Validar toggle Conteúdo/Notas e renderização de `MatrixTerminal`.
-  - [ ] 3.4 Validar que texto e métricas vêm de `src/data/topic12Data.ts`.
-- [ ] Task 4: Gates de qualidade
-  - [ ] 4.1 Executar `npm test` com suíte verde.
-  - [ ] 4.2 Executar `npm run build` sem erros.
-  - [ ] 4.3 Confirmar ausência de regressão em navegação global da apresentação.
+- [x] Task 1: Criar `src/data/topic12Data.ts` com foco executivo (AC: #1, #3, #4)
+  - [x] 1.1 Definir interface `Topic12Data` com blocos de ROI (métricas positivas), evidências de impacto e notas para decisão de investimento.
+  - [x] 1.2 Estruturar coleção de métricas numéricas para renderização por `AnimatedCounter` (`variant="success"`), com contexto e fonte.
+  - [x] 1.3 Consolidar `narratorNotes` orientadas à conversa com EM/CTO (trade-offs, risco de não adoção estruturada e payoff esperado).
+- [x] Task 2: Implementar `src/components/topics/Topic12.tsx` (AC: #1, #2, #4)
+  - [x] 2.1 Substituir placeholder por layout completo com `TopicReveal` + `NarratorToggle`.
+  - [x] 2.2 Página 1: renderizar painel de ROI e impacto com destaque para ganhos positivos usando `AnimatedCounter variant="success"`.
+  - [x] 2.3 Compor seções de suporte (ex.: evidências, contexto de eficiência, implicações organizacionais) com `NeonCard`/`GlowDivider` sem poluir leitura.
+  - [x] 2.4 Página 2: renderizar notas executivas em `MatrixTerminal`.
+  - [x] 2.5 Garantir legibilidade em projetor e responsividade sem overflow.
+- [x] Task 3: Criar testes em `src/__tests__/topic12.test.tsx` (AC: #1-#4)
+  - [x] 3.1 Validar render do conteúdo principal com base em `topic12Data`.
+  - [x] 3.2 Validar presença de `AnimatedCounter` nas métricas positivas (variant success).
+  - [x] 3.3 Validar toggle Conteúdo/Notas e renderização de `MatrixTerminal`.
+  - [x] 3.4 Validar que texto e métricas vêm de `src/data/topic12Data.ts`.
+- [x] Task 4: Gates de qualidade
+  - [x] 4.1 Executar `npm test` com suíte verde (13/13 novos testes + 217 total sem regressão).
+  - [x] 4.2 Executar `npm run build` sem erros (Topic12 bundle gerado: 7.70 kB).
+  - [x] 4.3 Confirmar ausência de regressão em navegação global da apresentação (27 test files, 217 tests passed).
 
 ## Dev Notes
 
@@ -86,13 +86,17 @@ so that eu possa justificar o investimento em ferramentas e metodologia para min
 ## Dev Agent Record
 
 ### Agent Model Used
-- A preencher no `dev-story`.
+- claude-sonnet-4-6 (Claude Code CLI)
 
 ### Debug Log References
-- A preencher no `dev-story`.
+- Nenhum bloqueio encontrado. Implementação direta seguindo padrão Topic11.
 
 ### Completion Notes List
-- A preencher no `dev-story`.
+- ✅ `src/data/topic12Data.ts` criado com interface `Topic12Data` tipada, `heroMetric` (55%), array `roiMetrics` (4 métricas com AnimatedCounter success), array `impactCases` (3 cases reais) e `narratorNotes` orientadas a EM/CTO.
+- ✅ `src/components/topics/Topic12.tsx` implementado: layout único (hero counter + grid 2-col métricas + grid 3-col cases), duas páginas via NarratorToggle, MatrixTerminal na página de notas.
+- ✅ `src/__tests__/topic12.test.tsx` criado com 13 testes cobrindo data integrity, render de componentes, toggle de páginas e rastreabilidade da fonte de dados.
+- ✅ 217/217 testes passando na suíte completa, zero regressões.
+- ✅ Build sem erros: `Topic12-GRms2liY.js` (7.70 kB / 2.96 kB gzip).
 
 ### File List
 - `src/data/topic12Data.ts` (novo)
@@ -103,3 +107,4 @@ so that eu possa justificar o investimento em ferramentas e metodologia para min
 ## Change Log
 
 - 2026-03-08: Story criada em modo não-interativo (YOLO) com status `ready-for-dev`, ACs completos e guia de implementação orientado a público executivo.
+- 2026-03-09: Implementação completa por dev-story. Arquivos criados/atualizados: topic12Data.ts, Topic12.tsx, topic12.test.tsx. Status atualizado para `review`.

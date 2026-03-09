@@ -1,6 +1,6 @@
 # Story 5.1: Tópico 11 — O Novo Desenvolvedor
 
-Status: ready-for-dev
+Status: review
 
 ## Story
 
@@ -17,25 +17,25 @@ so that eu entenda que a IA não substitui o dev, mas amplifica quem usa método
 
 ## Tasks / Subtasks
 
-- [ ] Task 1: Criar `src/data/topic11Data.ts` com conteúdo consolidado (AC: #2, #4)
-  - [ ] 1.1 Definir interface `Topic11Data` com seções para: hero (escada Codeforces), transição Coder → Conductor → Orchestrator, responsabilidades do novo papel, métricas e notas do narrador.
-  - [ ] 1.2 Estruturar métricas com fontes e contexto executivo (ex.: rating 2727 / percentil 99,8; 57% workflows multi-agente), mantendo texto em PT-BR.
-  - [ ] 1.3 Exportar labels de acessibilidade e strings de UI (eyebrows, títulos de bloco e título do terminal de notas).
-- [ ] Task 2: Implementar `src/components/topics/Topic11.tsx` (AC: #1, #3, #4)
-  - [ ] 2.1 Substituir placeholder por layout completo usando `TopicReveal` + `TopicRevealItem` + `NarratorToggle`.
-  - [ ] 2.2 Página 1: renderizar narrativa “dev como orquestrador” com blocos visuais distintos (hero Codeforces, transição de papéis e responsibilities board), alimentados exclusivamente por `topic11Data`.
-  - [ ] 2.3 Página 2: renderizar notas via `MatrixTerminal` com linhas derivadas de `narratorNotes`.
-  - [ ] 2.4 Garantir legibilidade em projetor (desktop) sem overflow estrutural e mantendo contraste do tema Matrix.
-  - [ ] 2.5 Manter animações com stagger ≥ 0.4s (padrão `TopicReveal`), respeitando reduced motion.
-- [ ] Task 3: Criar testes em `src/__tests__/topic11.test.tsx` (AC: #1-#4)
-  - [ ] 3.1 Validar render do título/subtítulo com dados vindos de `topic11Data`.
-  - [ ] 3.2 Validar presença dos blocos-chave do tópico (hero, transição e responsabilidades).
-  - [ ] 3.3 Validar toggle de páginas (Conteúdo ↔ Notas) com renderização de `MatrixTerminal`.
-  - [ ] 3.4 Validar que os dados exibidos são oriundos de `src/data/topic11Data.ts`.
-- [ ] Task 4: Gates de qualidade
-  - [ ] 4.1 Executar `npm test` com suíte verde.
-  - [ ] 4.2 Executar `npm run build` sem erros.
-  - [ ] 4.3 Confirmar lazy-load do tópico preservado no build final.
+- [x] Task 1: Criar `src/data/topic11Data.ts` com conteúdo consolidado (AC: #2, #4)
+  - [x] 1.1 Definir interface `Topic11Data` com seções para: hero (escada Codeforces), transição Coder → Conductor → Orchestrator, responsabilidades do novo papel, métricas e notas do narrador.
+  - [x] 1.2 Estruturar métricas com fontes e contexto executivo (ex.: rating 2727 / percentil 99,8; 57% workflows multi-agente), mantendo texto em PT-BR.
+  - [x] 1.3 Exportar labels de acessibilidade e strings de UI (eyebrows, títulos de bloco e título do terminal de notas).
+- [x] Task 2: Implementar `src/components/topics/Topic11.tsx` (AC: #1, #3, #4)
+  - [x] 2.1 Substituir placeholder por layout completo usando `TopicReveal` + `TopicRevealItem` + `NarratorToggle`.
+  - [x] 2.2 Página 1: renderizar narrativa “dev como orquestrador” com blocos visuais distintos (hero Codeforces, transição de papéis e responsibilities board), alimentados exclusivamente por `topic11Data`.
+  - [x] 2.3 Página 2: renderizar notas via `MatrixTerminal` com linhas derivadas de `narratorNotes`.
+  - [x] 2.4 Garantir legibilidade em projetor (desktop) sem overflow estrutural e mantendo contraste do tema Matrix.
+  - [x] 2.5 Manter animações com stagger ≥ 0.4s (padrão `TopicReveal`), respeitando reduced motion.
+- [x] Task 3: Criar testes em `src/__tests__/topic11.test.tsx` (AC: #1-#4)
+  - [x] 3.1 Validar render do título/subtítulo com dados vindos de `topic11Data`.
+  - [x] 3.2 Validar presença dos blocos-chave do tópico (hero, transição e responsabilidades).
+  - [x] 3.3 Validar toggle de páginas (Conteúdo ↔ Notas) com renderização de `MatrixTerminal`.
+  - [x] 3.4 Validar que os dados exibidos são oriundos de `src/data/topic11Data.ts`.
+- [x] Task 4: Gates de qualidade
+  - [x] 4.1 Executar `npm test` com suíte verde.
+  - [x] 4.2 Executar `npm run build` sem erros.
+  - [x] 4.3 Confirmar lazy-load do tópico preservado no build final.
 
 ## Dev Notes
 
@@ -82,20 +82,25 @@ so that eu entenda que a IA não substitui o dev, mas amplifica quem usa método
 ## Dev Agent Record
 
 ### Agent Model Used
-- A preencher no `dev-story`.
+- claude-sonnet-4-6
 
 ### Debug Log References
-- A preencher no `dev-story`.
+- Build falhou inicialmente com TS2322: NeonCard não aceita variant `"default"` — corrigido para `"danger"` (before panel e stages inativos).
 
 ### Completion Notes List
-- A preencher no `dev-story`.
+- Criado `src/data/topic11Data.ts` com interface completa: escada Codeforces (4 modelos), 3 estágios de transição, responsabilidades before/after, métricas orquestração (57%) e 5 notas do narrador.
+- `Topic11.tsx` substituiu o placeholder com layout de 2 páginas seguindo padrão Topic9/Topic10: tabela Codeforces animada, 3 NeonCards de transição, before/after, AnimatedCounter para 57%, MatrixTerminal para notas.
+- 9 testes criados cobrindo: estrutura de dados, tabela Codeforces, estágios, toggle de páginas, dado de orquestração e fonte única de dados.
+- 204/204 testes passaram (zero regressões). Build limpo com lazy chunk `Topic11-DmkT1Hlx.js` (10.82 kB).
 
 ### File List
 - `src/data/topic11Data.ts` (novo)
-- `src/components/topics/Topic11.tsx` (atualizar placeholder)
+- `src/components/topics/Topic11.tsx` (atualizado — substituiu placeholder)
 - `src/__tests__/topic11.test.tsx` (novo)
-- `C:\Projects\ApresentacaoAI\_bmad-output\implementation-artifacts\5-1-topico-11-o-novo-desenvolvedor.md` (contexto)
+- `_bmad-output/implementation-artifacts/5-1-topico-11-o-novo-desenvolvedor.md` (atualizado)
+- `_bmad-output/implementation-artifacts/sprint-status.yaml` (atualizado)
 
 ## Change Log
 
 - 2026-03-08: Story criada em modo não-interativo (YOLO) com status `ready-for-dev`, ACs consolidados e contexto técnico completo para implementação.
+- 2026-03-09: Implementação completa. Todos os ACs satisfeitos. Status → review.
