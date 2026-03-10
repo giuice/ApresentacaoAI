@@ -8,8 +8,8 @@ describe('topic17Data', () => {
   it('exporta estrutura completa para o topico 17', () => {
     expect(topic17Data.title).toBeTruthy();
     expect(topic17Data.subtitle).toBeTruthy();
-    expect(topic17Data.sections.length).toBeGreaterThanOrEqual(6);
-    expect(topic17Data.skillsCaseStudy).toBeTruthy();
+    expect(topic17Data.sections.length).toBe(6);
+    expect('skillsCaseStudy' in topic17Data).toBe(false);
     expect(topic17Data.closing).toBeTruthy();
     expect(topic17Data.narratorNotes.length).toBeGreaterThan(0);
   });
@@ -22,13 +22,15 @@ describe('topic17Data', () => {
     });
   });
 
-  it('define skills case study com resultados e filosofia', () => {
-    const cs = topic17Data.skillsCaseStudy;
-    expect(cs.results.length).toBeGreaterThanOrEqual(2);
-    expect(cs.philosophy.model.length).toBeGreaterThan(0);
-    expect(cs.philosophy.scripts.length).toBeGreaterThan(0);
-    expect(cs.concreteSkills.length).toBeGreaterThan(0);
-    expect(cs.triggers.examples.length).toBeGreaterThan(0);
+  it('define os 6 ids esperados na ordem correta', () => {
+    expect(topic17Data.sections.map((section) => section.id)).toEqual([
+      'commands',
+      'skills',
+      'mcp',
+      'hooks',
+      'plugins',
+      'openai-case',
+    ]);
   });
 });
 
@@ -48,11 +50,14 @@ describe('Topic17', () => {
     });
   });
 
-  it('renderiza a secao de skills case study', () => {
+  it('renderiza a secao final do caso OpenAI como NarrativeSection', () => {
     render(<Topic17 />);
 
-    expect(screen.getByText(topic17Data.skillsCaseStudy.title)).toBeInTheDocument();
-    expect(screen.getByText(topic17Data.skillsCaseStudy.eyebrow)).toBeInTheDocument();
+    const openAiCase = topic17Data.sections.find((section) => section.id === 'openai-case');
+
+    expect(openAiCase).toBeTruthy();
+    expect(screen.getByText(openAiCase!.title)).toBeInTheDocument();
+    expect(screen.getByText(openAiCase!.eyebrow)).toBeInTheDocument();
   });
 
   it('renderiza o closing com headline e formula', () => {
@@ -68,6 +73,7 @@ describe('Topic17', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Notas' }));
     expect(screen.getByTestId('matrix-terminal')).toBeInTheDocument();
     expect(screen.getByText(topic17Data.labels.notesTerminalTitle)).toBeInTheDocument();
+    expect(screen.queryByText(topic17Data.sections[0].eyebrow)).not.toBeInTheDocument();
   });
 
   it('volta para conteudo a partir das notas', () => {

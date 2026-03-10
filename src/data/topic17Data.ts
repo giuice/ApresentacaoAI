@@ -19,26 +19,10 @@ export interface NarrativeItem {
   accent?: 'primary' | 'warning' | 'neutral';
 }
 
-export interface SkillsCaseStudy {
-  eyebrow: string;
-  title: string;
-  intro: string;
-  concept: string;
-  structure: NarrativeItem[];
-  progressiveDisclosure: { layers: { label: string; description: string }[] };
-  results: { label: string; value: string; detail: string; tone: 'positive' | 'warning' }[];
-  philosophy: { model: string[]; scripts: string[] };
-  antiPatterns: string[];
-  concreteSkills: NarrativeItem[];
-  triggers: { description: string; examples: string[] };
-  takeaway: string;
-}
-
 export interface Topic17Data {
   title: string;
   subtitle: string;
   sections: NarrativeSection[];
-  skillsCaseStudy: SkillsCaseStudy;
   closing: {
     eyebrow: string;
     headline: string;
@@ -57,260 +41,277 @@ export interface Topic17Data {
 // ─── Data ────────────────────────────────────────────────────────────────────
 
 export const topic17Data: Topic17Data = {
-  title: 'Copilot além do autocomplete',
-  subtitle: 'Como operar comandos, threads, plan e multiagentes com controle — e o caso real da OpenAI com Skills.',
+  title: 'Copilot Customizado',
+  subtitle: 'Comandos essenciais e as 4 camadas de configuração: Skills, MCP, Hooks e Plugins.',
 
   sections: [
     {
-      id: 'tension',
-      eyebrow: 'Tensão operacional',
-      title: 'A velocidade tem um custo escondido',
-      problem:
-        'Copilot acelera execução. Mas sem governança, esse ganho volta como custo de revisão, ruído e retrabalho.',
-      content: [
-        'Equipes que adotam IA intensivamente ganham velocidade imediata — mas os dados mostram um efeito colateral silencioso.',
-      ],
-      highlight: {
-        label: '+55% velocidade em tarefa controlada com Copilot',
-        value: '+55%',
-        tone: 'positive',
-      },
-      items: [
-        {
-          label: '+91% tempo de review',
-          description: 'Adoção intensiva de IA aumentou o tempo de revisão em 91%.',
-          detail: 'Fonte: Faros AI telemetry, 2026',
-          accent: 'warning',
-        },
-      ],
-      quote:
-        'O ponto não é usar mais IA. O ponto é operar IA com arquitetura de trabalho.',
-    },
-    {
       id: 'commands',
-      eyebrow: 'Comandos que mudam governança',
-      title: 'Quatro comandos que alteram o jogo',
-      problem:
-        'Em vez de decorar dezenas de comandos, foque nos que alteram governança real.',
+      eyebrow: 'Ponto de entrada',
+      title: 'Comandos que você usa todo dia',
       content: [
-        'Cada comando resolve um problema específico de operação. Use-os como instrumentos de controle, não como atalhos mágicos.',
+        'Antes de mergulhar nas camadas de customização, os comandos embutidos do Copilot já cobrem a maior parte do trabalho cotidiano.',
       ],
       items: [
         {
-          label: '/fork',
-          description: 'Thread paralela para trade-off real.',
-          detail: 'Bifurque quando houver duas estratégias válidas ou impacto arquitetural. Cuidado: fork para detalhe cosmético fragmenta contexto.',
+          label: '/explain',
+          description: 'Explica o código selecionado com contexto do projeto.',
           accent: 'primary',
         },
         {
-          label: '/compact',
-          description: 'Higiene de contexto antes da decisão.',
-          detail: 'Use em sessão longa antes de review, merge ou mudança estrutural. Sempre declare o que manter e o que descartar.',
+          label: '/fix',
+          description: 'Corrige bugs no trecho selecionado.',
           accent: 'primary',
         },
         {
-          label: '/ide',
-          description: 'Ponte entre terminal e diff visual.',
-          detail: 'Gere no CLI e inspecione no editor. Diff limpo não substitui validação humana.',
+          label: '/tests',
+          description: 'Gera testes para o código selecionado.',
           accent: 'primary',
+        },
+        {
+          label: '/doc',
+          description: 'Documenta funções e módulos.',
+          accent: 'primary',
+        },
+        {
+          label: '/create-skill',
+          description: 'Cria uma nova skill com ajuda da IA — do zero ou de conversa.',
+          accent: 'neutral',
+        },
+        {
+          label: '/create-hook',
+          description: 'Gera configuração de hook com assistência.',
+          accent: 'neutral',
         },
         {
           label: '/skills',
-          description: 'Workflow especializado em vez de prompt genérico.',
-          detail: 'Troca improviso por fluxo reutilizável. Skill acelera execução, mas não inventa critério de aceite.',
-          accent: 'primary',
+          description: 'Abre o menu de configuração de skills instaladas.',
+          accent: 'neutral',
+        },
+        {
+          label: '@workspace',
+          description: 'Inclui o workspace inteiro como contexto na consulta.',
+          accent: 'neutral',
         },
       ],
     },
     {
-      id: 'threads',
-      eyebrow: 'Threads na prática',
-      title: 'Thread é controle de risco, não conversa nova',
+      id: 'skills',
+      eyebrow: 'Camada 1 — Skills',
+      title: 'Skills: instruções empacotadas que carregam sob demanda',
       problem:
-        'Thread não é nova conversa. Thread é controle explícito de risco de decisão.',
+        'Custom instructions se aplicam sempre. Skills carregam só quando o contexto bate com a description da skill — sem consumir contexto à toa.',
       content: [
-        'Thread principal = caminho de entrega com objetivo único e histórico limpo.',
-        'Thread fork = experimento com hipótese explícita e critério de descarte.',
+        'Uma skill é uma pasta com SKILL.md, scripts, references e assets. O padrão é aberto — funciona no VS Code, Copilot CLI e Copilot coding agent.',
+        'O campo description é crítico: define o que a skill faz e quando o modelo deve ativá-la automaticamente.',
       ],
       items: [
         {
-          label: 'Thread principal',
-          description: 'Caminho de entrega. Decisão e merge vivem aqui.',
+          label: 'name',
+          description: 'Identificador lowercase único, com no máximo 64 caracteres. Deve coincidir com o nome do diretório.',
           accent: 'primary',
         },
         {
-          label: 'Fork conservador',
-          description: 'Explora opção de menor risco. Volta com hipótese validada ou descartada.',
-          accent: 'warning',
+          label: 'description',
+          description: 'Explica o que faz e quando ativar, com no máximo 1024 caracteres. É a chave para auto-invocação pelo modelo.',
+          accent: 'primary',
         },
         {
-          label: 'Fork agressivo',
-          description: 'Testa ganho de performance ou automação adicional. Só converge se a evidência superar o custo.',
+          label: 'user-invocable',
+          description: 'Aparece como slash command. O padrão é true; use false para skills apenas-modelo.',
+          accent: 'neutral',
+        },
+        {
+          label: 'disable-model-invocation',
+          description: 'Força invocação manual. Útil para skills destrutivas ou que dependem de contexto explícito do usuário.',
           accent: 'warning',
         },
-      ],
-      quote: 'Paralelo para explorar. Serial para decidir e consolidar.',
-    },
-    {
-      id: 'plan',
-      eyebrow: 'Plan primeiro, execução depois',
-      title: 'Sem plan, multiagente é paralelismo de suposição',
-      problem: 'Sem planejamento explícito, cada agente otimiza localmente e o sistema falha globalmente.',
-      content: [
-        'Um plan curto de cinco itens funciona como contrato de execução para qualquer agente ou fleet.',
-      ],
-      items: [
-        { label: '1. Problema', description: 'Descreva o bug ou entrega em até 3 linhas.', accent: 'primary' },
-        { label: '2. Hipótese', description: 'Declare a abordagem e o principal trade-off.', accent: 'primary' },
-        { label: '3. Tarefas', description: 'Liste etapas com dependência e ordem.', accent: 'primary' },
-        { label: '4. Aceite', description: 'Defina testes, asserts e evidências mínimas.', accent: 'primary' },
-        { label: '5. Rollback', description: 'Especifique o que não pode ser alterado.', accent: 'primary' },
-      ],
-      quote: 'Sem plan, a IA executa rápido. Com plan, ela executa com governança.',
-    },
-    {
-      id: 'fleet',
-      eyebrow: 'Fleet mínimo e ampliado',
-      title: 'Multiagentes com papéis, não com caos',
-      problem: 'Fleet sem contrato por agente gera throughput bruto e perde confiabilidade.',
-      content: [
-        'Pense em fleet como linha de produção por papéis. Cada agente tem escopo exato, saída esperada e critério de validação.',
-      ],
-      items: [
-        { label: 'Builder', description: 'Implementa a mudança. Saída: código + diffs + notas de impacto.', accent: 'primary' },
-        { label: 'QA', description: 'Gera e ajusta validações. Saída: testes, gaps e comandos de verificação.', accent: 'primary' },
-        { label: 'Reviewer', description: 'Revisão adversarial. Saída: riscos, regressões e recomendação final.', accent: 'primary' },
-        { label: 'Architect', description: 'Valida integração e coerência técnica. (satélite)', accent: 'warning' },
-        { label: 'Tech Writer', description: 'Consolida documentação e decisões. (satélite)', accent: 'warning' },
       ],
       codeBlock: {
-        title: 'Roteiro tático de lançamento',
+        title: 'Carregamento progressivo — 3 camadas',
         lines: [
-          '1. Definir objetivo único da rodada',
-          '2. Publicar constraints e áreas proibidas',
-          '3. Rodar Builder + QA em paralelo',
-          '4. Executar Reviewer ao final da wave',
-          '5. Abrir fork antes do merge se houver dúvida',
-          '6. Compactar contexto antes da decisão final',
-          '7. Aprovar com evidência: testes, diff e riscos',
+          'Startup: o modelo lê apenas name e description de todas as skills.',
+          'Seleção: o SKILL.md completo carrega quando o contexto bate com a description.',
+          'Execução: scripts e references carregam só quando são referenciados no SKILL.md.',
         ],
       },
+      quote: 'Instale quantas skills quiser. Elas não consomem contexto até serem chamadas.',
     },
     {
-      id: 'guardrails',
-      eyebrow: 'Guardrails vs antipadrões',
-      title: 'O que separa demo de produção',
+      id: 'mcp',
+      eyebrow: 'Camada 2 — MCP Servers',
+      title: 'MCP: conecte o Copilot a ferramentas externas',
       content: [
-        'Guardrails evitam "falha silenciosa com aparência de sucesso". Antipadrões são os sinais de que a operação está travada.',
+        'Model Context Protocol é um padrão aberto para conectar modelos a ferramentas externas — bancos de dados, APIs, browsers e CLIs.',
+        'No Agent mode, o Copilot chama essas ferramentas automaticamente conforme o contexto.',
       ],
       items: [
-        { label: 'Hooks', description: 'Lint, test e checks em pontos críticos.', accent: 'primary' },
-        { label: 'Bloqueio', description: 'Arquivos sensíveis e caminhos de infraestrutura.', accent: 'primary' },
-        { label: 'Checklist', description: 'Review humano obrigatório para merge.', accent: 'primary' },
-        { label: 'Rastreabilidade', description: 'O que mudou, por quê e em qual thread.', accent: 'primary' },
+        {
+          label: 'stdio',
+          description: 'Processo local via npx, uvx ou qualquer executável. É o formato mais comum para ferramentas de desenvolvimento.',
+          accent: 'primary',
+        },
+        {
+          label: 'http / sse',
+          description: 'Servidor remoto via URL. Use headers para auth; ${input:api-key} solicita o valor em runtime.',
+          accent: 'primary',
+        },
+        {
+          label: '.vscode/mcp.json',
+          description: 'Commitado no repositório, permite que o time inteiro use o mesmo servidor sem configuração extra.',
+          accent: 'primary',
+        },
+        {
+          label: 'Sandbox',
+          description: 'Restringe filesystem e rede no macOS/Linux. Nunca hardcode API keys no arquivo de config.',
+          accent: 'warning',
+        },
       ],
-      quote: 'Prompt gigante sem objetivo mensurável. Abrir muitos forks sem convergência. Rodar muitos agentes sem papel definido. Aceitar código por "cara de certo". Sem plan, sem aceite e sem rollback.',
+      codeBlock: {
+        title: 'Exemplo: .vscode/mcp.json (stdio)',
+        lines: [
+          '{ "servers": { "filesystem": {',
+          '  "type": "stdio",',
+          '  "command": "npx",',
+          '  "args": ["-y", "@modelcontextprotocol/server-filesystem", "${workspaceFolder}"],',
+          '  "sandboxEnabled": true } } }',
+        ],
+      },
+      quote: 'Nunca hardcode API keys. Use ${input:variavel} — o VS Code solicita em runtime.',
+    },
+    {
+      id: 'hooks',
+      eyebrow: 'Camada 3 — Hooks',
+      title: 'Hooks: automação determinística no lifecycle do agente',
+      problem:
+        'Instruções guiam o modelo. Hooks garantem execução — são comandos shell que rodam em eventos específicos, independente do que o modelo decidiu fazer.',
+      content: [
+        'Oito eventos cobrem todo o ciclo de vida de uma sessão de agente. Os quatro mais úteis no dia a dia aparecem aqui.',
+      ],
+      items: [
+        {
+          label: 'PreToolUse',
+          description: 'Antes de qualquer ferramenta. Retorne permissionDecision deny para bloquear ou ask para aprovação manual.',
+          accent: 'warning',
+        },
+        {
+          label: 'PostToolUse',
+          description: 'Após edição de arquivo. Ideal para rodar Prettier, ESLint ou testes automaticamente.',
+          accent: 'primary',
+        },
+        {
+          label: 'SessionStart',
+          description: 'Primeiro prompt. Injete versão, branch e runtime info via additionalContext no output JSON.',
+          accent: 'primary',
+        },
+        {
+          label: 'Stop',
+          description: 'Encerramento da sessão. Gere relatórios ou notificações e verifique stop_hook_active para evitar loop infinito.',
+          accent: 'neutral',
+        },
+      ],
+      codeBlock: {
+        title: 'Exit codes — o que o hook comunica ao agente',
+        lines: [
+          'Exit 0 + JSON stdout: injeta contexto ou modifica o input da ferramenta.',
+          'Exit 2: bloqueia a operação e exibe mensagem de erro ao modelo.',
+          'Qualquer outro exit: emite warning não-bloqueante e o agente continua.',
+        ],
+      },
+      quote: 'Hooks vivem em .github/hooks/*.json (compartilhado) ou .claude/settings.local.json (local).',
+    },
+    {
+      id: 'plugins',
+      eyebrow: 'Camada 4 — Plugins (Preview)',
+      title: 'Plugins: bundles instaláveis de todas as camadas',
+      content: [
+        'Um plugin é um container de distribuição — empacota skills, MCP servers, hooks e agentes customizados em um único pacote instalável.',
+        'Útil para distribuir uma configuração completa de equipe sem que cada dev configure cada camada individualmente.',
+      ],
+      items: [
+        {
+          label: '@agentPlugins',
+          description: 'Busque na Extensions Sidebar para descobrir plugins do marketplace.',
+          accent: 'primary',
+        },
+        {
+          label: 'Marketplace custom',
+          description: 'Adicione repositórios GitHub via chat.plugins.marketplaces. Suporta público, privado e caminhos locais.',
+          accent: 'neutral',
+        },
+        {
+          label: 'chat.plugins.paths',
+          description: 'Registro local para desenvolvimento. Boolean por caminho: true ativa, false desabilita.',
+          accent: 'neutral',
+        },
+        {
+          label: 'Status: Preview',
+          description: 'Feature em evolução. Skills e MCP standalone continuam funcionando sem plugins.',
+          accent: 'warning',
+        },
+      ],
+    },
+    {
+      id: 'openai-case',
+      eyebrow: 'Caso real — OpenAI Agents SDK',
+      title: 'Como a OpenAI usa Skills em produção',
+      content: [
+        'A OpenAI publicou como usa Skills nos repositórios do Agents SDK, em Python e TypeScript, para escalar throughput sem perder governança.',
+      ],
+      highlight: {
+        value: '+44%',
+        label: 'throughput de PRs em 3 meses (316 → 457 merged)',
+        tone: 'positive',
+      },
+      items: [
+        {
+          label: 'Estrutura',
+          description: 'SKILL.md, scripts, references e assets. Scripts para trabalho mecânico; modelo para julgamento.',
+          accent: 'primary',
+        },
+        {
+          label: 'Carregamento progressivo',
+          description: 'Metadata carrega no startup. SKILL.md completo só na seleção. Scripts só na execução.',
+          accent: 'primary',
+        },
+        {
+          label: 'Anti-pattern #1',
+          description: 'Description vaga: “Run the mandatory verification stack”. Sempre especifique quando e por quê.',
+          accent: 'warning',
+        },
+        {
+          label: 'Anti-pattern #2',
+          description: 'Encodar shell recipes em prompts. Mova para scripts — determinismo vence instrução.',
+          accent: 'warning',
+        },
+      ],
+      quote: 'O modelo cuida do julgamento. Scripts cuidam do mecânico. Se a IA precisa redescobrir a mesma receita toda vez, isso deveria ser um script.',
     },
   ],
 
-  skillsCaseStudy: {
-    eyebrow: 'Caso real — OpenAI Agents SDK',
-    title: 'Skills: como a OpenAI operacionaliza agentes em produção',
-    intro:
-      'A OpenAI publicou como usa Skills nos repositórios do Agents SDK (Python e TypeScript) para escalar throughput sem perder governança. É a prova prática de tudo que discutimos.',
-    concept:
-      'Uma Skill é um pacote pequeno de conhecimento operacional: um SKILL.md (manifesto), scripts opcionais para trabalho mecânico, referências e assets.',
-    structure: [
-      { label: 'SKILL.md', description: 'Manifesto com name, description e instruções.', accent: 'primary' },
-      { label: 'scripts/', description: 'Shell scripts para trabalho determinístico (lint, test, format).', accent: 'primary' },
-      { label: 'references/', description: 'Documentação e contexto adicional.', accent: 'neutral' },
-      { label: 'assets/', description: 'Materiais de suporte.', accent: 'neutral' },
-    ],
-    progressiveDisclosure: {
-      layers: [
-        { label: 'Layer 1 — Startup', description: 'Agente lê apenas name e description de cada skill para routing.' },
-        { label: 'Layer 2 — Seleção', description: 'SKILL.md completo carrega só quando a skill é escolhida.' },
-        { label: 'Layer 3 — Execução', description: 'Scripts e referências carregam só quando necessários.' },
-      ],
-    },
-    results: [
-      {
-        label: '+44% throughput de PRs',
-        value: '316 → 457',
-        detail: 'PRs merged em 3 meses (set-nov 2025 vs dez 2025-fev 2026)',
-        tone: 'positive',
-      },
-      {
-        label: '+72,4% no repo TypeScript',
-        value: '134 → 231',
-        detail: 'PRs merged no repo JS do Agents SDK',
-        tone: 'positive',
-      },
-    ],
-    philosophy: {
-      model: [
-        'Lê código-fonte e infere comportamento',
-        'Compara logs com comportamento esperado',
-        'Avalia riscos de compatibilidade',
-        'Produz decisões explicáveis',
-      ],
-      scripts: [
-        'Executa comandos de verificação em ordem fixa',
-        'Coleta logs e output',
-        'Busca release tags',
-        'Expõe helpers (start, stop, logs, rerun)',
-      ],
-    },
-    antiPatterns: [
-      'Descrição vaga: "Run the mandatory verification stack" — sem quando/porquê',
-      'Encodar shell recipes em prompts — mova para scripts/',
-      'Forçar skill usage em todas as tarefas — use condicionalmente',
-      'Pular o modelo onde julgamento é valioso (comparações, tradeoffs)',
-    ],
-    concreteSkills: [
-      { label: 'code-change-verification', description: 'Roda format + lint + typecheck + tests em mudanças de runtime.', accent: 'primary' },
-      { label: 'docs-sync', description: 'Audita documentação contra o codebase — docstrings são a fonte.', accent: 'primary' },
-      { label: 'final-release-review', description: 'Compara release tag anterior com candidata atual.', accent: 'primary' },
-      { label: 'test-coverage-improver', description: 'Analisa cobertura, encontra gaps, propõe testes de alto impacto.', accent: 'primary' },
-      { label: 'pr-draft-summary', description: 'Gera branch name, título e descrição do PR no handoff.', accent: 'neutral' },
-      { label: 'integration-tests', description: 'Publica em registry local, testa install/run em Node, Bun, Deno, Workers.', accent: 'neutral' },
-    ],
-    triggers: {
-      description: 'AGENTS.md usa regras if/then para ativar skills automaticamente nos momentos certos.',
-      examples: [
-        'Se mudança afeta código SDK → chamar $code-change-verification',
-        'Antes de editar runtime ou API → chamar $implementation-strategy',
-        'Quando toca API/platform da OpenAI → chamar $openai-knowledge',
-        'Quando finalizar trabalho → chamar $pr-draft-summary',
-      ],
-    },
-    takeaway:
-      'O modelo cuida do julgamento. Scripts cuidam do trabalho mecânico. Se a IA precisa redescobrir a mesma receita toda vez, isso deveria ser um script.',
-  },
-
   closing: {
-    eyebrow: 'Síntese final',
-    headline: 'Velocidade sem governança só desloca o gargalo.',
+    eyebrow: 'Síntese',
+    headline: 'Customização em camadas: do comando ao plugin.',
     formula:
-      'Comando certo + thread certa + plan claro + fleet com papéis = velocidade com controle.',
+      'Skill para workflow especializado. MCP para ferramentas externas. Hook para garantias de execução. Plugin para distribuição em equipe.',
     quote:
-      'Copilot multiplica o sistema de engenharia que já existe no time.',
+      'O Copilot padrão é um ponto de partida. O que você configura ao redor dele define o que ele consegue fazer.',
   },
 
   narratorNotes: [
-    'Abra dizendo que IA acelera execução, mas método é o que sustenta a qualidade no time.',
-    'Use /fork, /compact, /ide e /skills como instrumentos de governança, não como atalhos mágicos.',
-    'Reforce que thread existe para tratar risco de decisão, não para espalhar microvariações.',
-    'Quando falar de plan, repita: problema, hipótese, tarefas, aceite e rollback.',
-    'Na seção de Skills OpenAI, foque no resultado (+44%) e na filosofia modelo vs script.',
-    'Feche com a tensão entre +55% de velocidade e +91% de review: o ganho sustentável depende de operação com critérios claros.',
+    'Abra mostrando os comandos — a plateia vai reconhecer /fix e /explain. Isso cria familiaridade antes de aprofundar nas camadas.',
+    'Em Skills, enfatize o campo description. É o que decide se o modelo vai chamar a skill automaticamente. Description ruim é skill nunca invocada.',
+    'Em MCP, mostre o .vscode/mcp.json. Commitado significa que o time inteiro ganha acesso ao servidor sem configuração extra.',
+    'Em Hooks, a diferença chave é determinismo. Instrução guia, hook garante. PreToolUse pode bloquear antes de o modelo fazer algo irreversível.',
+    'Em Plugins, seja breve — é preview. A mensagem é bundles instaláveis que empacotam tudo em um pacote de equipe.',
+    'Feche com o caso OpenAI: +44% de PRs não é mágica. É Skills com progressive disclosure e filosofia clara de quando usar modelo versus script.',
   ],
 
   labels: {
     notesTerminalTitle: 'narrator://topic17',
-    notesTerminalLead: 'Condução sugerida — Copilot Operacional (~6-8 min).',
+    notesTerminalLead: 'Condução sugerida — Copilot na Prática (~7-9 min).',
     notesLinePrefix: 'nota',
     notesTerminalOutro:
-      'Fecho: velocidade com IA só escala quando a operação tem governança.',
+      'Fecho: 4 camadas de customização = Copilot calibrado para seu contexto.',
   },
 };
