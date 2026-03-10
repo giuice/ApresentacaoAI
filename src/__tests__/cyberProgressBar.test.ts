@@ -27,11 +27,12 @@ describe('getSegmentIndex', () => {
     expect(getSegmentIndex(13)).toBe(4);
   });
 
-  it('maps topics 14-17 to segment 5 (Impacto + Bonus)', () => {
+  it('maps topics 14-18 to segment 5 (Impacto + Bonus)', () => {
     expect(getSegmentIndex(14)).toBe(5);
     expect(getSegmentIndex(15)).toBe(5);
     expect(getSegmentIndex(16)).toBe(5);
     expect(getSegmentIndex(17)).toBe(5);
+    expect(getSegmentIndex(18)).toBe(5);
   });
 
   it('AC3: topic 6 maps to segment 3', () => {
@@ -44,7 +45,7 @@ describe('getSegmentIndex', () => {
   });
 
   it('clamps values above range to segment 5', () => {
-    expect(getSegmentIndex(18)).toBe(5);
+    expect(getSegmentIndex(19)).toBe(5);
     expect(getSegmentIndex(999)).toBe(5);
   });
 

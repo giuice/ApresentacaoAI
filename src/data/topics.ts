@@ -61,9 +61,9 @@ export const topicBlocks: TopicBlockMeta[] = [
   },
   {
     key: 'bonus',
-    label: 'Bônus Operacional',
-    rangeLabel: 'Tópico 17',
-    description: 'Copilot além do autocomplete: threads, plan, comandos e fleet.',
+    label: 'Bônus & Bastidores',
+    rangeLabel: 'Tópicos 17-18',
+    description: 'Copilot operacional e os bastidores da construção desta aplicação.',
     isBonus: true,
   },
 ];
@@ -169,6 +169,13 @@ export const topics: TopicMeta[] = [
     index: 17,
     title: 'Copilot além do autocomplete: como operar comandos, threads e multiagentes com controle',
     shortTitle: 'Copilot Operacional',
+    block: 'bonus',
+    isBonus: true,
+  },
+  {
+    index: 18,
+    title: 'Bastidores da construção: como esta aplicação foi feita com workflow, multiagente e governança',
+    shortTitle: 'Bastidores',
     block: 'bonus',
     isBonus: true,
   },

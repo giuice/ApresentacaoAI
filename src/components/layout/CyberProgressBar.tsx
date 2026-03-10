@@ -15,7 +15,7 @@ const MAX_TOPIC_INDEX = TOTAL_TOPICS;
 /**
  * Maps a topic index (1..TOTAL_TOPICS) to a segment index (1..5).
  * Segment 1: Topics 1-3, Segment 2: 4-5, Segment 3: 6-10,
- * Segment 4: 11-13, Segment 5: 14-17
+ * Segment 4: 11-13, Segment 5: 14-18 (Impacto + Bonus)
  */
 export const getSegmentIndex = (topicIndex: number): number => {
   const normalizedTopicIndex = Number.isFinite(topicIndex)

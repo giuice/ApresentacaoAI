@@ -200,7 +200,7 @@ describe('Overview', () => {
     await user.keyboard('[Escape]');
 
     const dialog = screen.getByRole('dialog');
-    const sections = within(dialog).getAllByText(/Bloco \d|Bônus Operacional/i);
+    const sections = within(dialog).getAllByText(/Bloco \d|Bônus & Bastidores/i);
     expect(sections.length).toBeGreaterThan(0);
     expect(dialog).toHaveClass('max-h-[calc(100vh-2rem)]');
     expect(dialog).toHaveClass('overflow-y-auto');
@@ -223,15 +223,20 @@ describe('Overview', () => {
     expect(inactiveCard).not.toHaveAttribute('aria-current');
   });
 
-  it('destaca o topico 17 como bonus operacional', async () => {
+  it('destaca os topicos bonus no bloco extra', async () => {
     const { user } = renderWithProvider();
 
     await user.keyboard('[Escape]');
 
-    expect(screen.getAllByText('Bônus Operacional').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('Bônus & Bastidores').length).toBeGreaterThan(0);
     expect(
       screen.getByText(
         'Copilot além do autocomplete: como operar comandos, threads e multiagentes com controle',
+      ),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        'Bastidores da construção: como esta aplicação foi feita com workflow, multiagente e governança',
       ),
     ).toBeInTheDocument();
   });

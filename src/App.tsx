@@ -40,6 +40,7 @@ const topicComponents: Record<number, TopicComponent> = {
   15: lazy(() => import('@/components/topics/Topic15')),
   16: lazy(() => import('@/components/topics/Topic16')),
   17: lazy(() => import('@/components/topics/Topic17')),
+  18: lazy(() => import('@/components/topics/Topic18')),
 };
 
 export const getTopicComponentForIndex = (topicIndex: number): TopicComponent =>

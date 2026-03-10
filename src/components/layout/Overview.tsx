@@ -167,9 +167,9 @@ export function Overview() {
                 Visão operacional da apresentação
               </h2>
               <p className="text-sm leading-relaxed text-text-secondary sm:text-base">
-                A rota principal permanece em {coreTopics.length} tópicos. O Tópico 17 entra como bônus
-                operacional para fechar a experiência com comandos, threads, plan e
-                multiagentes.
+                A rota principal permanece em {coreTopics.length} tópicos. Os tópicos bônus
+                fecham a experiência com Copilot operacional e os bastidores da construção
+                desta aplicação.
               </p>
             </div>
 
@@ -194,7 +194,7 @@ export function Overview() {
                 <p className="text-[0.65rem] font-mono uppercase tracking-[0.24em] text-[#ffd166]">
                   Extensão
                 </p>
-                <p className="mt-2 text-2xl font-mono font-bold text-[#ffd166]">+1 bônus</p>
+                <p className="mt-2 text-2xl font-mono font-bold text-[#ffd166]">+{bonusTopics.length} bônus</p>
               </div>
             </div>
           </div>
@@ -286,14 +286,13 @@ export function Overview() {
                 <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
                   <div>
                     <p className="text-[0.65rem] font-mono uppercase tracking-[0.24em] text-[#ffd166]">
-                      Tópico extra
+                      Tópicos extras
                     </p>
                     <h3 className="text-lg font-mono font-bold text-text-primary">
-                      Bônus Operacional
+                      Bônus & Bastidores
                     </h3>
                     <p className="mt-1 text-sm text-text-secondary">
-                      Fecha a jornada com operação prática de Copilot, plan, threads e
-                      orquestração de agentes.
+                      Copilot operacional e os bastidores da construção desta aplicação.
                     </p>
                   </div>
                   <span className="text-[0.65rem] font-mono uppercase tracking-[0.24em] text-[#ffd166]">

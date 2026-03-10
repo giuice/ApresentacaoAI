@@ -4,10 +4,12 @@ import { useHashSync } from '@/hooks/useHashSync';
 import { usePresentation } from '@/contexts/PresentationContext';
 import type { PresentationContextValue } from '@/contexts/PresentationContext';
 
-vi.mock('@/contexts/PresentationContext', () => ({
-  TOTAL_TOPICS: 17,
-  usePresentation: vi.fn(),
-}));
+// TOTAL_TOPICS must match topics.length from src/data/topics.ts.
+// vi.mock is hoisted so we cannot import the value dynamically.
+vi.mock('@/contexts/PresentationContext', async () => {
+  const { TOTAL_TOPICS } = await import('@/data/topics');
+  return { TOTAL_TOPICS, usePresentation: vi.fn() };
+});
 
 function mockPresentationContext(
   overrides?: Partial<PresentationContextValue>,
