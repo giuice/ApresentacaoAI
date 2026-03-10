@@ -345,7 +345,7 @@ const Topic17 = () => {
             {/* Narrative sections */}
             {sections.map((section, i) => (
               <div key={section.id}>
-                <SectionBlock section={section} reduceMotion={shouldReduceMotion} />
+                <SectionBlock section={section} reduceMotion={shouldReduceMotion ?? false} />
                 {i < sections.length - 1 && <div className="mt-10"><GlowDivider /></div>}
               </div>
             ))}
@@ -353,7 +353,7 @@ const Topic17 = () => {
             <GlowDivider />
 
             {/* Skills Case Study */}
-            <SkillsCaseStudyBlock reduceMotion={shouldReduceMotion} />
+            <SkillsCaseStudyBlock reduceMotion={shouldReduceMotion ?? false} />
 
             <GlowDivider />
 
